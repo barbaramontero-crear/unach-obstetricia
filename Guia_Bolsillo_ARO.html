@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ARO">
+<title>Guía de bolsillo · Alto Riesgo Obstétrico</title>
+<style>
+:root{
+  --papel:#F5F4F7; --hoja:#FFFFFF;
+  --tinta:#3A2A5C; --tinta-2:#6B5B8A; --tinta-3:#9B8FB0;
+  --rojo:#B03050; --rojo-suave:#FBEFF3;
+  --visto:#2C6E63; --verde-suave:#EDF4F3;
+  --ambar:#8A6410; --ambar-suave:#FBF4E4;
+  --rejilla:#DDD8E4; --rejilla-2:#EDEAF1;
+  --label:"Avenir Next Condensed","Helvetica Neue Condensed","Arial Narrow",sans-serif;
+  --texto:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --dato:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{
+  background:var(--papel);
+  background-image:linear-gradient(var(--rejilla-2) 1px,transparent 1px);
+  background-size:100% 28px;
+  color:var(--tinta);font:16px/1.5 var(--texto);
+  -webkit-text-size-adjust:100%;padding-bottom:40px;
+}
+.lbl{font-family:var(--label);text-transform:uppercase;letter-spacing:.11em;font-weight:600}
+.num{font-family:var(--dato);font-variant-numeric:tabular-nums}
+
+header{
+  position:sticky;top:0;z-index:40;background:var(--hoja);
+  border-bottom:2px solid var(--tinta);
+  padding:calc(env(safe-area-inset-top) + 11px) 16px 11px;
+}
+header h1{font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:15px;font-weight:700;margin:0}
+header .sub{font-size:11px;color:var(--tinta-3);letter-spacing:.05em;margin-top:2px}
+.buscar{margin-top:10px;position:relative}
+.buscar input{
+  width:100%;border:1px solid var(--rejilla);background:#FCFBFD;padding:11px 12px 11px 34px;
+  font:15px var(--texto);color:var(--tinta);
+}
+.buscar input:focus{outline:none;border-color:var(--tinta)}
+.buscar svg{position:absolute;left:11px;top:12px;width:15px;height:15px;stroke:var(--tinta-3);fill:none;stroke-width:2}
+.buscar .x{position:absolute;right:6px;top:6px;background:none;border:none;font-size:22px;color:var(--tinta-3);cursor:pointer;padding:0 8px;display:none}
+.buscar.lleno .x{display:block}
+
+main{max-width:900px;margin:0 auto;padding:16px}
+.cta-index{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.cta-index button{
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;
+  background:var(--hoja);border:1px solid var(--rejilla);color:var(--tinta-2);padding:7px 11px;cursor:pointer;
+}
+.cta-index button:hover{border-color:var(--tinta);color:var(--tinta)}
+
+.avisogen{
+  background:var(--ambar-suave);border-left:3px solid var(--ambar);
+  padding:11px 13px;margin:0 0 18px;font-size:13px;color:#6B4E0C;line-height:1.5;
+}
+.avisogen > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
+
+section.bloq{margin-bottom:12px;background:var(--hoja);border:1px solid var(--rejilla)}
+section.bloq > h2{
+  margin:0;padding:13px 15px;cursor:pointer;display:flex;align-items:center;gap:11px;
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:13px;font-weight:700;
+}
+section.bloq > h2 .et{
+  font:9px var(--dato);letter-spacing:.04em;border:1px solid var(--rejilla);
+  padding:2px 6px;color:var(--tinta-3);text-transform:none;flex:0 0 auto;
+}
+section.bloq > h2 .fl{margin-left:auto;color:var(--tinta-3);font-size:18px;transition:transform .2s}
+section.bloq.abierta > h2 .fl{transform:rotate(90deg)}
+section.bloq > h2 .fl::before{content:"›"}
+.cuerpo{display:none;padding:0 15px 16px;border-top:1px dashed var(--rejilla)}
+section.bloq.abierta .cuerpo{display:block}
+
+.cuerpo h3{
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:11px;
+  color:var(--tinta-3);margin:17px 0 7px;font-weight:600;
+}
+.cuerpo h3:first-child{margin-top:14px}
+.cuerpo p{margin:0 0 9px;font-size:14.5px}
+ul.li{list-style:none;margin:0 0 10px;padding:0}
+ul.li li{position:relative;padding-left:15px;font-size:14.5px;margin-bottom:6px}
+ul.li li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--tinta-3)}
+table{width:100%;border-collapse:collapse;margin:0 0 12px;font-size:13.5px;table-layout:fixed}
+.cuerpo{overflow-x:hidden}
+td,th{word-break:break-word;overflow-wrap:anywhere;hyphens:auto}
+th,td{border:1px solid var(--rejilla);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#F8F6FA;font-family:var(--label);text-transform:uppercase;letter-spacing:.06em;font-size:10.5px;color:var(--tinta-2);font-weight:600}
+td .n{font-family:var(--dato);font-weight:600}
+.alerta{background:var(--rojo-suave);border-left:3px solid var(--rojo);padding:10px 12px;margin:0 0 12px;font-size:14px;color:#7D2038}
+.alerta > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:3px}
+.ok{background:var(--verde-suave);border-left:3px solid var(--visto);padding:10px 12px;margin:0 0 12px;font-size:14px;color:#1E5049}
+.ok > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:3px}
+.falta{background:var(--ambar-suave);border-left:3px solid var(--ambar);padding:10px 12px;margin:0 0 12px;font-size:13.5px;color:#6B4E0C}
+.falta > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:3px}
+.cifra{display:flex;gap:1px;background:var(--rejilla);border:1px solid var(--rejilla);margin:0 0 12px;flex-wrap:wrap}
+.cifra div{background:var(--hoja);padding:11px 13px;flex:1 1 120px}
+.cifra div .k{font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:9.5px;color:var(--tinta-3)}
+.cifra div .v{font:19px var(--dato);font-weight:600;margin-top:3px;line-height:1.15}
+.cifra div .v small{font-size:12px;color:var(--tinta-3);font-weight:400}
+mark{background:#FFF0A8;color:inherit;padding:0 1px}
+.nada{border:1px dashed var(--rejilla);background:var(--hoja);padding:24px;text-align:center;color:var(--tinta-2);font-size:14px}
+footer{max-width:900px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:var(--tinta-3);line-height:1.6}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Guía de bolsillo · ARO</h1>
+  <div class="sub">Alto Riesgo Obstétrico · UNACH</div>
+  <div class="buscar" id="wrap-buscar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+    <input id="q" type="search" placeholder="Buscar: preeclampsia, PTGO, sulfato, labetalol…" aria-label="Buscar en la guía" autocomplete="off">
+    <button class="x" id="limpiar" aria-label="Limpiar búsqueda">×</button>
+  </div>
+</header>
+
+<main>
+  <div class="avisogen">
+    <b>Alcance</b>
+    Cubre las patologías que se hospitalizan en ARO: síndrome hipertensivo, RCIU, metrorragias, colestasia, diabetes,
+    parto prematuro, RPM y distocia de hombros, más control prenatal y derivación. Todo verificado contra la Guía Perinatal 2015.
+    Algunos cuadros de la guía original están publicados solo como imagen y se indican en su lugar.
+  </div>
+
+  <div class="cta-index" id="atajos">
+    <button data-ir="she-clasif">SHE</button>
+    <button data-ir="pe-manejo">Manejo PE</button>
+    <button data-ir="crisis">Crisis · Eclampsia</button>
+    <button data-ir="dm-dx">Diabetes</button>
+    <button data-ir="rciu">RCIU</button>
+    <button data-ir="colestasia">Colestasia</button>
+    <button data-ir="metrorragia">Metrorragia</button>
+    <button data-ir="parto-prematuro">Prematurez</button>
+    <button data-ir="rpm">RPM</button>
+    <button data-ir="distocia">Distocia</button>
+    <button data-ir="examenes">Exámenes</button>
+    <button data-ir="derivacion">Derivación</button>
+  </div>
+  <div id="contenido"></div>
+  <div id="sin" class="nada" hidden>Sin resultados. Prueba con otra palabra.</div>
+</main>
+
+<footer>
+  Contenido basado en la Guía Clínica Perinatal, MINSAL 2015 (Resolución Exenta N.º 271 / 04.06.2015), capítulos III, VIII, IX, XI, XII, XIII, XXI, XXII y XXXII,
+  y en la versión online espejo del CEDIP. La propia guía declara una vigencia de cinco años desde su publicación: verifica con la
+  jefatura del servicio si existe protocolo local más reciente. Material de estudio: no reemplaza la indicación del profesional a cargo.
+</footer>
+
+<script>
+"use strict";
+
+const BLOQUES = [
+
+{ id:"she-clasif", et:"SHE", t:"Clasificación y factores de riesgo", html:`
+<p>La enfermedad hipertensiva es una de las complicaciones médicas más frecuentes del embarazo. Su prevalencia varía entre el <b>7 y 10 %</b> de la población gestante, y entre 1990 y 1996 compartió con el aborto séptico el primer lugar entre las causas de mortalidad materna en Chile, con un 20 % de las muertes.</p>
+<h3>Los cuatro tipos</h3>
+<table><tr><th>Tipo</th><th>Definición</th></tr>
+<tr><td><b>Preeclampsia</b></td><td>Hipertensión específicamente inducida por el embarazo: alza de presión en la segunda mitad de la gestación asociada a proteinuria, característicamente reversible en el posparto</td></tr>
+<tr><td><b>Eclampsia</b></td><td>Forma más severa: el alza tensional y el daño endotelial provocan encefalopatía hipertensiva capaz de producir convulsiones o coma, en ausencia de patología neurológica previa</td></tr>
+<tr><td><b>Hipertensión crónica</b></td><td>Elevación detectada antes del embarazo o antes de las 20 semanas, que persiste en el posparto alejado. Predomina en mujeres sobre 30 años, multíparas, con antecedentes familiares. Esencial en más del 90 % de los casos</td></tr>
+<tr><td><b>Hipertensión transitoria o gestacional</b></td><td>Aumento de presión después de las 20 semanas <b>sin proteinuria</b>. Puede ser fugaz o presentarse como alzas a lo largo del tercer trimestre. Recurre en embarazos sucesivos, iniciándose cada vez más precozmente</td></tr></table>
+<p>A esto se suma la hipertensión crónica con <b>preeclampsia sobreagregada</b>, sea sobre una hipertensión esencial o sobre una secundaria de causa conocida.</p>
+<h3>Factores de riesgo para desarrollar preeclampsia</h3>
+<ul class="li"><li>Nuliparidad · grupos de edades extremos · embarazo adolescente</li>
+<li>Obesidad · historia familiar de preeclampsia · embarazo múltiple</li>
+<li>Antecedente de preeclampsia previa · hipertensión arterial crónica</li>
+<li>Enfermedad renal crónica · síndrome antifosfolípidos · diabetes mellitus</li>
+<li>Mola hidatidiforme · gen angiotensinógeno T235</li></ul>
+<div class="ok"><b>Los tres más importantes</b>Síndrome antifosfolípidos, insuficiencia renal y antecedente de preeclampsia severa en embarazo anterior.</div>
+<h3>Riesgos asociados</h3>
+<table><tr><th>Maternos</th><th>Fetales</th></tr>
+<tr><td>DPPNI (asociado en el 25 % de los casos a preeclampsia) · insuficiencia cardíaca y edema pulmonar agudo · insuficiencia renal · daño hepatocelular (HELLP y hematoma subcapsular) · coagulación intravascular diseminada · accidente vascular encefálico · eclampsia · muerte</td>
+<td>Prematurez · retraso de crecimiento intrauterino · muerte fetal in útero · muerte neonatal</td></tr></table>
+<h3>Prevención</h3>
+<ul class="li"><li><b>Aspirina 100 mg antes de las 16 semanas</b> en mujeres de alto riesgo (HTA crónica, antecedente de PE en embarazo anterior, enfermedad renal crónica) reduce el riesgo de desarrollar PE. Recomendación A.</li>
+<li>Doppler de arterias uterinas <b>entre las 22 y 24 semanas</b> para predecir el riesgo: sensibilidad cercana al 90 % para PE severa que requiera interrupción antes de las 34 semanas. Índice de pulsatilidad sobre p95 se relaciona con 18 % de riesgo de PE o RCF grave.</li>
+<li>Se sugiere doppler entre las 11 y 14 semanas para detectar quiénes requieren aspirina profiláctica.</li>
+<li>Calcio y vitaminas antioxidantes <b>no</b> han demostrado utilidad.</li></ul>`},
+
+{ id:"pe-dx", et:"SHE", t:"Preeclampsia · diagnóstico y laboratorio", html:`
+<h3>Criterio diagnóstico</h3>
+<div class="cifra">
+<div><div class="k">Hipertensión después de</div><div class="v">20 <small>semanas</small></div></div>
+<div><div class="k">Dos cifras separadas por</div><div class="v">6 <small>horas</small></div></div>
+<div><div class="k">Sistólica</div><div class="v">&gt;140 <small>mmHg</small></div></div>
+<div><div class="k">Diastólica</div><div class="v">&gt;90 <small>mmHg</small></div></div>
+<div><div class="k">Proteinuria</div><div class="v">&gt;300 <small>mg/24 h</small></div></div>
+</div>
+<p>Recomendación C. La detección de cifras elevadas <b>antes</b> de las 20 semanas apoya la hipótesis de hipertensión crónica y no de preeclampsia.</p>
+<h3>Cómo se toma la presión</h3>
+<ul class="li"><li>En hospitalizadas, en decúbito dorsal o lateral izquierdo.</li>
+<li>En decúbito lateral izquierdo el manguito va en el <b>brazo izquierdo</b>: si se mide en el derecho se obtienen cifras falsamente menores, por quedar a un nivel mayor que el corazón.</li></ul>
+<h3>Qué buscar en la anamnesis y el examen</h3>
+<ul class="li"><li>Antecedentes familiares de hipertensión o de PE; HTA antes del embarazo actual; conducta adoptada en gestaciones previas y si se comprometió el peso del recién nacido.</li>
+<li><b>Cefalea, fotopsia y tinitus:</b> su ausencia o presencia permite catalogar el cuadro como moderado o severo, y las medidas terapéuticas son diferentes.</li>
+<li>Edema facial y lumbar, reflejos osteotendíneos exaltados, epigastralgia, compromiso de conciencia, signos de insuficiencia cardíaca.</li>
+<li>Fondo de ojo: el aumento del brillo arteriolar y la alteración de cruces arteriovenosos indican cronicidad; el vasoespasmo importante, retina brillante edematosa, exudados, hemorragias y edema de papila certifican la gravedad del cuadro actual.</li></ul>
+<h3>Interpretación del laboratorio</h3>
+<table><tr><th>Examen</th><th>Qué significa</th></tr>
+<tr><td>Hemograma</td><td>El <b>hematocrito elevado</b> certifica la hemoconcentración propia de la PE. Alteraciones en el recuento de plaquetas y alteraciones morfológicas de los glóbulos rojos reflejan daño endotelial y señalan severidad: trombocitopenia, esquistocitos, signos de hemólisis, aparición de crenocitos</td></tr>
+<tr><td>Uricemia</td><td>Un valor <b>sobre 5 mg/dl</b> es característico de PE</td></tr>
+<tr><td>Proteinuria</td><td>Sobre <b>300 mg en orina de 24 horas</b>, o sobre <b>1 g/L en muestra aislada</b>, indica nefropatía previa o PE</td></tr>
+<tr><td>Clearance de creatinina</td><td>El mejor parámetro para evaluar función renal: creatininemia y uremia pueden tener modificaciones sutiles que no sobrepasan los valores normales pero que sí traducen reducción de función renal o incapacidad de alcanzar el aumento propio de una gestación normal</td></tr>
+<tr><td>Enzimas hepáticas</td><td>Se agregan en PE severa o si hay indicadores de consumo plaquetario o de glóbulos rojos. Su elevación junto a esas alteraciones hace el diagnóstico de <b>síndrome de HELLP</b> (hemólisis, enzimas hepáticas elevadas, plaquetas bajas), forma grave de PE</td></tr>
+<tr><td>Electrocardiograma</td><td>La hipertrofia ventricular indica hipertensión previa al embarazo</td></tr></table>
+<div class="falta"><b>Cuadro no disponible</b>Los criterios de severidad de la preeclampsia están publicados solo como imagen en la fuente consultada y no pudieron transcribirse.
+Consúltalos en la Guía Perinatal impresa o en el protocolo del servicio. Lo que sí consta: <b>basta la presencia de uno solo</b> de esos criterios para catalogar una PE como severa,
+y la proteinuria, según normas ACOG, <b>ya no</b> se considera factor de severidad.</div>
+<h3>Evaluación del bienestar fetal</h3>
+<p>Debe establecerse en todas las mujeres con diagnóstico de PE. Recomendación A. Se realiza mediante evaluación de movimientos fetales, monitorización electrónica de la FCF, biometría fetal ultrasonográfica, perfil biofísico y velocimetría doppler fetal. La alteración del doppler de la arteria umbilical permite evaluar el bienestar fetal in útero mejor que otras herramientas.</p>`},
+
+{ id:"pe-manejo", et:"SHE", t:"Preeclampsia · manejo e interrupción", html:`
+<div class="alerta"><b>Principio</b>No existe tratamiento efectivo para la preeclampsia. La solución final es la interrupción del embarazo. Recomendación A.
+Cuando se habla de «tratamiento» se alude a medidas para evitar el compromiso materno, prevenir HELLP y eclampsia, y prolongar la estadía fetal in útero con el menor riesgo posible.</div>
+<h3>PE moderada</h3>
+<p>En ausencia de criterios de severidad: manejo expectante e interrupción a las <b>37–38 semanas</b>. Recomendación A. Monitoreo materno y fetal bisemanal buscando criterios de severidad.</p>
+<ul class="li"><li>Hospitalización. Reposo, de preferencia en decúbito lateral izquierdo. Régimen completo, normosódico.</li>
+<li>Control de signos vitales maternos y LCF <b>cada 4 a 6 horas</b>. Peso y diuresis diarios.</li>
+<li>Si se requiere sedar para adherir al reposo: diazepam oral 5 mg cada 8–12 horas.</li>
+<li>Antihipertensivos si la <b>diastólica es ≥ 100 mmHg</b>, hasta lograr cifras entre 90 y 100.</li>
+<li>Si se logra buen control tensional y se demuestra buen funcionamiento de la unidad fetoplacentaria, <b>no debe interrumpirse</b> el embarazo.</li>
+<li>Si no se controla la presión o aparecen signos de mayor daño materno (elevación de la proteinuria, deterioro del clearance) o fetal: interrupción.</li>
+<li>Menor de 34 semanas con pulmón inmaduro: inducir maduración con <b>betametasona 12 mg cada 24 horas por 2 veces</b> e interrumpir a las 48 horas de la primera dosis.</li></ul>
+<h3>PE severa</h3>
+<ul class="li"><li>Menor de 34 semanas: manejo expectante en lo posible, interrumpir a las <b>34 semanas</b>, o antes si hay compromiso materno o fetal severo. Recomendación A.</li>
+<li>Después de las 34 semanas: proceder a la interrupción. Recomendación C.</li>
+<li><b>Profilaxis con sulfato de magnesio a todas</b> para reducir el riesgo de eclampsia. Recomendación A. También reduce el riesgo de DPPNI.</li></ul>
+<p>Acciones:</p>
+<ul class="li"><li>Hospitalización en <b>sala de tratamiento intensivo oscura, aislada de ruidos</b>. Reposo absoluto. Régimen normosódico según tolerancia.</li>
+<li>Sulfato de magnesio: <b>5 g EV en dosis inicial, 1–2 g/hora de mantención</b>.</li>
+<li>Inducción de madurez pulmonar con corticoides parenterales.</li>
+<li>Hipotensores parenterales ante falta de respuesta a los orales. Objetivo: sistólica <b>140–155</b> y diastólica <b>90–105 mmHg</b>.</li>
+<li>Control de diuresis horaria; sonda vesical a permanencia en caso de oligoanuria.</li>
+<li>Control de signos vitales, reflejos maternos y LCF <b>cada 1 a 2 horas</b> según condición.</li>
+<li>Exámenes bisemanales: hemograma con recuento de plaquetas, albuminuria de 24 horas, clearance de creatinina, perfil bioquímico (o pruebas hepáticas y ácido úrico).</li>
+<li>Medias antitrombóticas para prevenir trombosis venosa.</li>
+<li>Mantención de la sedación e hipotensores en el puerperio.</li></ul>
+<p>El manejo expectante en menores de 34 semanas es mejor que la interrupción inmediata, salvo en eclampsia, HELLP, compromiso sistémico materno, sufrimiento fetal, DPPNI o patologías crónicas como enfermedades reumatológicas y nefropatías.</p>
+<h3>Cuándo se interrumpe en los otros tipos de SHE</h3>
+<table><tr><th>Situación</th><th>Semanas</th></tr>
+<tr><td>HTA crónica con mal control</td><td class="n">36</td></tr>
+<tr><td>HTA crónica con tratamiento farmacológico y buen control</td><td class="n">38</td></tr>
+<tr><td>HTA crónica sin tratamiento farmacológico</td><td class="n">40</td></tr>
+<tr><td>HTA transitoria</td><td class="n">40</td></tr></table>
+<h3>Manejo posparto</h3>
+<ul class="li"><li>Seguimiento de la presión arterial y manejo de las crisis. Recomendación C.</li>
+<li>Mantener sistólica <b>&lt; 160</b> y diastólica <b>&lt; 110 mmHg</b>.</li>
+<li>Fármacos utilizables en lactancia: enalapril, captopril, nifedipino, labetalol y propanolol. Se desaconseja atenolol; no hay datos suficientes para losartán.</li>
+<li>Si las presiones siguen elevadas <b>después de 3 meses</b> posparto, se denomina HTA crónica.</li></ul>`},
+
+{ id:"crisis", et:"Urgencia", t:"Crisis hipertensiva y eclampsia", html:`
+<h3>Crisis hipertensiva</h3>
+<div class="alerta"><b>Umbral</b>Cifras &gt; 160/110 mmHg: emplear hipotensores de preferencia por vía parenteral.
+El <b>labetalol EV es el fármaco de primera línea</b>. Recomendación A. Objetivo del tratamiento: mantener 140–155 / 90–105 mmHg. Recomendación B.</div>
+<table><tr><th>Fármaco</th><th>Dosis</th></tr>
+<tr><td><b>Labetalol</b></td><td>Infusión 0,5 mg/min inicial, incrementable a 4 mg/min; o bolos de 20 mg EV repetidos según respuesta. Si el efecto es insuficiente, aumentar a 40 mg, repetibles cada 20–30 min. Luego dosis de 80 mg por tres veces como máximo. <b>Dosis máxima 300 mg</b></td></tr>
+<tr><td><b>Nifedipino</b></td><td>10 mg en cápsula, sublingual u oral, repetible cada 20–30 min. Excepción: mujeres con alto riesgo de enfermedad coronaria (&gt; 45 años, DM 1)</td></tr>
+<tr><td><b>Hidralazina</b></td><td>20–40 mg diluidos en 500 mL de suero glucosado al 5 % en infusión, con goteo que permita descender la diastólica bajo 110 mmHg. O 5 mg EV cada vez que la diastólica supere 110, elevable a 10 mg EV, repetible cada 20 min</td></tr>
+<tr><td><b>Nitroprusiato de sodio</b></td><td>5 mg en 500 mL de suero glucosado al 5 %. PA cada minuto hasta lograr el goteo de mantención, luego cada 5 minutos. Su efecto colateral es la acumulación de tiocianatos, asociada a muertes fetales: <b>única indicación obstétrica</b> es la crisis refractaria al resto de los parenterales y la crisis en edad gestacional extrema (&lt; 24 sem). Interrumpir el embarazo inmediatamente tras yugular la crisis</td></tr>
+<tr><td><b>Furosemida</b></td><td>Ante emergencia hipertensiva con edema pulmonar agudo: 20 mg EV en dosis única, elevable progresivamente hasta obtener diuresis diaria mayor de 1,5 litros</td></tr></table>
+<h3>Antihipertensivos orales</h3>
+<ul class="li"><li><b>Metildopa:</b> el más ampliamente empleado en el embarazo. 250 mg cada 12 h hasta 500 mg cada 6 h. Provoca somnolencia, que en la embarazada puede contribuir al reposo. Es el único con seguimiento de niños a 7 años sin efectos deletéreos.</li>
+<li><b>Nifedipino:</b> 10 mg cada 6–8 h, máximo 120 mg al día.</li>
+<li><b>Hidralazina:</b> desde 25 mg cada 12 h hasta 50 mg cada 6 h. Puede causar cefalea.</li>
+<li><b>Labetalol:</b> 50 mg cada 12 h, elevable hasta 800 mg/día.</li></ul>
+<div class="alerta"><b>Contraindicados</b>Inhibidores de la enzima convertidora (captopril, enalapril, lisinopril): contraindicación absoluta.
+Antagonistas de angiotensina II (losartán, irbesartán, telmisartán): también contraindicados. Ambos por defectos teratogénicos y daño renal. Recomendación A.
+<b>Atenolol</b>: evitar por su asociación con PEG. Recomendación B. Diuréticos: no se recomiendan en el manejo crónico, reservados para edema agudo de pulmón.</div>
+<h3>Eclampsia</h3>
+<p>El manejo de primera línea para controlar el episodio convulsivo es el <b>sulfato de magnesio</b>, por sobre diazepam o fenitoína. Recomendación A. La convulsión eclámptica no puede distinguirse de un ataque de gran mal epiléptico y es seguida de un estado de coma de duración variable. Sin tratamiento, las convulsiones se hacen cada vez más frecuentes llevando al coma y al paro cardiorrespiratorio.</p>
+<table><tr><th>Uso</th><th>Esquema</th></tr>
+<tr><td>Prevenir convulsiones</td><td>Dosis inicial 5 g en suero glucosado al 5 %, continuando con infusión a la que se agregan 10 a 20 g de la droga, a velocidad que permita administrar <b>1–2 g/hora</b></td></tr>
+<tr><td>Tratar convulsiones</td><td>Carga de <b>5 g (solución al 20 %) en 15 a 30 minutos</b>, seguida de <b>2 g/hora</b> en infusión continua</td></tr></table>
+<div class="alerta"><b>Vigilancia obligatoria antes de cada dosis de mantención</b>
+Reflejo patelar presente · ritmo respiratorio mayor a 12 por minuto · diuresis mayor a 100 ml en 4 horas.
+Vigilando estos signos no se requiere seguimiento de niveles plasmáticos: rango óptimo 6–8 mEq/L, tóxico sobre 10 mEq/L.
+<b>Ante toxicidad: 10 ml de gluconato de calcio al 10 % en 3 minutos.</b></div>
+<div class="ok"><b>Paquete para eclampsia</b>Se recomienda mantener paquetes que contengan jeringas, agujas, sulfato de magnesio, gluconato de calcio,
+un diagrama de flujo para la administración y una cartilla que describa la detección de los efectos tóxicos.</div>
+<h3>Manejo general de la eclampsia</h3>
+<ul class="li"><li>Hospitalización en área de cuidados medios.</li>
+<li>Vía aérea permeable e instalación de vía venosa.</li>
+<li>Control de la crisis convulsiva. Evaluación hemodinámica y del equilibrio ácido-base.</li>
+<li>Disminución de la presión arterial si la hipertensión es severa.</li>
+<li>Evaluación neurológica: más de dos crisis o compromiso neurológico requiere estudio de imágenes. Tratamiento del edema cerebral con dexametasona 10–20 mg EV, seguidos de 6 mg cada 6 horas.</li>
+<li>Crisis repetidas o estatus convulsivo: anestésicos generales (pentotal), estabilizar e interrumpir.</li>
+<li>Interrupción una vez controlado el cuadro convulsivo, las cifras tensionales y recuperada la conciencia. <b>Conocer el recuento plaquetario antes</b> de la interrupción.</li>
+<li>Anestesia: se prefieren los bloqueos regionales; la peridural disminuye la vasoconstricción y la presión arterial, y alivia el dolor y el estrés.</li></ul>`},
+
+{ id:"dm-dx", et:"Diabetes", t:"Diabetes · diagnóstico y tamizaje", html:`
+<h3>Las dos categorías</h3>
+<table><tr><th>Categoría</th><th>Criterios</th></tr>
+<tr><td><b>Diabetes pregestacional (DPG)</b></td><td>Mujer con diabetes tipo 1 o 2 que se embaraza, o que cumple criterios OMS durante el <b>primer trimestre</b></td></tr>
+<tr><td><b>Diabetes gestacional (DG)</b></td><td>Cualquier grado de intolerancia a la glucosa que se manifiesta o detecta durante el embarazo</td></tr></table>
+<div class="ok"><b>Regla</b>Toda diabetes diagnosticada durante el primer trimestre se considera <b>pregestacional</b>. El carácter larvado u oligosintomático de la DM tipo 2 permite que algunas mujeres desconozcan su condición al momento del embarazo.</div>
+<h3>Criterios de DPG (primer trimestre)</h3>
+<ul class="li"><li>Síntomas clásicos (polidipsia, poliuria, polifagia y baja de peso) y glicemia en cualquier momento <b>&gt; 200 mg/dl</b>, sin relación con la última comida.</li>
+<li>Glicemia en ayunas en plasma venoso <b>&gt; 126 mg/dl</b>, confirmada con un segundo examen en día diferente. Ayuno = al menos 8 horas sin ingesta calórica.</li>
+<li>Glicemia <b>&gt; 200 mg/dl</b> dos horas después de una carga de 75 g de glucosa en PTGO.</li></ul>
+<h3>Criterios de DG</h3>
+<div class="cifra">
+<div><div class="k">Ayunas</div><div class="v">100–125 <small>mg/dl</small></div></div>
+<div><div class="k">En dos días</div><div class="v">diferentes</div></div>
+<div><div class="k">2 h post carga</div><div class="v">≥140 <small>mg/dl</small></div></div>
+</div>
+<p>Glicemia en ayunas entre 100 y 125 mg/dl en dos días diferentes, y/o glicemia a las 2 horas post carga <b>&gt; 140 mg/dl</b> en el 2.º o 3.er trimestre.</p>
+<h3>Secuencia de tamizaje</h3>
+<table><tr><th>Momento</th><th>Qué se hace</th></tr>
+<tr><td>Primer control prenatal</td><td>Tamizaje universal con <b>glicemia en ayunas</b> a toda embarazada</td></tr>
+<tr><td>Si resulta 100–125 mg/dl</td><td>Nuevo examen en plazo máximo de <b>7 días</b>, manteniendo alimentación normal sin restricciones. Si se confirma, se diagnostica DG o intolerancia a la glucosa</td></tr>
+<tr><td>24–28 semanas</td><td><b>PTGO</b> a toda mujer con glicemia normal en el primer trimestre. Si ayunas &lt; 100 y 2 h &lt; 140, y no hay factores de riesgo, se descarta DG</td></tr>
+<tr><td>30–33 semanas</td><td>Repetir PTGO a toda mujer con factores de riesgo (polihidroamnios, macrosomía fetal, aumento de peso mayor a 2 DS o cambio de curva según gráfica Atalah) y PTGO normal previa</td></tr></table>
+<div class="alerta"><b>Contraindicación de la PTGO</b>Antecedente de cirugía bariátrica. En esos casos, y en quienes no toleran la carga (por ejemplo por vómitos),
+se hace monitoreo de glicemia durante 24 horas con glicemias capilares, antes de las comidas y postprandiales.</div>
+<h3>Factores de riesgo de diabetes gestacional</h3>
+<ul class="li"><li>Antecedente de DG en embarazo anterior</li>
+<li>Antecedente de DM en familiares de 1.er grado (madre, padre, hermanos)</li>
+<li><b>IMC ≥ 27</b> al comienzo del embarazo</li>
+<li>Antecedente de macrosomía fetal (un hijo de 4.000 g o más)</li>
+<li>Síndrome de ovario poliquístico</li>
+<li>Crecimiento fetal cercano o mayor al percentil 90, o menor o cercano al percentil 10</li>
+<li>Glucosuria positiva</li></ul>
+<p>El riesgo aumenta con el peso: OR de 3,5 en sobrepeso (IMC 25–29,9), 7,7 en obesidad tipo I (30–34,9) y 11 en obesidad II y III (IMC ≥ 35).</p>
+<h3>Situación en Chile</h3>
+<p>En 2012, el <b>5,1 %</b> del total de mujeres que ingresaron a control prenatal en el sistema público tenía diabetes. Entre las clasificadas como de <b>alto riesgo obstétrico, el 17,7 %</b> tenía el diagnóstico, proporción que subió desde 11,9 % en 2010.</p>`},
+
+{ id:"dm-manejo", et:"Diabetes", t:"Diabetes · metas, insulina y parto", html:`
+<h3>Metas de control glicémico durante el embarazo</h3>
+<table><tr><th>Momento</th><th>Meta</th></tr>
+<tr><td>Antes de desayuno</td><td class="n">60–90 mg/dl</td></tr>
+<tr><td>Antes de otras comidas</td><td class="n">60–105 mg/dl</td></tr>
+<tr><td>1 hora después de las comidas</td><td class="n">&lt; 140 mg/dl</td></tr>
+<tr><td>2 horas después de las comidas</td><td class="n">&lt; 120 mg/dl</td></tr>
+<tr><td>Durante la noche</td><td class="n">60–99 mg/dl</td></tr>
+<tr><td>HbA1c en DPG</td><td class="n">&lt; 6,0 %</td></tr></table>
+<div class="alerta"><b>El control demasiado estricto también daña</b>Una glicemia promedio diaria ≤ 86 mg/dl se asocia a mayor incidencia de PEG (20 % vs 11 % con un control menos estricto).
+Las hipoglicemias que ocurran son habitualmente bien toleradas por la mujer y el feto, y no se han asociado a teratogenia en humanos.</div>
+<h3>Cetoacidosis</h3>
+<p>Emergencia médica y obstétrica. Los factores precipitantes más frecuentes son la infección y la interrupción o inadecuación de la terapia con insulina. Ocurre generalmente con glicemias sobre 200 mg/dl, pero <b>entre 10 y 30 % de los casos en el embarazo se han observado con glicemias menores de 250 mg/dl</b>. Ante glicemia &gt; 250 mg/dl o enfermedad aguda intercurrente, la mujer debe medir cetonas en orina o sangre y ajustar la insulina mientras es evaluada.</p>
+<h3>Insulina en diabetes gestacional</h3>
+<p>Indicada cuando no se alcanzan los objetivos metabólicos en el plazo de <b>dos semanas</b> con tratamiento médico nutricional. Dosis inicial habitualmente baja: <b>0,1–0,2 U/kg/día</b> de NPH.</p>
+<table><tr><th>Perfil alterado</th><th>Esquema inicial</th></tr>
+<tr><td>Solo ayunas (&gt; 100 mg/dl)</td><td>NPH nocturna, 0,1 U/kg/día</td></tr>
+<tr><td>Solo después de desayuno</td><td>Insulina rápida pre desayuno: 2 U media hora antes si glicemia 140–179; 4 U si &gt; 180 mg/dl</td></tr>
+<tr><td>Normal pre y post desayuno, sobre meta post almuerzo, post onces y pre cena</td><td>NPH matinal, 0,15 U/kg/día antes del desayuno</td></tr>
+<tr><td>Sobre meta pre-desayuno, post-almuerzo y pre cena</td><td>NPH pre desayuno y en la noche: 0,2 U/kg/día, 2/3 antes de desayuno y 1/3 en la noche</td></tr></table>
+<p>Requerimientos en DM tipo 1: 0,7 U/kg en el primer trimestre, con baja significativa entre las semanas 7 y 15; los mayores requerimientos se observan entre las semanas 28 y 32, con 0,9 U/kg en las semanas 29 a 34 y 2,0 U/kg a la semana 35, estabilizándose o disminuyendo después.</p>
+<div class="ok"><b>Hipoglicemiantes orales</b>No se recomienda iniciarlos durante el embarazo. Metformina y glibenclamida quedan reservadas para casos seleccionados bajo protocolo.
+En mujeres que se embarazan mientras usan metformina (por ejemplo por SOP), se sugiere continuar hasta la evaluación por especialista.</div>
+<h3>Control durante el trabajo de parto</h3>
+<ul class="li"><li>Objetivo: <b>evitar la hiperglicemia materna</b>, que aumenta el riesgo fetal de acidosis e hipoglicemia neonatal.</li>
+<li>Está establecido que se debe evitar alcanzar glicemias <b>sobre 180 mg/dl</b>.</li>
+<li>DM tipo 1: glicemia capilar cada 2 a 4 horas en fase latente, cada 1 a 2 horas en fase activa, y <b>cada hora durante la infusión de insulina</b>.</li>
+<li>DG: excepcionalmente requieren insulina durante el trabajo de parto; basta medir glicemia capilar al hospitalizar y cada 4 a 6 horas.</li>
+<li>Trabajo de parto activo: solución glucosada al 5 % más electrolitos a <b>125 ml/hora</b>. Si la inducción es programada, se suspende la dosis habitual de insulina, controles al inicio y cada 1–2 horas, con infusión continua de insulina 1 a 3 U/hora manteniendo glicemias entre <b>90 y 120 mg/dl</b>.</li></ul>
+<h3>Resolución del parto</h3>
+<ul class="li"><li><b>DPG:</b> la Guía NICE propone interrumpir al término de la semana 38, sin preferencia entre inducción y cesárea electiva. Considerar cesárea si el peso fetal estimado supera los <b>4.500 g</b>.</li>
+<li><b>DG con buen control y sin complicaciones:</b> conducta expectante; no está indicada la interrupción antes de la semana 39.</li>
+<li><b>DG con mal control o condición médica concomitante:</b> inducción a las 38 semanas, tras confirmar madurez pulmonar.</li>
+<li>La diabetes por sí sola no contraindica el parto vaginal, incluso con antecedente de cesárea previa.</li></ul>
+<h3>Puerperio</h3>
+<ul class="li"><li>Tras el alumbramiento, la resistencia a la insulina desaparece rápidamente: los requerimientos bajan de forma muy importante. Pasadas las <b>48 horas</b>, son iguales o inferiores a los previos al embarazo.</li>
+<li>Parto vaginal: régimen blando liviano con 150 g de hidratos de carbono, glicemias preprandiales y reinicio con <b>25–50 %</b> de la dosis de insulina preparto.</li>
+<li>Cesárea: insulina rápida según automonitoreo, con meta de <b>140 a 160 mg/dl</b> las primeras 24 a 48 horas.</li>
+<li>DM tipo 1 con parto vaginal: un tercio a la mitad de la NPH preparto para las necesidades basales.</li>
+<li>DM tipo 2: pueden no requerir medicación las primeras 24 a 48 horas.</li></ul>
+<div class="alerta"><b>Tamizaje posparto en DG</b>PTGO entre las <b>6 y 12 semanas</b> posparto para definir el estatus glicémico. Si es negativo, repetir cada 3 años como parte del Examen de Medicina Preventiva.
+Las mujeres con DG tienen 7,43 veces más riesgo de desarrollar DM tipo 2, y el riesgo es mayor los primeros 5 años; la mujer latinoamericana es de las más afectadas, con cifras reportadas de 47 % en ese período.</div>`},
+
+{ id:"rciu", et:"RCIU", t:"Restricción de crecimiento intrauterino", html:`
+<p>Incapacidad de lograr el crecimiento intrauterino óptimo dado por el potencial genético. El ACOG lo define operacionalmente como <b>peso fetal estimado bajo el percentil 10</b> para la edad gestacional, porque bajo ese punto aumentan la mortalidad y la morbilidad perinatal.</p>
+<div class="alerta"><b>La distinción que más se pregunta</b>No todo feto pequeño tiene restricción. Algunos son constitucionalmente <b>pequeños para la edad gestacional (PEG)</b>.
+La diferencia cambia por completo el manejo: el PEG se controla, el RCIU se vigila estrechamente y puede requerir interrupción.</div>
+<table><tr><th>RCIU</th><th>PEG</th></tr>
+<tr><td>Crecimiento bajo p10 <b>con signos de compromiso fetal</b>: anormalidades del doppler feto-placentario, disminución del líquido amniótico o alteración de las pruebas de bienestar fetal<br><br>O peso <b>bajo el percentil 3</b><br><br>O circunferencia abdominal bajo el <b>percentil 2,5</b> sin alteración de otros parámetros biométricos</td>
+<td>Peso entre el <b>percentil 3 y 10</b><br><br>Valoración anatómica por ultrasonido normal<br><br>Pruebas de bienestar fetal normales<br><br>En valoración prospectiva <b>persiste en percentiles similares</b> de crecimiento</td></tr></table>
+<h3>Clasificación</h3>
+<ul class="li"><li><b>Por proporcionalidad:</b> simétrica o asimétrica.</li>
+<li><b>Por gravedad:</b> severo es el peso fetal bajo el percentil 3. Conlleva peor pronóstico, con mortalidad y morbilidad perinatal sustancialmente mayores.</li>
+<li><b>Por momento:</b> precoz es la diagnosticada antes de las 28 semanas.</li></ul>
+<h3>Etiología</h3>
+<table><tr><th>Maternas</th><th>Fetales</th><th>Ovulares</th></tr>
+<tr><td>Constitución materna: peso &lt; 50 kg o talla &lt; 150 cm · desnutrición severa previa o escasa ganancia de peso · enfermedades crónicas (HTA, diabetes gestacional, enfermedad vascular, mesenquimopatías, cardiopatía cianótica) · tabaco, alcohol, cocaína · nivel socioeconómico bajo · anomalías uterinas · infecciones TORCH</td>
+<td>Gestación múltiple · malformaciones congénitas · anomalías cromosómicas · síndromes genéticos · embarazo prolongado</td>
+<td>Insuficiencia placentaria · desprendimiento placentario crónico · placenta previa · acretismo · inserción velamentosa del cordón · arteria umbilical única</td></tr></table>
+<div class="ok"><b>Dos cifras para la consejería</b>El tabaquismo aumenta un <b>35 %</b> el riesgo de RCIU. Un IMC pregestacional mayor de 29 lo aumenta <b>4 veces</b>.
+Un antecedente de RCIU sin diagnóstico etiológico implica <b>20 % de recurrencia</b> en el embarazo siguiente.</div>
+<h3>Prevención</h3>
+<ul class="li"><li><b>Aspirina 81–100 mg/día</b> en mujeres con factores de riesgo establecidos: preeclampsia grave lejos del término, RCIU severo, trombofilias y enfermedades del colágeno. Mejora el resultado perinatal y reduce las tasas de preeclampsia. Recomendación A. <b>No justificada en población de bajo riesgo</b>, ni a dosis más altas, ni antes de las 11 semanas.</li>
+<li><b>Doppler de arterias uterinas</b> en mujeres con factores de riesgo, entre las <b>11 y 13+6 semanas</b>, con seguimiento a las <b>20–24 semanas</b>. Recomendación B.</li>
+<li>Modificación del estilo de vida, corrección de carencias nutricionales, abandono de tabaco, alcohol y drogas. Recomendación C.</li>
+<li>Suplementos de zinc, magnesio, aceite de pescado y vitaminas antioxidantes: <b>no</b> han demostrado justificar su administración rutinaria.</li></ul>
+<h3>Estudio al diagnóstico</h3>
+<ul class="li"><li>Valoración integral en <b>tercer nivel de atención</b>. Es la única conducta que ha demostrado incidir sobre la mortalidad perinatal y la morbilidad a largo plazo. Recomendación B.</li>
+<li>Ultrasonido detallado para detectar defectos estructurales.</li>
+<li><b>Cariotipo fetal</b> en RCIU precoz, antes de las 20 semanas.</li>
+<li>Detección de <b>varicela, rubéola y citomegalovirus</b> en RCIU precoz.</li>
+<li>Descartadas anomalías estructurales, cromosómicas o infecciosas: seguimiento seriado con monitorización fetal, índice de líquido amniótico, perfil biofísico y perfil hemodinámico feto-materno. Recomendación B.</li></ul>
+<h3>Manejo según el doppler</h3>
+<table><tr><th>Etapa</th><th>Seguimiento</th><th>Conducta</th></tr>
+<tr><td><b>1.</b> Sin insuficiencia placentaria, doppler normal</td><td>Ambulatorio · doppler, MFNE y PBF <b>semanales</b></td><td>Criterio obstétrico al término. Vigilar FCF cada 30 min en fase latente y cada 12 min en fase activa</td></tr>
+<tr><td><b>2.</b> Aumento de resistencia en arteria umbilical</td><td>Ambulatorio · doppler, MFNE y PBF <b>semanales</b></td><td>Resolución ante criterios de severidad, o en la <b>semana 37</b></td></tr>
+<tr><td><b>3.</b> Aumento de resistencia umbilical + vasodilatación cerebral</td><td>Individualizar · doppler, MFNE y PBF <b>cada 48–72 h</b></td><td>Resolución ante criterios de severidad, o en la <b>semana 34</b>. Cesárea SOS</td></tr>
+<tr><td><b>4.</b> Flujo ausente o reverso en arteria umbilical + alteración del ductus venoso + flujo pulsátil de vena umbilical</td><td><b>Hospitalizado</b> · doppler, MFNE y PBF <b>diarios</b></td><td>&gt; 34 sem: interrupción inmediata<br>28–34 sem: maduración pulmonar e interrupción según pruebas<br>&lt; 28 sem: evaluar viabilidad según PBF, UTIN, corticoides y vigilancia de FCF</td></tr></table>
+<h3>Criterios de severidad en las pruebas de bienestar fetal</h3>
+<ul class="li"><li>Ductus venoso con <b>IP mayor al percentil 95</b>.</li>
+<li>Signos de asfixia al doppler: centralización inicial, avanzada o descentralización.</li>
+<li><b>Perfil biofísico menor de 6/10</b> con oligoamnios.</li>
+<li>Monitorización fetal no estresante <b>categoría II–III</b> según ACOG 2010.</li></ul>
+<h3>Decisiones adicionales</h3>
+<ul class="li"><li><b>Hospitalizar</b> si hay trastornos hipertensivos asociados, cambios del doppler sugerentes de asfixia, enfermedades maternas asociadas, dificultad para el seguimiento ambulatorio o indicación de terminación. Recomendación C.</li>
+<li>Corticoides según las normas generales: <b>24 a 34 semanas</b>, cuando se piensa finalizar en ese rango. Recomendación A.</li>
+<li>Si se interrumpe <b>bajo las 34 semanas</b>: infusión de <b>sulfato de magnesio</b> para disminuir el riesgo de trastornos del movimiento y parálisis cerebral. Recomendación A.</li>
+<li>Diagnóstico antes de las 24 semanas: conducta controversial, requiere manejo interdisciplinario entre obstetricia, neonatología y la familia.</li></ul>
+<h3>Seguimiento posparto</h3>
+<ul class="li"><li><b>Estudio anatomopatológico de la placenta</b> en todos los casos de RCIU. Recomendación C.</li>
+<li>RCIU severa y precoz obliga a valoración materna posparto buscando síndrome antifosfolípidos, enfermedades del colágeno, nefropatías y trombofilias. <b>Se desaconsejan los anticonceptivos orales hasta completar el estudio.</b></li>
+<li>Los niños con antecedente de RCIU deben evaluarse en intervalos regulares buscando alteraciones del desarrollo psicomotor. En la vida adulta se han encontrado diabetes, hipertensión y síndrome metabólico.</li></ul>`},
+
+{ id:"colestasia", et:"Colestasia", t:"Colestasia intrahepática del embarazo", html:`
+<p>Enfermedad propia del embarazo caracterizada por un alza de los <b>ácidos biliares plasmáticos</b> y aumento de la frecuencia de algunas complicaciones maternas y fetales. Se caracterizó clínicamente en 1950 como «prurito intenso con o sin ictericia, de aparición durante el embarazo, con resolución pronta posparto y recurrencia en siguientes embarazos».</p>
+<div class="cifra">
+<div><div class="k">Prevalencia actual en Chile</div><div class="v">1–2 <small>% de los partos</small></div></div>
+<div><div class="k">Antes de 1985 llegaba a</div><div class="v">15 <small>%</small></div></div>
+<div><div class="k">Recurrencia</div><div class="v">50–60 <small>%</small></div></div>
+</div>
+<h3>Cuadro clínico</h3>
+<ul class="li"><li><b>Prurito generalizado de predominio palmo-plantar y nocturno</b>, a partir del tercer trimestre, no asociado a lesiones de la piel.</li>
+<li>Permanece hasta el final de la gestación y desaparece días después del parto, usualmente dentro de los primeros 10 días.</li>
+<li>Es un <b>diagnóstico de exclusión</b> y eminentemente clínico: no requiere exámenes de laboratorio salvo para diagnóstico diferencial o cuadro atípico. Recomendación C.</li>
+<li>Para considerarlo CIE, la sintomatología debe ceder completamente en el posparto.</li>
+<li>En un 10 a 12 % se observa ictericia leve con hiperbilirrubinemia de predominio directo.</li></ul>
+<h3>Laboratorio: qué esperar</h3>
+<table><tr><th>Examen</th><th>Comportamiento</th></tr>
+<tr><td>Ácidos biliares (cólico y quenodeoxicólico)</td><td>Principal marcador bioquímico: se incrementan <b>10 a 100 veces</b>. Pero solo el 50 % de las mujeres presenta aumento en ayunas o postprandial, y hasta un 10 % de embarazadas sanas asintomáticas tiene ácido cólico elevado sin desarrollar CIE</td></tr>
+<tr><td>Bilirrubina</td><td>Aumento moderado en 10 a 15 % de las mujeres; <b>rara vez supera 3 mg/dl</b>. Valores sobre <b>1,8 mg/dl</b> se han usado para definir la forma ictérica</td></tr>
+<tr><td>Transaminasas</td><td>Pueden elevarse en forma moderada, <b>2 a 10 veces</b>, especialmente ALT</td></tr>
+<tr><td>Protrombina</td><td>La esteatorrea intensa puede disminuir la vitamina K hepática, interferir con la síntesis de factores de coagulación y reducir la protrombina</td></tr></table>
+<h3>Diagnóstico diferencial</h3>
+<p>Hepatitis viral · colelitiasis o coledocolitiasis · cirrosis biliar · enfermedades parasitarias · enfermedades dermatológicas · trastornos metabólicos (insuficiencia renal crónica, diabetes, patología tiroidea).</p>
+<div class="alerta"><b>Cuándo sospechar otra cosa</b>Náuseas y vómitos muy intensos · otros síntomas digestivos · ictericia severa · compromiso importante del estado general · hipertensión arterial.
+En esa situación debe sospecharse otra condición, especialmente complicaciones de la preeclampsia.</div>
+<h3>Signos de presentación atípica que obligan a derivar</h3>
+<ul class="li"><li>Presentación en la primera mitad de la gestación</li>
+<li>Persistencia mayor a 8 semanas posparto</li>
+<li>Compromiso del estado general severo persistente</li>
+<li>Ictericia severa</li>
+<li>Dolor abdominal o vómitos persistentes</li>
+<li>Asociación a hipertensión o trombocitopenia</li></ul>
+<h3>Pronóstico</h3>
+<p><b>Materno:</b> bueno y de bajo riesgo, independiente de las alteraciones de la función hepática. El prurito mejora rápido en el posparto y las alteraciones bioquímicas retornan a la normalidad en las primeras semanas. El riesgo de colelitiasis aumenta 2 a 7 veces. No se han descrito casos de falla hepática severa o persistente.</p>
+<p><b>Fetal:</b> se ha asociado a una tasa de muerte fetal de <b>12 a 30 por mil nacidos vivos</b>. Los métodos conocidos de evaluación de bienestar fetal <b>no han demostrado utilidad</b> para identificar a quienes están en riesgo: no se recomienda monitorización electrónica antenatal, doppler de arteria umbilical ni perfil biofísico como predictores de muerte intrauterina. Recomendación C.</p>
+<h3>Manejo</h3>
+<ul class="li"><li><b>Control semanal</b> desde el diagnóstico, en nivel primario en la gran mayoría de los casos. Recomendación C.</li>
+<li>En cada control evaluar: percepción de movimientos fetales, aparición de coluria e ictericia, evolución del prurito y aparición de enfermedades asociadas.</li>
+<li>Controlar pruebas hepáticas.</li>
+<li>Derivar a nivel secundario ante sospecha de presentación atípica o severa.</li>
+<li><b>Ante ausencia o disminución de movimientos fetales: derivación inmediata</b> al Servicio de Urgencia Maternidad.</li>
+<li>Rara vez se requiere hospitalización: se reserva para prurito invalidante o patología asociada.</li></ul>
+<h3>Tratamiento farmacológico</h3>
+<div class="ok"><b>Ácido ursodeoxicólico (URSO)</b>Es el único recomendado, por su superioridad sobre otros fármacos y la reducción de morbilidad perinatal asociada. Recomendación A.
+Dosis: <b>10–15 mg/kg/día</b> en dos a tres tomas (250–500 mg, 2 a 3 veces al día). Indicado en mujeres muy sintomáticas, con alteración del laboratorio hepático o altos niveles de ácidos biliares.</div>
+<p>El metaanálisis de 9 estudios randomizados con 454 mujeres muestra que URSO elimina o reduce el prurito, baja los niveles de sales biliares y de ALT, y desde lo obstétrico reduce parto prematuro, distrés respiratorio y hospitalización en UCIN. No se logró demostrar efecto en la mortalidad fetal o neonatal, posiblemente por número insuficiente de mujeres.</p>
+<div class="alerta"><b>No recomendados</b>Antihistamínicos, fenobarbital, S-adenil metionina y epomediol: ineficaces en la disminución de las complicaciones perinatales. Recomendación C.
+Colestiramina produce algún alivio del prurito pero sin cambio en el pronóstico fetal. <b>El parto es el único tratamiento demostradamente eficaz.</b></div>
+<h3>Momento del parto</h3>
+<table><tr><th>Situación</th><th>Interrupción</th></tr>
+<tr><td>CIE moderada</td><td>Desde las <b>38 semanas</b>, según condiciones cervicales</td></tr>
+<tr><td>CIE severa o ictérica</td><td>Desde las <b>36 semanas</b>, previa comprobación de madurez pulmonar, o antes ante meconio en líquido amniótico</td></tr>
+<tr><td>Dinámica uterina antes de las 35 semanas</td><td>Tocolisis terapéutica. La tocolisis profiláctica <b>no</b> está indicada</td></tr></table>
+<p>La vía de elección es la <b>inducción del parto</b>, con monitorización electrónica de la FCF o auscultación intermitente cada 20 a 30 minutos. La cesárea se reserva para casos con vía vaginal contraindicada o inducción fracasada.</p>
+<h3>Después del parto</h3>
+<ul class="li"><li>La contracepción hormonal <b>no está contraindicada en forma absoluta</b> si la función hepática es normal.</li>
+<li>A largo plazo se ha asociado a mayor frecuencia de hipotiroidismo, cáncer de mama y enfermedad hepatobiliar.</li>
+<li>En la consejería debe mencionarse la alta probabilidad de recurrencia en gestaciones futuras.</li></ul>
+<div class="falta"><b>Verifica el protocolo local</b>La Sociedad Chilena de Obstetricia y Ginecología publicó una guía específica de colestasia posterior a la Guía Perinatal 2015,
+que incorpora criterios de severidad basados en niveles de ácidos biliares. Si tu servicio la adoptó, esos criterios prevalecen sobre lo descrito aquí.</div>`},
+
+{ id:"metrorragia", et:"Metrorragia", t:"Metrorragia de la segunda mitad", html:`
+<p>Entre el <b>2 y 5 %</b> de las embarazadas sufre hemorragia genital en algún momento de la segunda mitad. En Chile ocupa uno de los primeros lugares como causa de mortalidad materna, después de la hipertensión y el aborto, y es causa importante de ingreso a unidades de tratamiento intensivo. La mortalidad perinatal se debe principalmente a su asociación con prematurez e hipoxia intrauterina.</p>
+<table><tr><th>Anteparto</th><th>Intraparto</th></tr>
+<tr><td>Metrorragia idiopática · desprendimiento prematuro de placenta · placenta previa · rotura de membranas</td>
+<td>Desprendimiento prematuro de placenta · placenta previa · rotura uterina · vasa previa</td></tr></table>
+<p><b>Causas ginecológicas a excluir:</b> cervicitis, erosiones cervicales, pólipos endocervicales, cáncer cervicouterino, infecciones vaginales, várices vaginales o vulvares, cuerpos extraños, laceraciones genitales.</p>
+<h3>Evaluación inicial</h3>
+<div class="alerta"><b>Regla de oro</b>No realizar tacto vaginal si no se ha verificado que la placenta esté normoinserta.</div>
+<ul class="li"><li>En decúbito lateral: signos vitales maternos y auscultación de LCF.</li>
+<li>Examen obstétrico abdominal: altura y tono uterinos.</li>
+<li>Especuloscopía para precisar cuantía y excluir causas ginecológicas.</li>
+<li>Precisar edad gestacional con FUR, ecografías previas o la actual.</li>
+<li>Historia dirigida: características de la hemorragia, inicio, color, dolor, contracciones, traumatismo, hipertensión, compromiso fetal, episodios previos, último PAP, cirugías uterinas, consumo de cocaína y tabaquismo.</li>
+<li><b>Recordar que la metrorragia puede ser la primera manifestación de una rotura prematura de membranas.</b></li></ul>
+<h3>Manejo inicial y laboratorio</h3>
+<ul class="li"><li>Vía venosa permeable.</li>
+<li>Hospitalización en área de preparto para observación estricta de la condición hemodinámica: pulso, presión arterial, cuantía de la hemorragia, diuresis.</li>
+<li>Monitorización fetal en gestaciones mayores de 26 semanas.</li>
+<li><b>A toda mujer:</b> hematocrito, clasificación de grupo y Rh. Pruebas cruzadas ante necesidad de transfusión.</li>
+<li>Estudio de coagulación en DPPNI o sospecha de coagulopatía: recuento plaquetario, TP e INR, TTPK. Con coagulopatía evidente agregar fibrinógeno, dímero-D y PDF si están disponibles.</li></ul>
+<h3>Placenta previa</h3>
+<p>Placenta insertada en el segmento inferior del útero. Se presenta en alrededor del <b>0,5 %</b> de los partos.</p>
+<table><tr><th>Tipo</th><th>Definición ultrasonográfica</th></tr>
+<tr><td>Oclusiva total</td><td>Cubre completamente el orificio cervical interno y se extiende a la pared uterina opuesta</td></tr>
+<tr><td>Marginal</td><td>El borde placentario se relaciona con el OCI <b>sin sobrepasarlo</b></td></tr>
+<tr><td>Inserción baja</td><td>El borde no se relaciona con el OCI pero está a <b>menos de 30 mm</b></td></tr></table>
+<div class="ok"><b>Dato que evita alarmas innecesarias</b>En las ecografías de rutina del segundo trimestre la placenta puede relacionarse con el OCI hasta en un 6 % de las mujeres.
+Alrededor del <b>90 % de las placentas previas diagnosticadas antes de las 20–24 semanas están normoinsertas al término</b>. En ausencia de síntomas, no es un hallazgo de alarma.</div>
+<p><b>Cuadro clínico:</b> pérdida <b>indolora</b> de sangre fresca, de magnitud variable y curso reincidente. Habitualmente no hay compromiso fetal salvo que exista compromiso materno importante. Mientras más precoz el primer episodio, mayor el riesgo perinatal.</p>
+<p><b>Factores de riesgo:</b> cicatrices uterinas previas · edad mayor a 35 años · multiparidad · legrado uterino previo · embarazo gemelar · tabaquismo · residencia en altura · miomas uterinos. La mujer con cesárea previa y placenta previa tiene <b>riesgo aumentado de acretismo</b>, sobre todo si la placenta es anterior y se inserta sobre la cicatriz.</p>
+<p><b>Diagnóstico:</b> ecotomografía transabdominal o transvaginal. La transvaginal se prefiere en obesas y en placentas posteriores, y es segura: el transductor no requiere contactar el cuello.</p>
+<h4 style="font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--tinta-3);margin:14px 0 6px">Manejo</h4>
+<p>Toda placenta previa debe derivarse a <b>centro terciario</b>: el sangrado es de curso impredecible y se requiere banco de sangre y UCI.</p>
+<table><tr><th>Situación</th><th>Conducta</th></tr>
+<tr><td>Hemorragia severa con compromiso hemodinámico</td><td><b>Cesárea</b>, independiente de edad gestacional, condición fetal o tipo de placenta previa</td></tr>
+<tr><td>Hemorragia moderada, &gt; 36 semanas</td><td>Interrupción del embarazo</td></tr>
+<tr><td>Hemorragia moderada, &lt; 36 semanas</td><td>Conducta expectante hospitalizada: reposo en cama, corticoides si &lt; 35 semanas, tocolisis si hay actividad uterina, ferroterapia, medidas para facilitar evacuación intestinal. <b>Vigilar hematocrito con el objetivo de llegar al parto sobre 28 %</b></td></tr>
+<tr><td>Hemorragia leve o intermitente</td><td>Privilegiar hospitalización. Si el sangrado cesó por al menos 48 horas se puede plantear manejo ambulatorio. Interrupción hacia las <b>36–37 semanas</b></td></tr>
+<tr><td>Asintomática</td><td>Cesárea electiva a las <b>37 semanas</b> si es oclusiva. En marginales o de inserción baja se puede esperar el trabajo de parto espontáneo y decidir la vía según evolución</td></tr></table>
+<h3>DPPNI</h3>
+<p>Separación de la placenta de su inserción uterina <b>después de las 20 semanas</b> y antes del nacimiento. Ocurre en el <b>1–2 %</b> de los embarazos.</p>
+<p><b>Factores de riesgo:</b> síndrome hipertensivo del embarazo, especialmente preeclampsia e hipertensión crónica severa · traumatismos abdominales · tabaquismo · cocaína y alcohol · descompresión uterina repentina (RPM, parto del primer gemelo) · DPPNI previo · cordón umbilical corto · malformación uterina.</p>
+<div class="alerta"><b>Cómo se distingue de la placenta previa</b>DPPNI: sangrado <b>oscuro</b>, de inicio brusco, <b>con dolor abdominal</b>, contractilidad uterina con polisistolía e hipertono en las formas graves.
+Placenta previa: sangrado de <b>sangre fresca</b>, <b>indoloro</b>, reincidente.</div>
+<p>La ecografía puede mostrar imagen retroplacentaria ecorrefringente y heterogénea, con o sin disección de las membranas, que evoluciona a la ecolucencia a medida que el coágulo se desorganiza.</p>
+<table><tr><th>Clasificación</th><th>Características</th></tr>
+<tr><td><b>Moderado</b></td><td>Hemorragia escasa o moderada · útero relajado o irritable · sin descompensación hemodinámica, CID ni compromiso fetal · puede seguir curso crónico</td></tr>
+<tr><td><b>Severo</b></td><td>Hemorragia severa o contenida en hematoma retroplacentario · hipertonía uterina · descompensación hemodinámica con o sin CID · sufrimiento fetal o muerte fetal</td></tr></table>
+<h4 style="font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--tinta-3);margin:14px 0 6px">Manejo del DPPNI severo</h4>
+<ul class="li"><li><b>Interrumpir de inmediato por la vía más expedita.</b> En óbito fetal debe favorecerse el parto vaginal, recordando que la muerte fetal traduce un desprendimiento masivo con alto riesgo de descompensación y alteración de la coagulación.</li>
+<li>Cristaloides y valorar transfusión de glóbulos rojos. <b>Una unidad de plasma fresco congelado por cada 4 unidades de glóbulos rojos</b> para evitar coagulopatía por dilución.</li>
+<li>Mantener hematocrito <b>&gt; 28 %</b> y diuresis <b>&gt; 30 ml/h</b>.</li>
+<li>La urgencia se maneja en el nivel que recibe a la mujer; el traslado a centro terciario ocurre después de estabilizarla.</li></ul>
+<div class="ok"><b>Test de observación del coágulo</b>Alternativa cuando no hay laboratorio disponible. Es <b>anormal si no se forma coágulo a los 6 minutos</b>.
+Latencias mayores a 30 minutos se asocian a fibrinógeno menor de 100 mg/dl. En promedio, cada unidad de crioprecipitado aumenta el fibrinógeno en 5 mg/dl.</div>
+<h4 style="font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--tinta-3);margin:14px 0 6px">Manejo del DPPNI moderado</h4>
+<ul class="li"><li><b>Mayor de 35–36 semanas:</b> interrupción por inducción ocitócica o cesárea. Durante el trabajo de parto: rotura precoz de membranas, ocitocina si hay incoordinación, anestesia peridural, monitorización continua de la FCF.</li>
+<li><b>Menor de 35–36 semanas:</b> manejo expectante en centro terciario, con inducción de madurez pulmonar, monitorización de FCF y PBF cada 48–72 horas, doppler umbilical intercalado, y evaluación cuidadosa del líquido amniótico porque un porcentaje de DPPNI crónico desarrolla oligoamnios. Tocolisis oral con nifedipino solo bajo 32 semanas y si impresiona leve.</li></ul>
+<p><b>Útero de Couvelaire:</b> la infiltración hemática del útero puede causar hemorragia tanto tras cesárea como tras parto vaginal. La histerectomía se decide cuando el útero es incapaz de retraerse y reducir la hemorragia tras masaje y ocitocina intramiometrial, y debe practicarse precozmente en mujeres con alteraciones de la coagulación.</p>
+<h3>Rotura uterina</h3>
+<p>Solución de continuidad de la pared uterina. <b>Completa</b> cuando compromete el peritoneo visceral, con frecuente extrusión de partes fetales a la cavidad peritoneal; <b>incompleta</b> cuando afecta solo el miometrio.</p>
+<p><b>Factores de riesgo:</b> cicatrices uterinas · traumatismo uterino · trabajo de parto prolongado · <b>maniobra de Kristeller</b>.</p>
+<div class="alerta"><b>Signos clásicos</b>Dolor abdominal brusco · sufrimiento fetal agudo · sangrado genital · shock · detención del trabajo de parto con elevación de la presentación al tacto · palpación fácil de partes fetales por vía abdominal · muerte fetal.
+<b>El signo más frecuente de sospecha es la alteración del registro de la frecuencia cardíaca fetal.</b> El diagnóstico anteparto obliga a cesárea de urgencia.</div>`},
+
+{ id:"parto-prematuro", et:"Prematurez", t:"Parto prematuro y amenaza de PP", html:`
+<p>Embarazo que finaliza, espontáneamente o por indicación médica, <b>antes de las 37 semanas</b>. Es un síndrome con múltiples etiologías. El cribado y la prevención se concentran en los casos anteriores a las 34 semanas, que representan el <b>60 a 70 %</b> de la morbimortalidad perinatal.</p>
+<div class="cifra">
+<div><div class="k">Incidencia en Chile</div><div class="v">~7 <small>%</small></div></div>
+<div><div class="k">Antes de 34 semanas</div><div class="v">~3 <small>%</small></div></div>
+<div><div class="k">Espontáneos</div><div class="v">2/3 <small>del total</small></div></div>
+<div><div class="k">Iatrogénicos</div><div class="v">1/3 <small>del total</small></div></div>
+</div>
+<p>Los espontáneos tienen dos presentaciones que dividen equitativamente las causas: <b>membranas íntegras</b> y <b>membranas rotas</b>. Sus principales causas son infecciones ascendentes del canal del parto, sobredistensión uterina, insuficiencia cervical e isquemia úteroplacentaria.</p>
+<h3>El dato que cambia la conducta</h3>
+<div class="alerta"><b>El diagnóstico clínico de amenaza de parto prematuro tiene 90 % de falsos positivos</b>
+Solo predice al 10 % de los embarazos que efectivamente tendrán su parto dentro de los 7 días de hospitalización.
+Por eso la longitud cervical es determinante para decidir a quién se le dan tocolisis y corticoides.</div>
+<table><tr><th>Longitud cervical</th><th>Riesgo de parto en 7 días</th></tr>
+<tr><td><b>&lt; 15 mm</b></td><td><b>50 %</b>. Aumenta significativamente el riesgo</td></tr>
+<tr><td><b>&gt; 30 mm</b></td><td><b>1 %</b>. Lo reduce significativamente</td></tr></table>
+<p>Introducir la longitud cervical en la decisión reduce el uso innecesario de tocolisis y corticoides sin aumentar la tasa de prematurez.</p>
+<h3>Prevención en mujeres con antecedente de parto prematuro</h3>
+<ul class="li"><li><b>Progesterona profiláctica entre las 16 y 24 semanas</b> en embarazo único con antecedente de parto prematuro espontáneo. Recomendación A.</li>
+<li><b>Cerclaje</b> en mujeres con historia de parto prematuro <b>y cérvix &lt; 25 mm</b>. Recomendación A. Reduce el parto prematuro antes de las 24 y de las 37 semanas en 66 % y 25 %.</li>
+<li>No hay evidencia suficiente para combinar progesterona y cerclaje.</li>
+<li>Pesquisa y tratamiento de <b>vaginosis bacteriana solo en mujeres con historia previa</b> de parto prematuro. Recomendación A.</li>
+<li>Tratamiento periodontal en mujeres de alto riesgo con enfermedad periodontal.</li></ul>
+<h3>Cribado universal</h3>
+<p>Se recomienda medición de la longitud cervical entre <b>20+0 y 24+6 semanas</b>. Recomendación B. Un cérvix menor de 25 mm triplica el riesgo de parto prematuro antes de las 34 semanas. Combinando factores clínicos y longitud cervical, la detección llega al 60 % con 5 % de falsos positivos.</p>
+<div class="ok"><b>En asintomáticas sin factores de riesgo, con cérvix &lt; 25 mm</b>Se recomienda <b>progesterona profiláctica</b>. Recomendación A.
+El <b>cerclaje NO ha demostrado utilidad</b> en asintomáticas con cérvix corto del segundo trimestre. Recomendación A.
+El pesario tiene evidencia insuficiente y contradictoria. Recomendación I.</div>
+<h3>Tocolisis</h3>
+<p>Mujeres entre <b>24 y 34 semanas</b> con riesgo de parto en los próximos 7 días deben recibir tocolisis y un curso de corticoides. Recomendación B.</p>
+<div class="alerta"><b>Para qué sirve realmente</b>Los tocolíticos <b>no han demostrado mejorar el pronóstico perinatal</b>.
+Se usan solo para prolongar la gestación 48 horas y permitir administrar corticoides y sulfato de magnesio, que sí reducen riesgos.
+En general no se usan antes de las 24 ni después de las 34 semanas.</div>
+<ul class="li"><li><b>Nifedipino: fármaco de primera elección.</b> Recomendación A.</li>
+<li>Indometacina: usar con precaución después de las 32 semanas, por cierre reversible del ductus arterioso; idealmente con control ecocardiográfico fetal.</li>
+<li>Atosiban: efectividad similar y perfil de seguridad como placebo, pero de alto costo.</li>
+<li>Betamiméticos (fenoterol): segunda línea, por efectos adversos maternos.</li>
+<li>Sulfato de magnesio: prolonga la gestación 48 horas pero con más efectos adversos maternos.</li></ul>
+<h4 style="font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--tinta-3);margin:14px 0 6px">Contraindicaciones de la tocolisis</h4>
+<table><tr><th>Absolutas</th><th>Relativas</th></tr>
+<tr><td>Corioamnionitis clínica · metrorragia severa · malformación fetal incompatible con la vida · óbito fetal · patología materna grave · deterioro grave del bienestar fetal · trabajo de parto avanzado</td>
+<td>Dilatación entre 3 y 6 cm · edad gestacional &gt; 34 semanas · madurez pulmonar fetal · metrorragia moderada · restricción de crecimiento fetal · rotura prematura de membranas · síndrome hipertensivo del embarazo</td></tr></table>
+<h3>Corticoides</h3>
+<div class="ok"><b>La intervención más efectiva</b>Curso único entre <b>24+0 y 33+6 semanas</b> en mujeres con riesgo de parto en los próximos 7 días. Recomendación A.
+<b>Betametasona 12 mg, dos dosis separadas por 24 horas.</b> Alternativa: dexametasona 6 mg cada 12 horas por 4 dosis.</div>
+<p>Reduce mortalidad perinatal, síndrome de distrés respiratorio, hemorragia intraventricular y enterocolitis necrotizante.</p>
+<ul class="li"><li><b>Curso único de rescate</b> si recibió corticoides 7 o más días antes y sigue en riesgo con menos de 34 semanas. Recomendación B. <b>No repetir</b> el curso de rescate.</li>
+<li>En parto inminente está indicada una dosis única. Recomendación C.</li></ul>
+<h3>Sulfato de magnesio como neuroprotector</h3>
+<div class="cifra">
+<div><div class="k">Dosis de carga</div><div class="v">4 <small>g</small></div></div>
+<div><div class="k">Mantención</div><div class="v">2 <small>g/hora</small></div></div>
+<div><div class="k">Duración mínima</div><div class="v">24 <small>horas</small></div></div>
+<div><div class="k">Antes de las</div><div class="v">34 <small>semanas</small></div></div>
+</div>
+<p>Administrado al menos 24 horas antes de un parto prematuro menor de 34 semanas, reduce significativamente el riesgo y la severidad de la <b>parálisis cerebral</b> en los prematuros que sobreviven. Recomendación A.</p>
+<h3>Antibióticos y amniocentesis</h3>
+<div class="alerta"><b>Antibióticos: NO en membranas íntegras</b>No están indicados en amenaza de parto prematuro con membranas íntegras. Recomendación A.
+Reducen el riesgo de infección materna pero <b>no prolongan la gestación</b>, y hubo una tendencia al aumento de mortalidad neonatal en el grupo tratado.
+Ojo: esto es lo opuesto a lo indicado en RPM, donde los antibióticos sí están recomendados.</div>
+<p>La <b>amniocentesis</b> se reserva para: refractariedad a la tocolisis de primera línea, reaparición de dinámica uterina, y cérvix menor de 15 mm al ingreso. Recomendación C.</p>
+<div class="falta"><b>Verifica el protocolo local</b>El MINSAL publicó posteriormente una guía específica de prevención del parto prematuro, con recomendaciones actualizadas
+sobre progesterona vaginal desde las 16 semanas. Si tu servicio la adoptó, esos criterios prevalecen sobre lo descrito aquí.</div>`},
+
+{ id:"rpm", et:"RPM", t:"Rotura prematura de membranas", html:`
+<p>Solución de continuidad espontánea de las membranas ovulares <b>antes del inicio del trabajo de parto</b>.</p>
+<div class="cifra">
+<div><div class="k">Prevalencia</div><div class="v">8–10 <small>%</small></div></div>
+<div><div class="k">De término</div><div class="v">80 <small>%</small></div></div>
+<div><div class="k">De pretérmino</div><div class="v">20 <small>%</small></div></div>
+<div><div class="k">De los partos prematuros</div><div class="v">27 <small>% son por RPM</small></div></div>
+</div>
+<h3>Factores de riesgo con asociación más fuerte</h3>
+<ul class="li"><li>Historia de RPO de pretérmino en embarazos previos</li>
+<li>Infecciones del tracto genital, especialmente vaginosis bacteriana</li>
+<li>Metrorragia de II y III trimestre</li>
+<li>Tabaquismo</li></ul>
+<p>Otros: cuello corto menor de 25 mm en II trimestre, antecedente de incompetencia cervical, fibronectina &gt; 50 ng/dL, polihidramnios severo, embarazo gemelar, dispositivo intrauterino, hipertensión, diabetes, anemia, consumo de café, <i>N. gonorrhoeae</i> o <i>C. trachomatis</i>, malformaciones uterinas.</p>
+<p>Iatrogénicos: amniocentesis genética (1–2 %), fetoscopía (6–10 %), cerclaje electivo (2 %) y de urgencia (<b>65 %</b>).</p>
+<h3>Diagnóstico</h3>
+<p>La historia clínica clásica de pérdida incontenible de líquido claro y transparente en abundante cuantía tiene una <b>sensibilidad del 90 %</b>. Historia clínica más examen físico bastan para el diagnóstico en el 53 % de los casos.</p>
+<table><tr><th>Test</th><th>Rendimiento y limitaciones</th></tr>
+<tr><td><b>Cristalización</b></td><td>Cristalización en helecho bajo microscopía. Muestra de fondo de saco o pared vaginal, secada 10 minutos antes de observar. Sensibilidad 51–98 %, especificidad 70–88 %. Falsos positivos 5–10 %, generalmente por semen o mucus cervical</td></tr>
+<tr><td><b>Nitrazina</b></td><td>Vira a azul con pH mayor de 6. El pH vaginal en el embarazo es <b>4 a 5,5</b> y el del líquido amniótico <b>7 a 7,5</b>. Sensibilidad ~90 %, pero falsos positivos hasta <b>20 %</b> por orina alcalina, semen, sangre, mucus, antisépticos, gel de ultrasonido y vaginosis bacteriana</td></tr>
+<tr><td><b>Amnisure®</b></td><td>Detecta PAMG-1. Positiva sobre <b>5 ng/ml</b>. Sensibilidad 98–99 %, especificidad 88–100 %. De alto costo</td></tr>
+<tr><td><b>Ecografía</b></td><td>Puede mostrar líquido disminuido; <b>por sí sola no hace diagnóstico</b>. Útil para edad gestacional, vitalidad, presentación, malformaciones y localización placentaria</td></tr>
+<tr><td><b>Índigo carmín intraamniótico</b></td><td>Gold standard, con tampón vaginal estéril para documentar salida del colorante. Uso excepcional. <b>No usar azul de metileno</b> por riesgo de metahemoglobinemia</td></tr></table>
+<p><b>Diagnóstico diferencial:</b> leucorrea, pérdida de tapón mucoso, incontinencia urinaria, rotura de quiste vaginal, hidrorrea decidual.</p>
+<h3>Evaluación inicial</h3>
+<ul class="li"><li>Confirmar edad gestacional con FUR y ecografía precoz.</li>
+<li>Control de signos vitales. Control obstétrico: LCF y dinámica uterina.</li>
+<li>Examen físico <b>minimizando el riesgo de infección</b>: inspección de genitales externos, especuloscopía (pérdida por OCE espontánea o con Valsalva, observar cuello y presencia de partes fetales incluido cordón), test de cristalización.</li>
+<li>Ultrasonido: líquido amniótico, biometría y anatomía fetal.</li></ul>
+<h3>Infección intraamniótica: criterios en líquido amniótico</h3>
+<table><tr><th>Parámetro</th><th>Umbral</th></tr>
+<tr><td>Leucocitos</td><td class="n">&gt; 50</td></tr>
+<tr><td>Glucosa</td><td class="n">&lt; 14 mg/dl</td></tr>
+<tr><td>LDH</td><td class="n">&gt; 400 U/L</td></tr></table>
+<p>Se <b>confirma</b> con cultivo o PCR positivo, o presencia de microorganismo en la tinción de Gram.</p>
+<div class="alerta"><b>Ante infección intraamniótica</b>Antibióticos de amplio espectro: clindamicina 600 mg cada 8 h EV + gentamicina 240 mg/día EV + eritromicina 500 mg cada 6 h VO.
+<b>Los tocolíticos están contraindicados.</b></div>
+<h3>Interrupción inmediata, sea cual sea la edad gestacional</h3>
+<p>Corioamnionitis clínica · DPPNI · muerte fetal · compromiso de la unidad fetoplacentaria · trabajo de parto avanzado.</p>
+<h3>Manejo por edad gestacional</h3>
+<table><tr><th>Edad gestacional</th><th>Conducta</th></tr>
+<tr><td><b>≥ 34 semanas</b></td><td><b>Interrupción inmediata.</b> Recomendación A. Hospitalizar en prepartos e interrumpir: disminuye el riesgo de infección materna sin diferencias en resultado neonatal ni tasa de cesáreas. Los corticoides <b>no</b> están indicados en este grupo</td></tr>
+<tr><td><b>24–34 semanas</b></td><td>Manejo expectante sobre dos pilares: <b>inducción de madurez pulmonar y antibioticoterapia</b>. Los tocolíticos no sirven para prolongar la latencia y están contraindicados</td></tr>
+<tr><td><b>&lt; 24 semanas</b></td><td>Incidencia 0,35 %. Latencia descrita de 17 días, edad gestacional promedio al parto 23–27 semanas. Confirmar diagnóstico, parámetros inflamatorios y cultivos vaginales al ingreso; antibióticos empíricos o ajustados a cultivo; <b>no indicar tocolisis</b>. Se puede ofrecer manejo hospitalizado o ambulatorio en acuerdo con la usuaria, rehospitalizando al llegar a la viabilidad</td></tr></table>
+<h3>Esquema antibiótico en manejo expectante (24–34 semanas)</h3>
+<div class="ok"><b>Fase endovenosa · 48 horas</b>Ampicilina 2 g cada 6 horas + eritromicina 250 mg cada 6 horas.
+<br><b>Fase oral · 5 días</b>Amoxicilina 500 mg cada 8 horas + eritromicina 500 mg cada 6 horas.</div>
+<p>El metaanálisis Cochrane demostró reducción de corioamnionitis clínica, prolongación del embarazo por al menos 48 horas y hasta 7 días, y reducción de morbilidades neonatales (infección, distrés respiratorio, hemorragia intraventricular). No se erradica la infección subclínica, pero el beneficio es evidente.</p>
+<h3>Corticoides</h3>
+<p><b>Betametasona 12 mg cada 24 horas IM por 2 veces</b>, o dexametasona 6 mg cada 12 horas IM. Disminuyen el riesgo de muerte, distrés respiratorio, hemorragia intracerebral y enterocolitis necrotizante. Recomendación A.</p>
+<h3>Complicaciones</h3>
+<table><tr><th>Maternas</th><th>Fetales</th></tr>
+<tr><td>Infección intraamniótica y corioamnionitis clínica: <b>30–50 %</b> en RPM de pretérmino y 5–10 % en las de término · endometritis puerperal 2–13 % · DPPNI 4–12 % · sepsis materna</td>
+<td>FIRS, con bacteriemia fetal en el 30 % de las RPM de pretérmino · deformaciones esqueléticas · hipoplasia pulmonar · mayor riesgo de cesárea por distocia y alteraciones de la monitorización por compresión de cordón · prolapso de cordón</td></tr></table>
+<p><b>Muerte fetal según edad gestacional:</b> 33 % en menores de 24 semanas · 3,8 a 22 % entre 16 y 28 semanas · 0 a 2 % entre 30 y 36 semanas.</p>
+<div class="falta"><b>Verifica el protocolo local</b>El MINSAL publicó posteriormente una guía específica de prevención del parto prematuro que actualiza este capítulo,
+incluyendo la extensión del manejo expectante hasta las 37 semanas y el uso de progesterona vaginal en antecedente de parto prematuro. Si tu servicio la adoptó, esos criterios prevalecen.</div>`},
+
+{ id:"distocia", et:"Urgencia", t:"Distocia de hombros", html:`
+<p>Tras la salida de la cabeza, el <b>hombro anterior queda atascado en la sínfisis púbica</b>. Menos frecuentemente se atasca el hombro posterior en el promontorio del sacro. La cabeza queda retraída contra el perineo: el <b>signo de la tortuga</b>.</p>
+<div class="alerta"><b>Más de la mitad no se puede predecir</b>Más del 50 % de los casos ocurre en ausencia de cualquier factor de riesgo identificado.
+El equipo debe estar preparado <b>en todo parto vaginal</b>, no solo en los que impresionan de riesgo.</div>
+<h3>Incidencia según peso y diabetes materna</h3>
+<table><tr><th>Situación</th><th>Incidencia</th></tr>
+<tr><td>General</td><td class="n">0,2–2 %</td></tr>
+<tr><td>RN &lt; 3.500 g</td><td class="n">1 por 1.000</td></tr>
+<tr><td>RN &gt; 4.000 g</td><td class="n">16 por 1.000</td></tr>
+<tr><td>No diabética, RN &gt; 4.000 g</td><td class="n">4 %</td></tr>
+<tr><td>No diabética, RN &gt; 4.500 g</td><td class="n">10 %</td></tr>
+<tr><td><b>Diabética, RN &gt; 4.000 g</b></td><td class="n">16 %</td></tr>
+<tr><td><b>Diabética, RN &gt; 4.500 g</b></td><td class="n">hasta 42 %</td></tr></table>
+<h3>Factores de riesgo</h3>
+<p>Macrosomía fetal · <b>diabetes materna</b> · embarazo de postérmino · multiparidad · <b>obesidad</b> · aumento de peso excesivo (más de 20 kg sube la distocia de 1,4 % a 15 %) · distocia de hombros previa · trabajo de parto prolongado · parto vaginal quirúrgico.</p>
+<p>La <b>obesidad materna y el embarazo postérmino</b> son los factores más comunes. La presencia de factores de riesgo por sí sola no indica cesárea ni inducción, pero con antecedente de distocia previa se discute la vía de parto con la mujer considerando peso fetal estimado, edad gestacional, intolerancia a la glucosa y severidad de la lesión neonatal anterior.</p>
+<h3>Diagnóstico</h3>
+<ul class="li"><li>Cabeza retraída contra el perineo: <b>signo de la tortuga</b>.</li>
+<li>No ocurre la restitución espontánea.</li>
+<li>Imposibilidad de completar el parto con el esfuerzo del expulsivo y las maniobras habituales.</li></ul>
+<h3>Las 4 P que hay que evitar</h3>
+<div class="alerta"><b>Nunca</b><b>P</b>ull (tirar) · <b>P</b>ush (empujar) · <b>P</b>anic (pánico) · <b>P</b>ivot (bascular la cabeza).
+Y nunca Kristeller. La distocia de hombros <b>no es un problema de partes blandas maternas</b>: la episiotomía no la resuelve, aunque puede facilitar el acceso para las maniobras.</div>
+<h3>Secuencia de manejo</h3>
+<p>Tomar el tiempo: se dispone de <b>5 a 6 minutos</b> para resolver. Una vez diagnosticada, indicar a la mujer <b>que deje de pujar</b> hasta que se realicen las maniobras.</p>
+<table><tr><th>#</th><th>Acción</th><th>Detalle</th></tr>
+<tr><td class="n">1</td><td><b>Pedir ayuda</b></td><td>A la mujer, a su pareja, parientes y a la matrona o matrón. Notificar al equipo, especialmente a quienes están a cargo de la reanimación neonatal</td></tr>
+<tr><td class="n">2</td><td><b>McRoberts</b></td><td>Quitar almohadas, posición plana sobre la cama, bajar la cabecera e <b>hiperflexionar ambas piernas</b>. A menudo se resuelve solo con esta maniobra</td></tr>
+<tr><td class="n">3</td><td><b>Mazzanti</b></td><td>Desplazamiento suprapúbico por vía abdominal: presión lateral sobre el hombro anterior desde el dorso fetal hacia su cara anterior. El operador se para al lado que coincide con el dorso fetal. Primero presión constante; si no resulta, oscilante. <b>Nunca Kristeller</b></td></tr>
+<tr><td class="n">4</td><td><b>Rubin</b></td><td>Por vía vaginal: aducción del hombro anterior aplicando presión sobre su parte posterior</td></tr>
+<tr><td class="n">5</td><td><b>Woods</b></td><td>Rotación del hombro posterior: presión sobre su parte anterior. Al pasar la sínfisis, la extracción se facilita. En la práctica puede hacerse simultáneamente con la desimpactación</td></tr>
+<tr><td class="n">6</td><td><b>Extracción del brazo posterior</b></td><td>El brazo suele estar flexionado en el codo; si no, presión en la fosa antecubital ayuda a flexionarlo. Se toma la mano, se pasa sobre el pecho y se extrae. <b>Puede fracturar el húmero, pero sin daño neurológico permanente</b></td></tr>
+<tr><td class="n">7</td><td><b>Gaskin</b></td><td>Rotar a la mujer a posición de cuatro apoyos. Cambia la posición fetal y aumenta las dimensiones pélvicas</td></tr>
+<tr><td class="n">8</td><td>Últimos recursos</td><td>Fractura deliberada de clavícula · sinfisiotomía · maniobra de Zavanelli (revertir los movimientos cardinales del trabajo de parto)</td></tr></table>
+<div class="ok"><b>El dato que conviene memorizar</b>La combinación de <b>McRoberts + Mazzanti resuelve el 91 % de los casos</b>.
+Es decir: las dos primeras maniobras, ambas externas y sin entrar al canal, solucionan nueve de cada diez distocias.</div>
+<h3>Complicaciones</h3>
+<table><tr><th>Fetales y neonatales</th><th>Maternas</th></tr>
+<tr><td>Hipoxia o asfixia y sus secuelas · fractura de clavícula y húmero · parálisis del plexo braquial · muerte</td>
+<td>Hemorragia posparto por atonía uterina · laceraciones · rotura uterina · desgarros de tercer o cuarto grado</td></tr></table>
+<p>Un desgarro de tercer o cuarto grado o un trauma fetal pueden ocurrir <b>incluso con manejo adecuado</b>. A veces se elige fracturar la clavícula para extraer al recién nacido, lo que puede ser preferible a la asfixia y la muerte.</p>
+<div class="ok"><b>Sobre la parálisis del plexo braquial</b>Se ha atribuido a la tracción lateral aplicada por el operador, pero modelos matemáticos recientes sugieren que
+las fuerzas maternas y uterinas que comprimen la base del cuello fetal contra la sínfisis durante el expulsivo también contribuyen.
+De hecho, en el <b>51 % de los recién nacidos macrosómicos las lesiones del plexo braquial no están relacionadas con distocia de hombros</b>.</div>
+<h3>Después de la distocia</h3>
+<ul class="li"><li>Recordar el riesgo significativo de daño materno y <b>hemorragia posparto</b>.</li>
+<li>Manejo activo de la tercera etapa del parto. Reparar las laceraciones.</li>
+<li>Tomar gases del cordón fetal.</li>
+<li>Asegurar reanimación neonatal adecuada y examinar al recién nacido en busca de traumas.</li>
+<li><b>Reexaminar al recién nacido a las 24 horas.</b></li>
+<li><b>Documentar las maniobras realizadas</b>, en orden y con los tiempos.</li>
+<li>Explicar a la mujer lo ocurrido y los pasos del manejo, e informar el riesgo de recurrencia en el siguiente embarazo.</li></ul>
+<div class="falta"><b>Capítulo incompleto en la fuente online</b>La versión web de la Guía Perinatal publica de este capítulo solo la sección de distocia de hombros.
+El resto de urgencias obstétricas (prolapso de cordón, embolia de líquido amniótico, paro cardiorrespiratorio en la embarazada) está en la guía impresa.</div>`},
+
+{ id:"examenes", et:"Laboratorio", t:"Interpretación de exámenes", html:`
+<p>Valores y umbrales que aparecen en los capítulos de síndrome hipertensivo y diabetes de la Guía Perinatal. Reunidos aquí para consulta rápida frente a la ficha.</p>
+<h3>Sospecha o control de preeclampsia</h3>
+<table><tr><th>Examen</th><th>Umbral</th><th>Lectura</th></tr>
+<tr><td>Proteinuria 24 h</td><td class="n">&gt; 300 mg</td><td>Criterio diagnóstico junto a la hipertensión</td></tr>
+<tr><td>Proteinuria muestra aislada</td><td class="n">&gt; 1 g/L</td><td>Indica nefropatía previa o PE</td></tr>
+<tr><td>Uricemia</td><td class="n">&gt; 5 mg/dl</td><td>Característico de PE</td></tr>
+<tr><td>Hematocrito</td><td>Elevado</td><td>Certifica la hemoconcentración propia de la PE</td></tr>
+<tr><td>Plaquetas</td><td>Trombocitopenia</td><td>Daño endotelial; señala severidad</td></tr>
+<tr><td>Frotis</td><td>Esquistocitos, crenocitos</td><td>Hemólisis; señala severidad</td></tr>
+<tr><td>Enzimas hepáticas</td><td>Elevadas</td><td>Junto a hemólisis y plaquetas bajas hace el diagnóstico de <b>HELLP</b></td></tr>
+<tr><td>Clearance de creatinina</td><td>En descenso</td><td>Mejor parámetro de función renal: creatininemia y uremia pueden verse normales aun con función reducida</td></tr>
+<tr><td>Sulfato de magnesio</td><td class="n">6–8 mEq/L óptimo · &gt; 10 tóxico</td><td>Con vigilancia clínica de reflejo patelar, frecuencia respiratoria y diuresis no se requiere medir niveles</td></tr></table>
+<h3>Seguimiento en HTA crónica</h3>
+<p>Para pesquisar precozmente PE sobreagregada se solicita, en las semanas <b>13–16, 25–26, 31–32 y 36</b>: clearance de creatinina, proteinuria de 24 horas, uricemia y hematocrito. La proteinuria cualitativa se busca <b>en todos los controles a partir de las 20 semanas</b>.</p>
+<h3>Glicemia</h3>
+<table><tr><th>Examen</th><th>Valor</th><th>Lectura</th></tr>
+<tr><td>Glicemia ayunas, 1.er trimestre</td><td class="n">&gt; 126 mg/dl</td><td>DPG. Confirmar con segunda muestra en otro día</td></tr>
+<tr><td>Glicemia ayunas</td><td class="n">100–125 mg/dl</td><td>Repetir en máximo 7 días; si se confirma, DG o intolerancia</td></tr>
+<tr><td>Glicemia al azar + síntomas clásicos</td><td class="n">&gt; 200 mg/dl</td><td>Diabetes</td></tr>
+<tr><td>PTGO 2 h (carga 75 g)</td><td class="n">≥ 140 mg/dl</td><td>Diabetes gestacional</td></tr>
+<tr><td>PTGO 2 h</td><td class="n">&gt; 200 mg/dl</td><td>Diabetes (criterio de DPG en el 1.er trimestre)</td></tr>
+<tr><td>HbA1c preconcepcional</td><td class="n">&lt; 6,5 % ideal</td><td>Sobre 10 % se asocia a 50 % de malformaciones congénitas; bajo 7 % la tasa tiende a cero</td></tr>
+<tr><td>Glicemia en trabajo de parto</td><td class="n">evitar &gt; 180 mg/dl</td><td>Se asocia a hipoglicemia neonatal</td></tr></table>
+<h3>Percentiles fetales en RCIU</h3>
+<table><tr><th>Hallazgo</th><th>Lectura</th></tr>
+<tr><td>Peso fetal estimado &lt; p10</td><td>Feto pequeño: distinguir RCIU de PEG constitucional</td></tr>
+<tr><td>Peso fetal &lt; p3</td><td>RCIU, y además define <b>RCIU severo</b></td></tr>
+<tr><td>Circunferencia abdominal &lt; p2,5</td><td>RCIU aunque el resto de la biometría sea normal</td></tr>
+<tr><td>Ductus venoso IP &gt; p95</td><td>Criterio de severidad</td></tr>
+<tr><td>Perfil biofísico &lt; 6/10 con oligoamnios</td><td>Criterio de severidad</td></tr></table>
+<h3>Longitud cervical y prematurez</h3>
+<table><tr><th>Medición</th><th>Lectura</th></tr>
+<tr><td>Cérvix &lt; 25 mm entre 20–24 sem</td><td>Triplica el riesgo de parto prematuro &lt; 34 semanas. Indica progesterona profiláctica</td></tr>
+<tr><td>Cérvix &lt; 15 mm en APP</td><td>50 % de probabilidad de parto en 7 días</td></tr>
+<tr><td>Cérvix &gt; 30 mm en APP</td><td>Solo 1 % de riesgo en 7 días</td></tr>
+<tr><td>Fibronectina fetal</td><td>Positiva sobre <b>50 ng/mL</b>. Combinada con cérvix corto predice el 75 % de los partos prematuros verdaderos en población chilena</td></tr></table>
+<h3>Metrorragia y coagulación</h3>
+<table><tr><th>Parámetro</th><th>Objetivo o umbral</th></tr>
+<tr><td>Hematocrito al llegar al parto</td><td class="n">&gt; 28 %</td></tr>
+<tr><td>Diuresis en DPPNI severo</td><td class="n">&gt; 30 ml/h</td></tr>
+<tr><td>Plasma fresco congelado</td><td class="n">1 U por cada 4 U de GR</td></tr>
+<tr><td>Test del coágulo</td><td>Anormal si no coagula a los <b>6 minutos</b>; sobre 30 min sugiere fibrinógeno &lt; 100 mg/dl</td></tr>
+<tr><td>Crioprecipitado</td><td>Cada unidad sube el fibrinógeno ~5 mg/dl</td></tr></table>
+<h3>Líquido amniótico en RPM</h3>
+<table><tr><th>Parámetro</th><th>Umbral de infección</th></tr>
+<tr><td>Leucocitos</td><td class="n">&gt; 50</td></tr>
+<tr><td>Glucosa</td><td class="n">&lt; 14 mg/dl</td></tr>
+<tr><td>LDH</td><td class="n">&gt; 400 U/L</td></tr>
+<tr><td>pH vaginal normal en embarazo</td><td class="n">4–5,5</td></tr>
+<tr><td>pH del líquido amniótico</td><td class="n">7–7,5</td></tr></table>
+<h3>Función renal en diabetes</h3>
+<ul class="li"><li><b>Microalbuminuria:</b> 30 a 300 mg/día. Indica nefropatía incipiente.</li>
+<li><b>Macroalbuminuria:</b> mayor de 300 mg/día persistente en las primeras 20 semanas, en ausencia de infección urinaria, define nefropatía diabética.</li>
+<li><b>Rango nefrótico:</b> proteinuria mayor de 3 g/día.</li>
+<li>Método de elección: <b>razón albúmina/creatinina (RAC)</b> en muestra aislada de orina.</li>
+<li>Buen pronóstico: creatininemia &lt; 1,4 mg/dl, proteinuria &lt; 1 g/día y buena presión arterial. Elevado riesgo: creatininemia &gt; 1,4, proteinuria &gt; 1 g/día o en rango nefrótico, HTA severa o enfermedad cardiovascular preexistente.</li></ul>
+<div class="falta"><b>Cuadro no disponible</b>El normograma de valores de laboratorio en la embarazada (anexo 2 de la Guía Perinatal) está publicado solo como imagen y no pudo transcribirse.
+Es el cuadro que da los rangos normales por trimestre para hemograma, función renal, hepática y coagulación. Consúltalo en la guía impresa.</div>`},
+
+{ id:"derivacion", et:"Red", t:"Derivación y control prenatal", html:`
+<h3>Criterios de derivación a nivel secundario o terciario</h3>
+<table><tr><th>Diagnóstico</th><th>Nivel</th><th>Momento</th></tr>
+<tr><td>Aborto habitual (&gt; 2)</td><td>II</td><td>Antes de las 12 semanas</td></tr>
+<tr><td>Bajo peso previo, RN &lt; 2500 g</td><td>II</td><td>22–24 semanas</td></tr>
+<tr><td>Cicatriz uterina, una o más</td><td>II</td><td>36 semanas</td></tr>
+<tr><td>Muerte perinatal previa</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Anomalía congénita</td><td>II</td><td>Al diagnóstico</td></tr>
+<tr><td>Gestante &lt; 15 o &gt; 40 años, sin patología</td><td>II</td><td>18 semanas</td></tr>
+<tr><td>Gestante &lt; 15 o &gt; 40 años, con patología</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Anemia con Hto &lt; 28 %</td><td>III</td><td>Inmediato</td></tr>
+<tr><td>Anemia con Hto &gt; 28 %</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Enfermedades crónicas</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Diabetes</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Síndrome hipertensivo</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Colestasia intrahepática ictérica</td><td>II o III</td><td>Inmediato</td></tr>
+<tr><td>Colestasia intrahepática no ictérica</td><td>III</td><td>Inmediato</td></tr>
+<tr><td>Pielonefritis</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>RCIU</td><td>III</td><td>Inmediato</td></tr>
+<tr><td>Oligoamnios ecográfico</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Genitorragia severa</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Embarazo múltiple con patología (incluye monocorial)</td><td>III</td><td>Inmediato</td></tr>
+<tr><td>Embarazo múltiple sin patología</td><td>III</td><td>18 semanas</td></tr>
+<tr><td>Rh (−) sensibilizada</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Placenta previa sin metrorragia</td><td>II</td><td>36 semanas</td></tr>
+<tr><td>Placenta previa con metrorragia</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Presentación distócica</td><td>III</td><td>Inmediato</td></tr>
+<tr><td>RPM</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Embarazo &gt; 41 semanas</td><td>III</td><td>Inmediato</td></tr>
+<tr><td>Antecedente de prematurez</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>Enfermedad del trofoblasto</td><td>II</td><td>Inmediato</td></tr>
+<tr><td>ITS</td><td>II</td><td>Inmediato</td></tr></table>
+<h3>Asignación de riesgo</h3>
+<p>Los parámetros más relevantes son:</p>
+<ul class="li"><li><b>Enfermedades maternas preexistentes:</b> hipertensión arterial, diabetes mellitus, patología renal o cardíaca, abuso de sustancias.</li>
+<li><b>Mala historia obstétrica:</b> aborto a repetición, bajo peso de nacimiento previo o macrosomía, RCIU, parto prematuro, preeclampsia-eclampsia, muerte fetal o neonatal previa, anomalía congénita mayor, cirugía uterina previa.</li>
+<li><b>Complicaciones del embarazo actual:</b> gestación múltiple, edad materna de 15 años y menos o mayor de 40, isoinmunización Rh, sangrado vaginal, presión arterial igual o mayor a 90 mmHg al momento del control.</li>
+<li>Resultados de parámetros de laboratorio.</li></ul>
+<p>Las calificadas de alto riesgo se controlan en nivel secundario o terciario; las evaluadas como normales continúan en atención primaria.</p>
+<h3>Exámenes por edad gestacional</h3>
+<table><tr><th>Semanas</th><th>Exámenes</th></tr>
+<tr><td>Primer control</td><td>Hemograma o Hto-Hb · urocultivo y orina completa · grupo sanguíneo Rh y Coombs indirecto · VDRL-RPR · VIH · citología cervical · glicemia · ultrasonido por indicación · Chagas en zona endémica</td></tr>
+<tr><td class="n">10–15</td><td>Ultrasonido 11 a 14 semanas para riesgo de aneuploidía</td></tr>
+<tr><td class="n">20–24</td><td>Ultrasonido de anatomía y marcadores de aneuploidía · doppler de arteria uterina · evaluación del cérvix según disponibilidad · VDRL-RPR</td></tr>
+<tr><td class="n">26–28</td><td>Glicemia post prandial, tamizaje de diabetes · Coombs indirecto en Rh no sensibilizada · inmunoglobulina anti Rho según disponibilidad</td></tr>
+<tr><td class="n">32–34</td><td>VDRL o RPR</td></tr>
+<tr><td class="n">32–38</td><td>Ultrasonido · repetir hematocrito-hemoglobina</td></tr>
+<tr><td class="n">35–37</td><td>Cultivo perianal de Estreptococo Grupo B, salvo urocultivo positivo al mismo germen</td></tr></table>
+<h3>Síntomas por los que debe consultar de inmediato</h3>
+<p>En los controles de la segunda mitad se buscan dirigidamente: cefalea, fotopsia y tinitus (hipertensión) · disuria, poliaquiuria, pujo y tenesmo vesical (infección urinaria) · contracciones uterinas (amenaza de parto prematuro) · <b>prurito palmo-plantar de predominio nocturno</b> (colestasia intrahepática) · pérdida de líquido por genitales · dolor abdominal · signos de ITS.</p>`}
+];
+
+/* ---------- render ---------- */
+const cont=document.getElementById("contenido");
+function pintar(){
+  cont.innerHTML=BLOQUES.map(b=>
+    '<section class="bloq" id="b-'+b.id+'" data-id="'+b.id+'">'+
+      '<h2 role="button" tabindex="0"><span class="et">'+b.et+'</span>'+b.t+'<span class="fl"></span></h2>'+
+      '<div class="cuerpo">'+b.html+'</div>'+
+    '</section>').join("");
+  cont.querySelectorAll("section.bloq > h2").forEach(h=>{
+    const abrir=()=>h.parentElement.classList.toggle("abierta");
+    h.onclick=abrir;
+    h.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); abrir(); } };
+  });
+}
+pintar();
+
+document.querySelectorAll("#atajos button").forEach(b=>{
+  b.onclick=()=>{
+    const s=document.getElementById("b-"+b.dataset.ir);
+    if(!s) return;
+    s.classList.add("abierta");
+    s.scrollIntoView({behavior:"smooth",block:"start"});
+  };
+});
+
+const q=document.getElementById("q");
+const wrap=document.getElementById("wrap-buscar");
+const sin=document.getElementById("sin");
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+
+function buscar(){
+  const t=q.value.trim();
+  wrap.classList.toggle("lleno", t.length>0);
+  if(!t){ pintar(); sin.hidden=true; document.getElementById("atajos").hidden=false; return; }
+  document.getElementById("atajos").hidden=true;
+  const n=norm(t);
+  let vistos=0;
+  pintar();
+  cont.querySelectorAll("section.bloq").forEach(s=>{
+    if(norm(s.textContent).includes(n)){ s.classList.add("abierta"); resaltar(s.querySelector(".cuerpo"),t); vistos++; }
+    else s.remove();
+  });
+  sin.hidden = vistos>0;
+}
+function resaltar(raiz,t){
+  const n=norm(t);
+  const it=document.createTreeWalker(raiz,NodeFilter.SHOW_TEXT);
+  const nodos=[]; let x;
+  while(x=it.nextNode()) if(norm(x.nodeValue).includes(n)) nodos.push(x);
+  nodos.forEach(nodo=>{
+    const v=nodo.nodeValue, i=norm(v).indexOf(n);
+    if(i<0) return;
+    const frag=document.createDocumentFragment();
+    frag.appendChild(document.createTextNode(v.slice(0,i)));
+    const m=document.createElement("mark"); m.textContent=v.slice(i,i+t.length);
+    frag.appendChild(m);
+    frag.appendChild(document.createTextNode(v.slice(i+t.length)));
+    nodo.parentNode.replaceChild(frag,nodo);
+  });
+}
+let temp;
+q.oninput=()=>{ clearTimeout(temp); temp=setTimeout(buscar,180); };
+document.getElementById("limpiar").onclick=()=>{ q.value=""; q.focus(); buscar(); };
+</script>
+</body>
+</html>
