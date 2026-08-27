@@ -4,28 +4,45 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ARO">
-<title>Guía de bolsillo · Alto Riesgo Obstétrico</title>
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Guía clínica">
+<title>Guía de bolsillo · Práctica Intermedia</title>
 <style>
 :root{
-  --papel:#F5F4F7; --hoja:#FFFFFF;
-  --tinta:#3A2A5C; --tinta-2:#6B5B8A; --tinta-3:#9B8FB0;
-  --rojo:#B03050; --rojo-suave:#FBEFF3;
-  --visto:#2C6E63; --verde-suave:#EDF4F3;
-  --ambar:#8A6410; --ambar-suave:#FBF4E4;
-  --rejilla:#DDD8E4; --rejilla-2:#EDEAF1;
+  --papel:#F5F5F3; --hoja:#FFFFFF;
+  --rejilla:#DEDCD6; --rejilla-2:#EDECE8;
+  --texto-ink:#1B2A2C;
   --label:"Avenir Next Condensed","Helvetica Neue Condensed","Arial Narrow",sans-serif;
   --texto:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
   --dato:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+
+  /* la sección activa sobreescribe estas */
+  --tinta:#0F5C63; --tinta-2:#54718F; --tinta-3:#8CA0B4;
+  --acento:#8C2F39; --acento-cl:#FBF3F4;
+  --sand:#F0F4F4;
+  --verde:#1B6B52; --verde-cl:#EDF5F2;
+}
+body[data-sec="pue"]{
+  --tinta:#16325C; --tinta-2:#54718F; --tinta-3:#8CA0B4;
+  --acento:#C3252B; --acento-cl:#FBEDED; --sand:#F0F4F4;
+}
+body[data-sec="aro"]{
+  --tinta:#3A2A5C; --tinta-2:#6B5B8A; --tinta-3:#9B8FB0;
+  --acento:#B03050; --acento-cl:#FBEFF3; --sand:#F1EFF5;
+}
+body[data-sec="med"]{
+  --tinta:#5C3A0A; --tinta-2:#8A6B3A; --tinta-3:#B09A76;
+  --acento:#A0392A; --acento-cl:#FBEEEB; --sand:#FBF5EA;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0}
+html,body{margin:0;overflow-x:hidden}
 body{
   background:var(--papel);
   background-image:linear-gradient(var(--rejilla-2) 1px,transparent 1px);
   background-size:100% 28px;
   color:var(--tinta);font:16px/1.5 var(--texto);
   -webkit-text-size-adjust:100%;padding-bottom:40px;
+  transition:color .2s;
 }
 .lbl{font-family:var(--label);text-transform:uppercase;letter-spacing:.11em;font-weight:600}
 .num{font-family:var(--dato);font-variant-numeric:tabular-nums}
@@ -33,34 +50,35 @@ body{
 header{
   position:sticky;top:0;z-index:40;background:var(--hoja);
   border-bottom:2px solid var(--tinta);
-  padding:calc(env(safe-area-inset-top) + 11px) 16px 11px;
+  padding:calc(env(safe-area-inset-top) + 10px) 16px 0;
+  transition:border-color .2s;
 }
-header h1{font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:15px;font-weight:700;margin:0}
-header .sub{font-size:11px;color:var(--tinta-3);letter-spacing:.05em;margin-top:2px}
-.buscar{margin-top:10px;position:relative}
+.head-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+header h1{font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:14px;font-weight:700;margin:0}
+header .sub{font-size:10.5px;color:var(--tinta-3);letter-spacing:.05em}
+
+nav.secs{display:flex;gap:0;margin:10px -16px 0;padding:0 16px;overflow-x:auto;scrollbar-width:none}
+nav.secs::-webkit-scrollbar{display:none}
+nav.secs button{
+  flex:0 0 auto;background:none;border:none;padding:11px 0;margin-right:20px;cursor:pointer;
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:12px;
+  color:var(--tinta-3);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;
+}
+nav.secs button[aria-selected="true"]{color:var(--tinta);border-bottom-color:var(--acento)}
+
+.buscar{position:relative;padding:0 0 11px}
 .buscar input{
-  width:100%;border:1px solid var(--rejilla);background:#FCFBFD;padding:11px 12px 11px 34px;
+  width:100%;border:1px solid var(--rejilla);background:#FCFCFB;padding:10px 12px 10px 34px;
   font:15px var(--texto);color:var(--tinta);
 }
 .buscar input:focus{outline:none;border-color:var(--tinta)}
-.buscar svg{position:absolute;left:11px;top:12px;width:15px;height:15px;stroke:var(--tinta-3);fill:none;stroke-width:2}
-.buscar .x{position:absolute;right:6px;top:6px;background:none;border:none;font-size:22px;color:var(--tinta-3);cursor:pointer;padding:0 8px;display:none}
+.buscar svg{position:absolute;left:11px;top:11px;width:15px;height:15px;stroke:var(--tinta-3);fill:none;stroke-width:2}
+.buscar .x{position:absolute;right:4px;top:4px;background:none;border:none;font-size:21px;color:var(--tinta-3);cursor:pointer;padding:0 8px;display:none}
 .buscar.lleno .x{display:block}
 
-main{max-width:900px;margin:0 auto;padding:16px}
-.cta-index{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
-.cta-index button{
-  font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;
-  background:var(--hoja);border:1px solid var(--rejilla);color:var(--tinta-2);padding:7px 11px;cursor:pointer;
-}
-.cta-index button:hover{border-color:var(--tinta);color:var(--tinta)}
+main{max-width:880px;margin:0 auto;padding:16px;overflow-x:hidden}
 
-.avisogen{
-  background:var(--ambar-suave);border-left:3px solid var(--ambar);
-  padding:11px 13px;margin:0 0 18px;font-size:13px;color:#6B4E0C;line-height:1.5;
-}
-.avisogen > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
-
+/* ---------- bloques de contenido ---------- */
 section.bloq{margin-bottom:12px;background:var(--hoja);border:1px solid var(--rejilla)}
 section.bloq > h2{
   margin:0;padding:13px 15px;cursor:pointer;display:flex;align-items:center;gap:11px;
@@ -70,10 +88,14 @@ section.bloq > h2 .et{
   font:9px var(--dato);letter-spacing:.04em;border:1px solid var(--rejilla);
   padding:2px 6px;color:var(--tinta-3);text-transform:none;flex:0 0 auto;
 }
+section.bloq > h2 .un{
+  font:8.5px var(--label);letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;
+  color:#fff;flex:0 0 auto;
+}
 section.bloq > h2 .fl{margin-left:auto;color:var(--tinta-3);font-size:18px;transition:transform .2s}
 section.bloq.abierta > h2 .fl{transform:rotate(90deg)}
-section.bloq > h2 .fl::before{content:"›"}
-.cuerpo{display:none;padding:0 15px 16px;border-top:1px dashed var(--rejilla)}
+section.bloq > h2 .fl::before{content:"\203A"}
+.cuerpo{display:none;padding:0 15px 16px;border-top:1px dashed var(--rejilla);overflow-x:hidden}
 section.bloq.abierta .cuerpo{display:block}
 
 .cuerpo h3{
@@ -81,80 +103,830 @@ section.bloq.abierta .cuerpo{display:block}
   color:var(--tinta-3);margin:17px 0 7px;font-weight:600;
 }
 .cuerpo h3:first-child{margin-top:14px}
+.cuerpo h4{font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--tinta-3);margin:14px 0 6px}
 .cuerpo p{margin:0 0 9px;font-size:14.5px}
 ul.li{list-style:none;margin:0 0 10px;padding:0}
 ul.li li{position:relative;padding-left:15px;font-size:14.5px;margin-bottom:6px}
 ul.li li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--tinta-3)}
 table{width:100%;border-collapse:collapse;margin:0 0 12px;font-size:13.5px;table-layout:fixed}
-.cuerpo{overflow-x:hidden}
-td,th{word-break:break-word;overflow-wrap:anywhere;hyphens:auto}
-th,td{border:1px solid var(--rejilla);padding:7px 9px;text-align:left;vertical-align:top}
-th{background:#F8F6FA;font-family:var(--label);text-transform:uppercase;letter-spacing:.06em;font-size:10.5px;color:var(--tinta-2);font-weight:600}
+th,td{border:1px solid var(--rejilla);padding:7px 9px;text-align:left;vertical-align:top;
+  word-break:break-word;overflow-wrap:anywhere;hyphens:auto}
+th{background:#F8F8F6;font-family:var(--label);text-transform:uppercase;letter-spacing:.06em;
+  font-size:10.5px;color:var(--tinta-2);font-weight:600}
 td .n{font-family:var(--dato);font-weight:600}
-.alerta{background:var(--rojo-suave);border-left:3px solid var(--rojo);padding:10px 12px;margin:0 0 12px;font-size:14px;color:#7D2038}
+
+.alerta{background:var(--acento-cl);border-left:3px solid var(--acento);padding:10px 12px;margin:0 0 12px;font-size:14px;color:var(--acento)}
 .alerta > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:3px}
-.ok{background:var(--verde-suave);border-left:3px solid var(--visto);padding:10px 12px;margin:0 0 12px;font-size:14px;color:#1E5049}
+.ok{background:var(--verde-cl);border-left:3px solid var(--verde);padding:10px 12px;margin:0 0 12px;font-size:14px;color:#14503E}
 .ok > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:3px}
-.falta{background:var(--ambar-suave);border-left:3px solid var(--ambar);padding:10px 12px;margin:0 0 12px;font-size:13.5px;color:#6B4E0C}
+.falta{background:#FBF4E4;border-left:3px solid #8A6410;padding:10px 12px;margin:0 0 12px;font-size:13.5px;color:#6B4E0C}
 .falta > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:3px}
 .cifra{display:flex;gap:1px;background:var(--rejilla);border:1px solid var(--rejilla);margin:0 0 12px;flex-wrap:wrap}
-.cifra div{background:var(--hoja);padding:11px 13px;flex:1 1 120px}
+.cifra div{background:var(--hoja);padding:11px 13px;flex:1 1 115px}
 .cifra div .k{font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:9.5px;color:var(--tinta-3)}
 .cifra div .v{font:19px var(--dato);font-weight:600;margin-top:3px;line-height:1.15}
 .cifra div .v small{font-size:12px;color:var(--tinta-3);font-weight:400}
 mark{background:#FFF0A8;color:inherit;padding:0 1px}
 .nada{border:1px dashed var(--rejilla);background:var(--hoja);padding:24px;text-align:center;color:var(--tinta-2);font-size:14px}
-footer{max-width:900px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:var(--tinta-3);line-height:1.6}
+
+.cta-index{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.cta-index button{
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;
+  background:var(--hoja);border:1px solid var(--rejilla);color:var(--tinta-2);padding:7px 11px;cursor:pointer;
+}
+.cta-index button:hover{border-color:var(--tinta);color:var(--tinta)}
+
+.avisogen{
+  background:#FBF4E4;border-left:3px solid #8A6410;
+  padding:11px 13px;margin:0 0 18px;font-size:13px;color:#6B4E0C;line-height:1.5;
+}
+.avisogen b{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
+
+/* ---------- calculadoras ---------- */
+.card{background:var(--hoja);border:1px solid var(--rejilla);margin-bottom:14px}
+.card > h2{
+  margin:0;padding:13px 15px;display:flex;align-items:center;gap:10px;
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:13px;font-weight:700;
+  border-bottom:1px dashed var(--rejilla);
+}
+.card > h2 .n{
+  flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--tinta);color:#fff;
+  display:grid;place-items:center;font:12px var(--dato);font-weight:700;
+}
+.card .cuerpo-c{padding:14px 15px}
+.campo{margin-bottom:11px}
+.campo label{display:block;font-size:12px;color:var(--tinta-2);margin-bottom:4px;font-weight:600}
+.campo .fila{display:flex;gap:8px;align-items:center}
+.campo input, .campo select{
+  flex:1;min-width:0;max-width:100%;border:1px solid var(--rejilla);background:#FDFDFC;
+  padding:11px 12px;font:16px var(--dato);color:var(--tinta);border-radius:0;
+}
+.campo input:focus, .campo select:focus{outline:none;border-color:var(--tinta)}
+.campo .u{flex:0 0 auto;font:13px var(--dato);color:var(--tinta-3);min-width:44px}
+.dosfila{display:flex;gap:10px}
+.dosfila .campo{flex:1;min-width:0}
+.res{margin-top:12px;border-top:1px solid var(--rejilla);padding-top:12px}
+.res .paso{font-size:13.5px;color:var(--tinta-2);margin-bottom:5px;line-height:1.45;overflow-wrap:anywhere}
+.res .paso .op{font-family:var(--dato);color:var(--tinta);overflow-wrap:anywhere}
+.res .final{margin-top:10px;background:var(--verde-cl);border-left:3px solid var(--verde);padding:11px 13px}
+.res .final .k{font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:10px;color:var(--verde)}
+.res .final .v{font:24px var(--dato);font-weight:700;color:var(--verde);margin-top:3px;line-height:1.1;overflow-wrap:anywhere}
+.res .final .n2{font-size:12.5px;color:#14503E;margin-top:5px}
+.res.err .final{background:var(--acento-cl);border-left-color:var(--acento)}
+.res.err .final .k,.res.err .final .v{color:var(--acento)}
+.res.err .final .n2{color:var(--acento)}
+
+/* ---------- lista de fármacos ---------- */
+.farm-b{border:1px solid var(--rejilla);border-top:none;background:var(--hoja)}
+.lista-farm .farm-b:first-child{border-top:1px solid var(--rejilla)}
+.farm{display:flex;align-items:center;gap:12px;padding:11px 13px;cursor:pointer}
+.farm:hover{background:#FDFDFB}
+.farm .info{flex:1;min-width:0}
+.farm .nom{font-size:15px;font-weight:600;overflow-wrap:anywhere}
+.farm .pres{font:12px var(--dato);color:var(--tinta-2);margin-top:2px;overflow-wrap:anywhere}
+.farm .conc{flex:0 0 auto;font:14px var(--dato);font-weight:700;color:var(--tinta);text-align:right}
+.farm .fl{flex:0 0 auto;color:var(--tinta-3);font-size:19px;transition:transform .2s}
+.farm-b.abierto .farm .fl{transform:rotate(90deg)}
+.detalle{display:none;padding:2px 13px 14px;border-top:1px dashed var(--rejilla)}
+.farm-b.abierto .detalle{display:block}
+.d-fila{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--rejilla-2);align-items:flex-start}
+.d-fila:last-of-type{border-bottom:none}
+.d-k{flex:0 0 86px;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;
+  font-size:10px;color:var(--tinta-3);padding-top:3px}
+.d-v{flex:1;min-width:0;font-size:13.5px;line-height:1.45;overflow-wrap:anywhere}
+.dil-ok{font-weight:600;color:var(--verde)}
+.dil-f{display:block;font-size:11px;color:var(--tinta-3);font-style:italic;margin-top:1px}
+.dil-no{color:var(--acento);font-weight:600}
+.d-in{flex:1;min-width:0;border:1px solid var(--rejilla);background:#FDFDFC;padding:8px 10px;
+  font:13px var(--texto);color:var(--tinta)}
+.d-in:focus{outline:none;border-color:var(--tinta)}
+.usar{
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;
+  background:var(--tinta);color:#fff;border:none;padding:9px 14px;cursor:pointer;margin-top:11px;
+}
+.sub-tabs{display:flex;gap:0;margin:0 0 16px;border-bottom:1px solid var(--rejilla)}
+.sub-tabs button{
+  background:none;border:none;padding:9px 0;margin-right:20px;cursor:pointer;
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:11.5px;
+  color:var(--tinta-3);border-bottom:2px solid transparent;margin-bottom:-1px;
+}
+.sub-tabs button[aria-selected="true"]{color:var(--tinta);border-bottom-color:var(--acento)}
+
+h3.sec-r{font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:11px;
+  color:var(--tinta-3);margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--rejilla)}
+#m-ref ul.li li{font-size:14.5px}
+#m-ref p{font-size:14.5px}
+.oculto{display:none!important}
+footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:var(--tinta-3);line-height:1.6}
 </style>
 </head>
-<body>
+<body data-sec="pue">
 
 <header>
-  <h1>Guía de bolsillo · ARO</h1>
-  <div class="sub">Alto Riesgo Obstétrico · UNACH</div>
+  <div class="head-row">
+    <h1>Guía de bolsillo</h1>
+    <span class="sub">Práctica Intermedia · UNACH</span>
+  </div>
+  <nav class="secs" role="tablist">
+    <button role="tab" aria-selected="true"  data-s="pue">Puerperio y RN</button>
+    <button role="tab" aria-selected="false" data-s="aro">Alto Riesgo</button>
+    <button role="tab" aria-selected="false" data-s="med">Medicamentos</button>
+  </nav>
   <div class="buscar" id="wrap-buscar">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
-    <input id="q" type="search" placeholder="Buscar: preeclampsia, PTGO, sulfato, labetalol…" aria-label="Buscar en la guía" autocomplete="off">
-    <button class="x" id="limpiar" aria-label="Limpiar búsqueda">×</button>
+    <input id="q" type="search" placeholder="Buscar en todas las secciones…" aria-label="Buscar" autocomplete="off">
+    <button class="x" id="limpiar" aria-label="Limpiar búsqueda">&times;</button>
   </div>
 </header>
 
 <main>
-  <div class="avisogen">
-    <b>Alcance</b>
-    Cubre las patologías que se hospitalizan en ARO: síndrome hipertensivo, RCIU, metrorragias, colestasia, diabetes,
-    parto prematuro, RPM y distocia de hombros, más control prenatal y derivación. Todo verificado contra la Guía Perinatal 2015.
-    Incluye los criterios de severidad de la preeclampsia y el nomograma de laboratorio en la embarazada.
-  </div>
-
-  <div class="cta-index" id="atajos">
-    <button data-ir="she-clasif">SHE</button>
-    <button data-ir="pe-manejo">Manejo PE</button>
-    <button data-ir="crisis">Crisis · Eclampsia</button>
-    <button data-ir="dm-dx">Diabetes</button>
-    <button data-ir="rciu">RCIU</button>
-    <button data-ir="colestasia">Colestasia</button>
-    <button data-ir="metrorragia">Metrorragia</button>
-    <button data-ir="parto-prematuro">Prematurez</button>
-    <button data-ir="rpm">RPM</button>
-    <button data-ir="distocia">Distocia</button>
-    <button data-ir="examenes">Exámenes</button>
-    <button data-ir="derivacion">Derivación</button>
-  </div>
+  <div id="atajos-wrap"></div>
   <div id="contenido"></div>
   <div id="sin" class="nada" hidden>Sin resultados. Prueba con otra palabra.</div>
+
+  <!-- ===== SECCIÓN MEDICAMENTOS ===== -->
+  <section id="sec-med" class="oculto">
+    <div class="sub-tabs" role="tablist">
+      <button role="tab" aria-selected="true"  data-m="calc">Calcular</button>
+      <button role="tab" aria-selected="false" data-m="farm">Fármacos</button>
+      <button role="tab" aria-selected="false" data-m="ref">Referencia</button>
+    </div>
+
+    <div class="alerta">
+      <b>Antes de usar esto</b>
+      Verifica la ampolla que tienes en la mano: las presentaciones cambian entre laboratorios y entre servicios.
+      Esta herramienta sirve para comprobar un cálculo que ya hiciste, no para reemplazarlo.
+      Si no entiendes de dónde sale el resultado, no lo administres.
+    </div>
+
+    <div id="m-calc">
+<div class="card">
+      <h2><span class="n">1</span>Volumen a cargar</h2>
+      <div class="cuerpo-c">
+        <div class="dosfila">
+          <div class="campo">
+            <label>Cantidad total de la ampolla</label>
+            <div class="fila"><input id="c1-tot" type="number" inputmode="decimal" placeholder="100"><span class="u" id="c1-u1">mg</span></div>
+          </div>
+          <div class="campo">
+            <label>Volumen total</label>
+            <div class="fila"><input id="c1-vol" type="number" inputmode="decimal" placeholder="20"><span class="u">ml</span></div>
+          </div>
+        </div>
+        <div class="campo">
+          <label>Unidad del fármaco</label>
+          <select id="c1-unidad">
+            <option value="mg">miligramos (mg)</option>
+            <option value="g">gramos (g)</option>
+            <option value="mcg">microgramos (mcg)</option>
+            <option value="UI">unidades (UI)</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Dosis indicada</label>
+          <div class="fila"><input id="c1-dosis" type="number" inputmode="decimal" placeholder="20"><span class="u" id="c1-u2">mg</span></div>
+        </div>
+        <div class="res" id="c1-res"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">2</span>Velocidad de infusión</h2>
+      <div class="cuerpo-c">
+        <div class="dosfila">
+          <div class="campo">
+            <label>Fármaco en la mezcla</label>
+            <div class="fila"><input id="c2-tot" type="number" inputmode="decimal" placeholder="20"><span class="u" id="c2-u1">g</span></div>
+          </div>
+          <div class="campo">
+            <label>Volumen de la mezcla</label>
+            <div class="fila"><input id="c2-vol" type="number" inputmode="decimal" placeholder="500"><span class="u">ml</span></div>
+          </div>
+        </div>
+        <div class="campo">
+          <label>Unidad del fármaco</label>
+          <select id="c2-unidad">
+            <option value="g">gramos (g)</option>
+            <option value="mg">miligramos (mg)</option>
+            <option value="mcg">microgramos (mcg)</option>
+            <option value="UI">unidades (UI)</option>
+          </select>
+        </div>
+        <div class="dosfila">
+          <div class="campo">
+            <label>Dosis indicada</label>
+            <div class="fila"><input id="c2-dosis" type="number" inputmode="decimal" placeholder="2"><span class="u" id="c2-u2">g</span></div>
+          </div>
+          <div class="campo">
+            <label>Por</label>
+            <select id="c2-tiempo">
+              <option value="60">hora</option>
+              <option value="1">minuto</option>
+            </select>
+          </div>
+        </div>
+        <div class="res" id="c2-res"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">3</span>Goteo por gravedad</h2>
+      <div class="cuerpo-c">
+        <div class="dosfila">
+          <div class="campo">
+            <label>Velocidad</label>
+            <div class="fila"><input id="c3-mlh" type="number" inputmode="decimal" placeholder="50"><span class="u">ml/h</span></div>
+          </div>
+          <div class="campo">
+            <label>Equipo</label>
+            <select id="c3-eq">
+              <option value="20">Macrogotero · 20 gotas/ml</option>
+              <option value="60">Microgotero · 60 µgotas/ml</option>
+            </select>
+          </div>
+        </div>
+        <div class="res" id="c3-res"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">4</span>Concentración de un porcentaje</h2>
+      <div class="cuerpo-c">
+        <div class="campo">
+          <label>Solución al</label>
+          <div class="fila"><input id="c4-pct" type="number" inputmode="decimal" placeholder="2"><span class="u">%</span></div>
+        </div>
+        <div class="campo">
+          <label>Volumen (opcional, para saber cuánto fármaco hay)</label>
+          <div class="fila"><input id="c4-vol" type="number" inputmode="decimal" placeholder="5"><span class="u">ml</span></div>
+        </div>
+        <div class="res" id="c4-res"></div>
+      </div>
+    </div>
+    </div>
+    <div id="m-farm" class="oculto">
+      <div class="falta">
+        <b>Presentaciones y diluyentes</b>
+        Toca un fármaco para ver su diluyente y notas. Solo aparecen en verde los diluyentes que constan en la Guía Perinatal;
+        el resto los define el protocolo de tu servicio y puedes anotarlos tú en el campo «En mi servicio».
+        El diluyente no es un detalle: algunos fármacos pierden estabilidad o precipitan en el suero equivocado.
+      </div>
+      <div class="lista-farm" id="lista-farm"></div>
+    </div>
+    <div id="m-ref" class="oculto">
+<h3 class="sec-r">Equivalencias</h3>
+    <table>
+      <tr><th>Conversión</th><th>Equivalencia</th></tr>
+      <tr><td>Gramos a miligramos</td><td class="n">1 g = 1.000 mg</td></tr>
+      <tr><td>Miligramos a microgramos</td><td class="n">1 mg = 1.000 mcg</td></tr>
+      <tr><td>Porcentaje</td><td class="n">1 % = 10 mg/ml</td></tr>
+      <tr><td>Macrogotero</td><td class="n">20 gotas = 1 ml<br>gotas/min = ml/h ÷ 3</td></tr>
+      <tr><td>Microgotero</td><td class="n">60 µgotas = 1 ml<br>µgotas/min = ml/h</td></tr>
+    </table>
+
+    <h3 class="sec-r">Las tres fórmulas</h3>
+    <table>
+      <tr><th>Qué buscas</th><th>Fórmula</th></tr>
+      <tr><td>Concentración por ml</td><td class="n">cantidad total ÷ volumen total</td></tr>
+      <tr><td>Volumen a cargar</td><td class="n">dosis indicada ÷ concentración por ml</td></tr>
+      <tr><td>Velocidad de infusión</td><td class="n">dosis por hora ÷ concentración de la mezcla</td></tr>
+    </table>
+
+    <h3 class="sec-r">Antes de administrar</h3>
+    <ul class="li">
+      <li><b>Usuaria correcta:</b> identificación activa, contrastada con brazalete y ficha.</li>
+      <li><b>Medicamento correcto:</b> leído en la ampolla, no en la caja ni de memoria.</li>
+      <li><b>Dosis correcta:</b> cálculo verificado. Con doble chequeo si es de alto riesgo.</li>
+      <li><b>Vía correcta.</b></li>
+      <li><b>Hora correcta</b> y registro después de administrar, nunca antes.</li>
+      <li><b>Motivo correcto:</b> si no sabes para qué se da, pregunta antes.</li>
+      <li><b>Aspecto y caducidad:</b> sin partículas, sin cambio de color, envase íntegro.</li>
+    </ul>
+
+    <h3 class="sec-r">Medicamentos de alto riesgo</h3>
+    <div class="alerta">
+      <b>Requieren doble verificación</b>
+      Sulfato de magnesio · oxitocina · insulina · heparinas de bajo peso molecular · anestésicos locales · electrolitos concentrados.
+      Doble chequeo significa que dos personas verifican por separado el cálculo, la ampolla y la programación de la bomba.
+    </div>
+
+    <h3 class="sec-r">Sulfato de magnesio</h3>
+    <div class="alerta">
+      <b>Antes de cada dosis de mantención</b>
+      Reflejo patelar presente · frecuencia respiratoria mayor a 12 por minuto · diuresis mayor a 100 ml en 4 horas.
+      Si falla uno solo de los tres, no se administra y se avisa.
+      <br><br>Ante toxicidad: gluconato de calcio al 10 %, 10 ml en 3 minutos.
+    </div>
+
+    <h3 class="sec-r">Rotulación</h3>
+    <p style="font-size:14.5px;margin:0 0 10px">Toda preparación lleva rótulo. Una preparación sin rótulo se descarta, sin excepción.</p>
+    <ul class="li">
+      <li>Nombre del fármaco.</li>
+      <li>Cantidad total y volumen total de la mezcla.</li>
+      <li>Concentración resultante.</li>
+      <li>Velocidad indicada.</li>
+      <li>Fecha, hora e iniciales de quien preparó.</li>
+    </ul>
+
+    <h3 class="sec-r">Si te equivocaste</h3>
+    <div class="ok">
+      <b>Informar siempre</b>
+      Avisa de inmediato al profesional a cargo, vigila a la usuaria, registra objetivamente lo ocurrido y notifica como evento adverso.
+      No modifiques registros previos. Informar a tiempo permite intervenir; ocultar convierte un error en daño.
+    </div>
+    </div>
+  </section>
 </main>
 
 <footer>
-  Contenido basado en la Guía Clínica Perinatal, MINSAL 2015 (Resolución Exenta N.º 271 / 04.06.2015), capítulos III, VIII, IX, XI, XII, XIII, XXI, XXII y XXXII,
-  y en la versión online espejo del CEDIP. La propia guía declara una vigencia de cinco años desde su publicación: verifica con la
-  jefatura del servicio si existe protocolo local más reciente. Material de estudio: no reemplaza la indicación del profesional a cargo.
+  Contenido basado en la Norma General Técnica para la Atención Integral en el Puerperio (MINSAL, 2015), la Norma General Técnica N.º 0194
+  de Atención del Recién Nacido (MINSAL, 2017) y la Guía Clínica Perinatal (MINSAL, 2015). Material de estudio: no reemplaza la indicación
+  del profesional a cargo ni el protocolo local del establecimiento. Ante duda clínica, consulta a la matrona responsable.
 </footer>
 
 <script>
 "use strict";
 
-const BLOQUES = [
+/* ================= CONTENIDO ================= */
+const BLOQUES_PUE = [
+{ id:"etapas", et:"Puérpera", t:"Etapas del puerperio", html:`
+<p>Período que se extiende desde el alumbramiento hasta los <b>42 días</b> posparto.</p>
+<table><tr><th>Etapa</th><th>Duración</th><th>Fenómeno predominante</th></tr>
+<tr><td>Inmediato</td><td class="n">Primeras 24 h</td><td>Hemostasia uterina</td></tr>
+<tr><td>Mediato</td><td class="n">2.º al 7.º día</td><td>Mecanismos involutivos</td></tr>
+<tr><td>Tardío</td><td class="n">7.º a 42.º día</td><td>Recuperación completa</td></tr></table>
+<h3>Fisiológico o patológico</h3>
+<ul class="li"><li><b>Fisiológico:</b> sin factores de riesgo, evolución normal, sin patología ni complicaciones.</li>
+<li><b>Patológico:</b> la evolución se aleja de los parámetros normales; hay patología aguda o crónica.</li></ul>
+<h3>Hemostasia uterina</h3>
+<ul class="li"><li><b>Retractilidad:</b> permanente y pasiva. Acortamiento definitivo de la fibra muscular.</li>
+<li><b>Contractilidad:</b> intermitente y activa. Acortamiento temporario de la fibra.</li></ul>
+<p>Clínica: útero retraído = duro, firme, palpable en hipogastrio. Útero blando = falla la hemostasia.</p>`},
+
+{ id:"loquios", et:"Puérpera", t:"Involución uterina y loquios", html:`
+<div class="cifra">
+<div><div class="k">Peso uterino</div><div class="v">1.500 → 60–80 <small>g</small></div></div>
+<div><div class="k">Fondo uterino a las 12 h</div><div class="v">≈1 cm <small>sobre ombligo</small></div></div>
+<div><div class="k">Endometrio nuevo</div><div class="v">2–3 <small>semanas</small></div></div>
+<div><div class="k">Cuello a la semana</div><div class="v">1 <small>cm</small></div></div>
+</div>
+<h3>Secuencia de los loquios</h3>
+<table><tr><th>Tipo</th><th>Color</th><th>Momento</th></tr>
+<tr><td>Hemáticos</td><td>Rojos</td><td class="n">Primeros 2–3 días</td></tr>
+<tr><td>Serosos</td><td>Parduzcos</td><td>Días siguientes</td></tr>
+<tr><td>Blancos</td><td>Amarillo blanquecino</td><td class="n">6.º a 7.º día</td></tr></table>
+<div class="alerta"><b>Olor</b>El olor normal es el de la menstruación. Loquios de mal olor son signo de alarma, nunca variante normal.
+Un retroceso a loquios francamente rojos y abundantes obliga a descartar subinvolución o retención de restos.</div>
+<h3>Otros datos</h3>
+<ul class="li"><li>Pérdida sanguínea: <b>≈500 ml</b> en parto vaginal, <b>700–1.000 ml</b> en cesárea.</li>
+<li>Diuresis espontánea: al menos <b>180 cc</b> en las primeras 6 horas.</li>
+<li>Primera menstruación entre las 6 y 12 semanas. Se puede ovular sin sangrado previo: la anticoncepción se indica igual.</li>
+<li>Entuertos: contracciones rítmicas espontáneas, clínicamente más evidentes en multíparas.</li></ul>`},
+
+{ id:"valoracion", et:"Puérpera", t:"Valoración de la puérpera", html:`
+<h3>Antes de tocar</h3>
+<ul class="li"><li>Higiene de manos.</li><li>Preséntate con nombre y rol. Verifica identidad con brazalete y ficha.</li>
+<li>Explica qué vas a hacer y pide autorización. Resguarda la privacidad.</li>
+<li>Revisa ficha: tipo y hora del parto, complicaciones, indicaciones vigentes, exámenes, alergias.</li></ul>
+<h3>Secuencia de examen</h3>
+<table><tr><th>Área</th><th>Hallazgo normal esperado</th></tr>
+<tr><td>Estado general</td><td>BEG, vigil, orientada, mucosas rosadas e hidratadas</td></tr>
+<tr><td>Signos vitales y EVA</td><td>En rango; dolor tolerable con la analgesia indicada</td></tr>
+<tr><td>Mamas</td><td>Blandas o levemente turgentes, sin signos inflamatorios, calostro presente</td></tr>
+<tr><td>Abdomen y útero</td><td>Blando, depresible, indoloro; útero retraído, duro, infraumbilical</td></tr>
+<tr><td>Loquios</td><td>Escasos a moderados, sin mal olor, acordes a los días de puerperio</td></tr>
+<tr><td>Periné o herida</td><td>Sutura afrontada, sin secreción, dolor en disminución</td></tr>
+<tr><td>Extremidades</td><td>Móviles, sin edema significativo, sin dolor ni calor local</td></tr>
+<tr><td>Eliminación</td><td>Micción espontánea; ≥180 cc en las primeras 6 h</td></tr>
+<tr><td>Dispositivos</td><td>Vía permeable, sin flebitis; se retira cuando ya no se usa</td></tr>
+<tr><td>Vínculo y emoción</td><td>Apego presente; ánimo lábil sin síntomas depresivos francos</td></tr></table>
+<div class="ok"><b>Cómo comunicar un hallazgo</b>Quién es · Qué encontraste · Qué te preocupa · Qué necesitas.
+Ejemplo: «Cama 3, puérpera de parto vaginal de 5 horas: útero blando sobre el ombligo, apósito empapado en 20 minutos,
+PA 95/55, FC 112. Me preocupa una hemorragia posparto. Necesito que la evalúe ahora.»</div>`},
+
+{ id:"alarma-madre", et:"Puérpera", t:"Signos de alarma · puérpera", html:`
+<table><tr><th>Signo</th><th>Sospecha</th></tr>
+<tr><td>Fiebre ≥38 °C por más de 24 h</td><td>Infección puerperal</td></tr>
+<tr><td>Cefalea invalidante que no cede</td><td>Síndrome hipertensivo, preeclampsia posparto</td></tr>
+<tr><td>Coágulos grandes o aumento del sangrado</td><td>Hemorragia posparto, retención de restos</td></tr>
+<tr><td>Dolor bajo de vientre que no cede a AINE</td><td>Endometritis, hematoma</td></tr>
+<tr><td>Loquios de mal olor</td><td>Endometritis</td></tr>
+<tr><td>Dolor, tensión y enrojecimiento en los puntos</td><td>Infección o dehiscencia de herida</td></tr>
+<tr><td>Molestias al orinar: dolor, tenesmo, dificultad</td><td>Infección o retención urinaria</td></tr>
+<tr><td>Enrojecimiento, dolor y calor en las mamas</td><td>Mastitis</td></tr>
+<tr><td>Dolor en el pecho con falta de aire</td><td>Tromboembolismo pulmonar</td></tr>
+<tr><td>Dolor en pantorrillas o muslos con calor</td><td>Trombosis venosa profunda</td></tr>
+<tr><td>Ánimo deprimido, con o sin ideación suicida</td><td>Depresión posparto</td></tr></table>
+<div class="alerta"><b>Conducta</b>Ante cualquiera de estos hallazgos: avisas de inmediato al profesional responsable
+y permaneces con la usuaria. Un estudiante nunca es responsable por avisar de más.</div>`},
+
+{ id:"hpp", et:"Puérpera", t:"Hemorragia posparto y complicaciones", html:`
+<h3>Definiciones</h3>
+<ul class="li"><li><b>No operacional:</b> pérdida &gt;500 ml tras parto vaginal o &gt;1 litro tras cesárea, con reducción del 10 % del hematocrito.</li>
+<li><b>Operacional:</b> sangrado genital excesivo con signos y síntomas de hipovolemia e inestabilidad hemodinámica.</li>
+<li><b>Primaria:</b> dentro de las 24 h. <b>Secundaria:</b> entre las 24 h y las 6 semanas.</li></ul>
+<h3>Las 4 T</h3>
+<table><tr><th>T</th><th>Causa</th><th>Hallazgo orientador</th></tr>
+<tr><td>Tono</td><td>Inercia uterina</td><td>Útero mal contraído, blando</td></tr>
+<tr><td>Tejido</td><td>Restos, acretismo</td><td>Tono disminuido, extracción de restos</td></tr>
+<tr><td>Trauma</td><td>Desgarros, rotura, inversión</td><td>Útero bien contraído con lesión visible</td></tr>
+<tr><td>Trombina</td><td>Alteración de la coagulación</td><td>Sangrado sin causa mecánica</td></tr></table>
+<div class="alerta"><b>Qué haces ante sospecha</b>Avisas y no dejas sola a la usuaria · masaje uterino externo ·
+control de signos vitales · cuantificas (apósitos por unidad de tiempo, hora de inicio) · verificas la vía venosa.</div>
+<h3>Endometritis puerperal</h3>
+<p>Fiebre &gt;38 °C axilar + loquios turbios de mal olor + dolor pélvico + subinvolución uterina.</p>
+<h3>Cuantificación del sangrado</h3>
+<p>No estimar «a ojo». Consignar número de apósitos y tiempo. Método gravimétrico: peso del apósito usado menos su peso en seco, donde <b>1 g ≈ 1 ml</b>.</p>`},
+
+{ id:"escalas", et:"Seguridad", t:"Escalas y cortes", html:`
+<h3>Downton · riesgo de caídas</h3>
+<p>Cinco dominios: caídas previas, medicamentos, déficit sensorial, estado mental y deambulación.</p>
+<div class="cifra"><div><div class="k">Alto riesgo</div><div class="v">≥3 <small>puntos</small></div></div></div>
+<ul class="li"><li><b>Medidas generales:</b> en cada CSV verificar y registrar cama en posición baja y cama frenada.</li>
+<li><b>Alto riesgo agrega:</b> ayuda en movilización y levantada, barandas arriba, revisar uso de órtesis, asistencia en el aseo diario.</li></ul>
+<p>En puerperio el riesgo es alto por hipotensión ortostática, efecto residual de la anestesia, dolor, fatiga y porque la mujer se levanta cargando al recién nacido. Primera deambulación asistida, mínimo a las 6 horas.</p>
+<h3>Braden · lesiones por presión</h3>
+<p>Seis dimensiones: percepción sensorial, humedad, actividad, movilidad, nutrición, fricción y cizalla.</p>
+<table><tr><th>Puntaje</th><th>Riesgo</th><th>Medidas</th></tr>
+<tr><td class="n">&gt;14</td><td>Bajo</td><td>Cuidado de la piel, nutrición, manejo de fricción y cizalla</td></tr>
+<tr><td class="n">13–14</td><td>Moderado</td><td>Suma cambios posturales c/3 h, superficies especiales, protección local</td></tr>
+<tr><td class="n">&lt;13</td><td>Alto</td><td>Las mismas, intensificadas y con reevaluación más frecuente</td></tr></table>
+<h3>Otros</h3>
+<ul class="li"><li><b>Aldrete (0–10):</b> recuperación posanestésica. Se registra al ingreso y egreso de recuperación.</li>
+<li><b>EVA (0–10):</b> dolor. Se registra en cada control y guía la analgesia.</li>
+<li><b>Categorización riesgo–dependencia:</b> define nivel de cuidado y destino del traslado.</li></ul>
+<p class="n" style="font-size:12px;color:var(--tinta-3)">Verifica el punto de corte de Downton con el formulario de tu establecimiento.</p>`},
+
+{ id:"alta-madre", et:"Puérpera", t:"Alta y controles · puérpera", html:`
+<table><tr><th>Situación</th><th>Alta</th></tr>
+<tr><td>Primigesta, parto vaginal o fórceps</td><td class="n">48–72 h</td></tr>
+<tr><td>Multípara, parto vaginal o fórceps</td><td class="n">48 h</td></tr>
+<tr><td>Cesárea sin patología asociada</td><td class="n">2–3 días</td></tr></table>
+<p>La cesárea requiere estar afebril al menos las últimas 24 horas y sin foco infeccioso, con buena tolerancia digestiva, dolor tolerable, herida sana y loquios normales.</p>
+<h3>Controles en atención primaria</h3>
+<ul class="li"><li><b>Parto vaginal:</b> entre 3 y 7 días del alta, idealmente antes de los 3 días.</li>
+<li><b>Cesárea:</b> a los 7 días, con retiro de puntos.</li></ul>
+<h3>Indicaciones al alta</h3>
+<ul class="li"><li>Reposo relativo. Régimen común con abundantes líquidos.</li>
+<li>Aseo genital frecuente con agua corriente. En cesárea se permite ducha, sin restregar la herida y secándola bien.</li>
+<li>Analgesia solo según necesidad e indicación.</li>
+<li>Abstinencia sexual hasta cicatrización y cese de loquios: <b>3 a 4 semanas</b>.</li>
+<li>Ferroterapia a toda puérpera en que se compruebe anemia.</li>
+<li>Derivación asistida a APS si hay riesgos psicosociales, con detalle en la epicrisis.</li></ul>
+<div class="ok"><b>Educación clave</b>El dolor y el eritema de una herida que evoluciona bien siempre van en disminución.
+Si aumentan, o aparece secreción entre los puntos, debe consultar.</div>
+<h3>Escala de Edimburgo</h3>
+<p>Autoaplicada, para detección de depresión posparto. Mejor momento: <b>8 semanas</b> posparto. En el hospital tu rol es evaluar estado emocional, pesquisar riesgo psicosocial, verificar redes de apoyo y solicitar evaluación del equipo psicosocial.</p>`},
+
+{ id:"rn-ingreso", et:"Recién nacido", t:"Ingreso y cuidados del RN en puerperio", html:`
+<h3>Piel a piel al nacer</h3>
+<ul class="li"><li><b>Parto vaginal:</b> al menos 60 minutos. Todo procedimiento no estrictamente necesario se difiere.</li>
+<li><b>Cesárea:</b> al menos 30 minutos.</li>
+<li>Si la madre no está en condiciones, lo realiza el padre, exceptuando el acople.</li></ul>
+<h3>Al ingreso a la unidad</h3>
+<ul class="li"><li>Verificar nombre, sexo, fecha y hora de nacimiento, corroborando con brazalete y ficha, y mostrando el sexo a la madre.</li>
+<li>Verificar que tenga evaluación médica e indicaciones; elaborar plan de atención.</li>
+<li>Control de signos vitales con énfasis en termorregulación. Examen físico general.</li>
+<li>Verificar eliminación de orina y deposiciones.</li>
+<li>Cuna junto a la cama de la madre, identificada con nombre, sexo, fecha y hora de nacimiento, peso y talla.</li>
+<li>Verificar lactancia, observar acople y educar sobre libre demanda.</li></ul>
+<h3>Cuidados diarios</h3>
+<div class="cifra">
+<div><div class="k">Signos vitales</div><div class="v">c/6–8 <small>horas</small></div></div>
+<div><div class="k">Peso</div><div class="v">Diario <small>misma hora, desnudo</small></div></div>
+<div><div class="k">Avisar si desciende</div><div class="v">&gt;5 % <small>al día</small></div></div>
+<div><div class="k">Meconio y orina</div><div class="v">&lt;48 <small>horas</small></div></div>
+</div>
+<ul class="li"><li>Controlar frecuencia respiratoria, frecuencia cardíaca y temperatura axilar. Temperatura rectal solo por indicación médica.</li>
+<li>Pesar siempre a la misma hora, en la misma pesa, desnudo y antes de alimentarse.</li>
+<li>Registrar presencia o ausencia de meconio en cada muda, con características, y presencia de orina en el pañal.</li>
+<li>Si en 48 horas no ha eliminado meconio u orina, avisar al médico. <b>No puede irse de alta un RN que no ha eliminado meconio y orina.</b></li>
+<li>Observar siempre la evolución de la lactancia.</li></ul>`},
+
+{ id:"rn-examen", et:"Recién nacido", t:"Examen físico del RN", html:`
+<p>Con el RN desnudo, al lado de la madre, en su cuna, durante la mañana. Se recomienda examinarlo junto a la madre para que manifieste sus dudas.</p>
+<table><tr><th>Segmento</th><th>Qué buscas</th></tr>
+<tr><td>General</td><td>Estado de alerta, llanto, actitud y tono</td></tr>
+<tr><td>Piel</td><td>Hidratación, lubricación, color, ictericia, eritema tóxico, mancha mongólica, lunares, hemangiomas</td></tr>
+<tr><td>Cabeza</td><td>Bolsa serosanguínea, cefalohematoma, suturas, fontanelas, asimetrías, crepitación</td></tr>
+<tr><td>Cara</td><td>Simetría (paresia facial), reflejo de búsqueda y succión, paladar cerrado, orejas: fosas, papilomas</td></tr>
+<tr><td>Cuello</td><td>Simetría, tortícolis congénita, quistes o fístulas</td></tr>
+<tr><td>Tórax</td><td>Clavículas, patrón respiratorio, mamilas, ruidos agregados, tonos cardíacos y soplos, actividad precordial</td></tr>
+<tr><td>Dorso</td><td>Columna, fosas, papilomas, asimetría del pliegue interglúteo, hemangiomas</td></tr>
+<tr><td>Abdomen</td><td>Ombligo y cordón, eritema o induración periumbilical, hernias, vísceras (hígado palpable; bazo normalmente no)</td></tr>
+<tr><td>Genitales</td><td>Masculinos: escroto, hidrocele, testículos, meato. Femeninos: labios, secreción blanquecina o hemorrágica. Región anal y perianal</td></tr>
+<tr><td>Extremidades</td><td>Dedos, acrocianosis, prehensión palmar y plantar, Moro simétrico, abducción de caderas, resalte</td></tr></table>
+<h3>Referencias de normalidad</h3>
+<ul class="li"><li>Longitud del pene en RN de término: <b>2 a 4 cm</b>.</li>
+<li>Clítoris: menos de <b>0,7 cm</b>.</li>
+<li>Fosa pilonidal a menos de 2 cm del ano y menos de 0,5 cm de ancho: no se considera patológica.</li>
+<li>Pies con desviación en varo generalmente deben ser referidos.</li></ul>`},
+
+{ id:"rn-fisio", et:"Recién nacido", t:"Cambios fisiológicos del RN", html:`
+<ul class="li">
+<li><b>Peso:</b> desciende entre 7 y 10 % en el RN de término y se recupera alrededor del 8.º al 10.º día. Los mayores de 4 kg bajan más y se recuperan más tarde.</li>
+<li><b>Piel:</b> rosada las primeras 24 horas; puede aparecer eritema tóxico e ictericia.</li>
+<li><b>Meconio:</b> cambia de color, consistencia y frecuencia en los primeros días.</li>
+<li><b>Efectos hormonales maternos:</b> ingurgitación mamaria en ambos sexos, secreción láctea al 5.º día, pseudomenstruación en las niñas.</li>
+<li><b>Reflejos:</b> posición, tono y movimientos reflejos, especialmente el de Moro, deben explicarse a la madre.</li>
+<li><b>Ombligo:</b> puerta de entrada de infecciones. La hernia umbilical es frecuente y no requiere tratamiento.</li>
+</ul>
+<div class="alerta"><b>Descenso de peso</b>Baja fisiológica: hasta 3 % diario o 10 % en los primeros 3 días.
+Un descenso mayor obliga a revisar la alimentación y descartar patología. Un descenso exagerado el primer día
+puede relacionarse con el volumen endovenoso aportado a la madre antes del parto.</div>`},
+
+{ id:"alarma-rn", et:"Recién nacido", t:"Signos de alarma · RN", html:`
+<ul class="li">
+<li><b>Cambios de coloración:</b> cianosis peribucal, de manos o pies, o generalizada; ictericia; palidez; rubicundez.</li>
+<li><b>Patrón respiratorio:</b> alteración o ausencia (apnea, obstrucción de vía aérea). Suspiros y estornudos son normales; <b>la tos nunca lo es</b> y siempre obliga a consultar.</li>
+<li><b>Movimientos anormales:</b> convulsiones, temblores, letargia.</li>
+<li><b>Alimentación:</b> rechazo, vómitos o regurgitación, sangramiento (hematemesis).</li>
+<li><b>Deposiciones:</b> diarrea, estreñimiento, deposiciones con sangre.</li>
+<li><b>Temperatura:</b> hipotermia e hipertermia.</li>
+<li><b>Infecciones menores:</b> conjuntivitis, onfalitis, piodermitis.</li>
+<li><b>Llanto:</b> educar a los padres sobre sus funciones, distinciones y técnicas de consuelo efectivas.</li>
+</ul>
+<div class="alerta"><b>Onfalitis</b>Enrojecimiento y secreción purulenta del ombligo son signos de infección.
+El aseo del cordón se realiza con alcohol para prevenirla.</div>`},
+
+{ id:"lactancia", et:"Lactancia", t:"Lactancia materna", html:`
+<h3>Indicación</h3>
+<p>Lactancia materna exclusiva a libre demanda: todas las veces y el tiempo que madre y niño quieran, sin horarios, tiempos de mamada ni suplementos, salvo indicación de neonatólogo, pediatra o médico general.</p>
+<h3>Acople correcto</h3>
+<ul class="li"><li>Niño cómodo y de frente al pecho.</li>
+<li>Boca bien abierta, abarcando el pezón y parte de la areola. Se puede estimular el labio inferior con el pezón para conseguirlo.</li>
+<li>Labios evertidos, cubriendo la areola en su mayor parte. Mentón toca la mama.</li>
+<li>Se escucha tragar y se observa el movimiento de la mandíbula.</li>
+<li>Al retirar el pecho se introduce un dedo por el lado. Lo ideal es que el niño suelte espontáneamente.</li>
+<li>Vaciar un pecho antes de cambiar al otro; en la mamada siguiente iniciar por el otro pecho.</li></ul>
+<div class="ok"><b>Sobre el pezón</b>Un pezón corto no impide una buena lactancia. Los ejercicios para «formar» el pezón
+no son necesarios y afectan la confianza materna al señalarlo como un defecto. El pezón umbilicado verdadero es muy infrecuente.</div>
+<h3>Cronología</h3>
+<table><tr><th>Momento</th><th>Qué esperar</th></tr>
+<tr><td>Primera hora</td><td>Condiciones fisiológicas óptimas. Mejor acople, lactancia más prolongada, menos llanto los primeros días, mejor regulación de la glicemia. No separar madre e hijo salvo reanimación</td></tr>
+<tr><td>Primer día</td><td>Pequeñas pero suficientes cantidades de calostro. Puede succionar menos y parecer cansado</td></tr>
+<tr><td>Días siguientes</td><td>Succiona 10 a 12 tomas al día, lo que estimula la producción y evita la congestión</td></tr>
+<tr><td>Bajada de la leche</td><td>Tras 48 a 72 h, a veces ya en la casa. Puede haber congestión mamaria importante</td></tr></table>
+<h3>Indicadores de lactancia adecuada</h3>
+<ul class="li"><li>Niño activo, succión vigorosa, relajado al finalizar.</li>
+<li>Madre tranquila, sin dolor, que nota que sale leche.</li>
+<li>Presencia de orina y deposiciones.</li>
+<li>Pérdida fisiológica menor al 10 % del peso en 3 a 4 días.</li></ul>
+<div class="alerta"><b>Signos de alerta</b>Dolor intenso en mamas o pezones, grietas, congestión mamaria ·
+pérdida ponderal &gt;10 % en los primeros 3 días · signos de deshidratación · madre con poca confianza ·
+lactante hiperalerta y hambriento, o letárgico e indiferente · disminución de la diuresis y del volumen de las deposiciones.</div>
+<h3>Al alta</h3>
+<ul class="li"><li>Control en 2 a 5 días a todos los RN.</li>
+<li>Con factores de riesgo en lactancia: control a los 2 o 3 días, y hasta los 15 días según evolución.</li>
+<li>Informar a la madre cómo extraerse leche y dónde obtener ayuda.</li>
+<li>Advertir sobre la bajada de la leche. Si hay exceso, la extracción manual o con sacaleches alivia.</li>
+<li>Retraso en la bajada (4 a 5 días) en obesidad pregestacional, diabetes gestacional y cesárea electiva.</li></ul>`},
+
+{ id:"lact-problemas", et:"Lactancia", t:"Problemas frecuentes de lactancia", html:`
+<h3>Acople incorrecto, dolor, grietas, congestión</h3>
+<p>Son una cadena: el niño succiona solo el pezón como si fuera un chupete, aparece dolor o grietas, se inhibe el reflejo de eyección, se retiene leche y se congestiona la mama. Un leve dolor en las primeras mamadas puede ser normal; si persiste, se revisa la técnica.</p>
+<ul class="li"><li>Revisar y corregir el acople. Recalcar que el pezón no debe ser mordido.</li>
+<li>Ofrecer pecho por ratos más cortos y más frecuentes.</li>
+<li>Aplicar la propia leche en los pezones heridos después del pecho.</li>
+<li>Aplicar luz, con sol o lámpara, 10 a 20 minutos después de dar pecho.</li>
+<li>Si hay mucha congestión: calor local con compresas húmedas tibias, masaje suave y extracción manual solo lo suficiente para permitir un buen acople.</li></ul>
+<h3>«RN flojo»</h3>
+<p>Puede ser un RN sano y normal en su primer día, cuando la frecuencia de mamadas es naturalmente menor. No confundir con RN hipotónico. Evaluar problemas neurológicos, patología cardíaca y medicación materna; si está bien, calmar y apoyar a la madre.</p>
+<h3>Madre con poca confianza</h3>
+<p>Señales: dice no tener leche, se aprieta y no le sale, cree que el niño queda con hambre, no logra calmarlo, pide suplemento, dice no tener pezón.</p>
+<div class="alerta"><b>Nunca descalificar</b>Ni pezones, ni mamas, ni producción láctea, ni conductas de la madre o del niño.
+No llamarlo «flojo». Valorar lo que hace bien y proponer soluciones con sus propios recursos.</div>
+<h3>¿Hipogalactia?</h3>
+<p>La hipogalactia real es infrecuente. Los primeros días el volumen es bajo pero suficiente para un RN sano.
+Los galactogogos (metoclopramida, domperidona, sulpiride) tienen utilidad dudosa o nula y efectos secundarios indeseables demostrados.</p>
+<p>Todo niño que ha recibido suplemento queda citado a control en 2 a 3 días.</p>
+<h3>Separación madre–hijo</h3>
+<ul class="li"><li>Evitar separaciones que no sean estrictamente necesarias y hospitalizaciones innecesarias.</li>
+<li>Extracción manual de leche durante la separación.</li>
+<li>Facilitar la presencia de la madre con el RN hospitalizado, o del RN con la madre hospitalizada.</li></ul>`},
+
+{ id:"lact-mamada", et:"Lactancia", t:"Evaluación de la mamada", html:`
+<p>La técnica se verifica desde el ingreso a la unidad y de forma continua durante la estadía, supervisando toda la mamada hasta que el niño suelte el pecho espontáneamente.</p>
+<h3>Qué observas en la posición</h3>
+<ul class="li"><li>Boca y nariz del RN enfrentadas al pezón y la areola, sea cual sea la postura elegida.</li>
+<li>Madre en posición cómoda, con la espalda bien apoyada, que espera a que el bebé abra grande la boca y baje la lengua.</li>
+<li>La madre acerca al RN <b>desde la espalda, no desde la cabeza</b>.</li></ul>
+<h3>Succión correcta</h3>
+<ul class="li"><li>Ambos labios evertidos, tomando hasta la areola.</li>
+<li>Succión y deglución audibles, con mejillas infladas.</li>
+<li>Los primeros días el RN succiona 3 o 4 veces y hace pausas para respirar; a medida que crece se hace más rápido y regular.</li></ul>
+<h3>Signos de lactancia inadecuada y su causa</h3>
+<table><tr><th>Signo</th><th>Causa a descartar</th></tr>
+<tr><td>Dolor en los pezones y grietas</td><td>Acople incorrecto; mal uso del parche de leche</td></tr>
+<tr><td>Ingurgitación, inflamación, mastitis</td><td>Vaciamiento inadecuado del pecho; exceso de producción</td></tr>
+<tr><td>Mama 30 minutos o más y no suelta el pecho</td><td>No consigue extraer la leche final ni saciarse</td></tr>
+<tr><td>Nervioso, irritable, llanto frecuente, "pelea" con el pecho</td><td>Frecuencia de mamadas muy amplia; madre insegura; RN sobreabrigado o con necesidad de muda; reflejo de eyección aumentado o inhibido; posición y acople incorrectos</td></tr>
+<tr><td>Reflejos de eyección fuertes y repetidos</td><td>La oxitocina aumenta para expulsar la leche que el bebé no logra extraer</td></tr>
+<tr><td>Escasa orina o deposiciones</td><td>Ingesta de leche materna insuficiente</td></tr></table>
+<div class="alerta"><b>Suspender e informar</b>Si el niño presenta cianosis, palidez o cansancio durante la alimentación:
+suspender la alimentación e informar de inmediato a la matrona o al médico tratante.</div>
+<h3>Después de la mamada</h3>
+<ul class="li"><li>Eliminar gases y luego cambiar al otro pecho si el niño lo requiere.</li>
+<li>Si se deja en cuna recién alimentado: decúbito lateral derecho y Fowler 30° para favorecer el vaciamiento gástrico.</li>
+<li>Empezar siempre por el pecho que menos tomó la vez anterior. Vaciar un pecho antes de ofrecer el otro, sin fijar tiempos límite por mama.</li>
+<li>Vigilar número de tomas diurnas y nocturnas, estado de hidratación e ictericia.</li>
+<li>Registrar características y duración de las alimentaciones al pecho.</li></ul>`},
+
+{ id:"lact-peso", et:"Lactancia", t:"Peso, suplementos y contraindicaciones", html:`
+<h3>Baja de peso mayor a la fisiológica</h3>
+<p>La baja fisiológica es de 3 % diario o 10 % en los primeros 3 días. Ante un descenso mayor, considerar:</p>
+<table><tr><th>Causa</th><th>Cómo se reconoce</th></tr>
+<tr><td>Error de peso, actual o anterior</td><td>El peso diario de rutina minimiza este problema</td></tr>
+<tr><td>Sobrehidratación prenatal materna</td><td>Aporte hídrico a la madre mayor de <b>200 ml/hora</b> y RN con orina abundante y transparente. En falta de aporte o deshidratación la orina es escasa y concentrada. Solo requiere control: el peso debe bajar <b>≤2,5 %</b> en las siguientes 24 horas</td></tr>
+<tr><td>Sobreabrigo</td><td>Vestimenta excesiva, alzas de temperatura, signos de deshidratación</td></tr>
+<tr><td>Patología</td><td>Infección, hipoglicemia, dolor, trastornos cardiológicos o neurológicos</td></tr>
+<tr><td>Problema de lactancia</td><td>Frecuencia de mamadas, apego, dolor materno por parto, grietas o congestión</td></tr></table>
+<div class="alerta"><b>Regla</b>Nunca indicar suplemento solo por descenso de peso el primer día.</div>
+<h3>Ascenso de peso respecto al nacimiento</h3>
+<p>Evaluar primero la posibilidad de error de peso. Si es muy poco probable, considerar insuficiencia cardíaca o insuficiencia renal inicial. Un leve ascenso después de las 36 horas, con descenso inicial previo, puede observarse si la madre tiene abundante calostro.</p>
+<h3>Cuando se requiere suplemento</h3>
+<p>La indicación de un suplemento debe considerarse <b>como un medicamento, con sus propios riesgos</b>: intolerancia, alergias, dificultad de digerir, posibilidad de errar el volumen, además de afectar la confianza materna y alterar el mecanismo de succión, provocando confusión de pezón.</p>
+<ul class="li"><li>El suplemento debe tener indicación médica.</li>
+<li>Preferir administrar por vaso, jeringa o sonda al pezón, evitando chupetes y mamaderas.</li>
+<li>Todo niño que ha recibido suplemento queda citado a control en 2 a 3 días.</li></ul>
+<h3>Contraindicaciones de la lactancia materna</h3>
+<ul class="li"><li>Madre portadora de VIH.</li>
+<li>Drogas citostáticas en general y yodo radiactivo.</li>
+<li>Litio y psicotrópicos de reciente generación.</li></ul>
+<p>Son pocos los medicamentos maternos que contraindican la lactancia. Ante dudas, la norma remite a información actualizada en el Manual de Lactancia y al capítulo de lactancia y fármacos de la Norma General Técnica para la Atención Integral en el Puerperio, además de <b>e-lactancia.org</b> y <b>LactMed</b>.</p>
+<h3>Extracción manual de leche</h3>
+<ul class="li"><li>Lavar cuidadosamente manos y pecho. Buscar una posición cómoda. Disponer de un recipiente limpio.</li>
+<li>Pulgar por encima del pezón y la areola; el resto de los dedos sostiene el pecho por debajo.</li>
+<li>Masaje muy suave sobre pezón y areola: inicialmente la areola se arruga; cuando se alisa, el reflejo eyectoláctico está listo.</li>
+<li>Presionar pulgar e índice en dirección al tórax, luego presionar los senos lactíferos que quedan por detrás de la areola.</li>
+<li>Presionar y soltar, repetidamente. <b>El ejercicio debe ser indoloro para la madre.</b></li>
+<li>Puede que inicialmente no salga leche; al cabo de unos minutos comenzará a fluir.</li>
+<li>No presionar solo el pezón: eso no provoca salida de leche.</li>
+<li>Duración: <b>20 a 30 minutos</b>, nunca menos de 20.</li></ul>`},
+
+{ id:"rn-riesgo", et:"Recién nacido", t:"RN con factores de riesgo y prematuro tardío", html:`
+<h3>Riesgo de hipoglicemia</h3>
+<ul class="li"><li>No dejar pasar más de <b>3 horas</b> entre mamadas los primeros días.</li>
+<li>Control de glicemia por micrométodo según grado de riesgo.</li>
+<li>Controles más frecuentes evaluando condición clínica y lactancia.</li>
+<li>El RN sano, sin factores de riesgo y asintomático, <b>no requiere control de glicemia</b> si demora en pedir pecho.</li></ul>
+<p>Mayor riesgo de adaptación metabólica inadecuada: RN enflaquecidos con bajo índice ponderal, macrosómicos (especialmente hijos de madre diabética u obesa) y prematuros tardíos.</p>
+<h3>Prematuro tardío · 35 a 37 semanas</h3>
+<p>Se cansan más fácil y suelen no succionar con la fuerza o el tiempo suficiente. Dejan la falsa impresión de estar satisfechos, pero tienen hipoalimentación que se expresa progresivamente y muchas veces no se detecta a tiempo.</p>
+<ul class="li"><li>No más de 3 horas entre mamadas los primeros días.</li>
+<li>Vigilancia estricta: peso, signos de hipoglicemia, deshidratación.</li>
+<li>Controles de glicemia seriados el primer día; luego según riesgo y síntomas.</li>
+<li>Evaluar suplemento con leche de su propia madre, o sucedáneo si no es posible. Retirarlo a medida que succione mejor.</li>
+<li><b>No dar de alta antes de las 72 horas de vida.</b></li>
+<li>Control precoz post alta: no más de 2 días.</li></ul>
+<h3>Gemelos</h3>
+<ul class="li"><li>No dejar suplementos de entrada por miedo a que la leche sea insuficiente, especialmente si no hay otros factores de riesgo.</li>
+<li>Si es necesario: 10 ml/kg cada 8 horas, alternado por gemelo.</li>
+<li>Enseñar técnicas para la alimentación simultánea.</li></ul>
+<h3>Período de observación institucional</h3>
+<ul class="li"><li>RN de término: <b>48 horas</b> es deseable; el riesgo de morbilidad crítica disminuye francamente después de ese plazo.</li>
+<li>Con factores de riesgo o pretérmino tardío: extender. En menores de 36 semanas podría ser <b>72 horas</b>.</li></ul>`},
+
+{ id:"rn-ambiente", et:"Seguridad", t:"Ambiente y seguridad del RN", html:`
+<div class="cifra">
+<div><div class="k">Temperatura ambiental</div><div class="v">22–25 <small>°C</small></div></div>
+<div><div class="k">Ruido permanente</div><div class="v">&lt;45 <small>dB</small></div></div>
+<div><div class="k">Luz artificial</div><div class="v">&lt;600 <small>lux</small></div></div>
+<div><div class="k">Espacio por binomio</div><div class="v">6 <small>m²</small></div></div>
+</div>
+<h3>Termorregulación</h3>
+<p>Por su elevada proporción superficie/volumen, menor aislamiento cutáneo, insuficiente regulación vasomotora, limitación postural y poca capacidad de sudar, la termorregulación de los primeros días es limitada: predispone a hipotermia y a hipertermia. Mayor riesgo en prematuros, bajo peso y con patología. Vigilar temperatura ambiental, superficies radiantes cercanas, corrientes de aire y humedad.</p>
+<h3>Cuna</h3>
+<ul class="li"><li>Paredes altas para evitar caídas y material transparente para visualizarlo, en posición Fowler.</li>
+<li>El RN permanece siempre en posición <b>supina o lateral, nunca en prono</b>.</li>
+<li>Vigilar que la madre no realice actividades que la distraigan mientras tiene al RN en brazos, como contestar el celular.</li>
+<li>Agrupar en la misma sala a los RN de riesgo (GEG, PEG, prematuros tardíos) para favorecer la vigilancia.</li></ul>
+<h3>Identificación</h3>
+<ul class="li"><li>Brazalete en muñeca de extremidad superior e inferior izquierda, con nombre completo y RUT de la madre, instalado inmediatamente al nacer.</li>
+<li>Se recomienda un segundo brazalete con nombre de la madre, fecha, hora de nacimiento y sexo del RN.</li>
+<li>Revisión diaria: preguntar nombre y RUT a la madre y verificar contra el brazalete.</li>
+<li>Todo RN debe salir de sala de partos o pabellón identificado. Si se deteriora o se puede retirar fácilmente, se reemplaza en el mismo instante.</li>
+<li>Antes de cualquier procedimiento fuera de la sala: verificar identificación antes de separarlo de la madre, y antes y después del procedimiento.</li>
+<li>Registrar en cada turno la presencia del brazalete en la madre y el RN, y su concordancia.</li></ul>
+<h3>Vestuario</h3>
+<p>Algodón, suave, de fácil colocación y retiro. Abrigar favorece la termorregulación cuando no hay contacto piel a piel; el abrigo excesivo produce hipertermia.</p>`},
+
+{ id:"apego", et:"Recién nacido", t:"Apego y vínculo", html:`
+<h3>Capacidades sensoriales del RN</h3>
+<table><tr><th>Sentido</th><th>Qué sabemos</th></tr>
+<tr><td>Visión</td><td>Funcional y binocular desde el nacimiento, óptima a <b>25–30 cm</b>: la distancia del rostro materno durante el amamantamiento. Prefiere objetos contrastados y el rostro humano</td></tr>
+<tr><td>Tacto</td><td>La piel es su órgano más extendido. El contacto corporal es fundamental: se observa en el «holding» (cómo lo sostiene) y el «handling» (cómo lo cuida)</td></tr>
+<tr><td>Audición</td><td>Se orienta preferentemente a la voz materna. La voz del padre, más grave, se percibe mejor en el útero. Diálogo oral desde la 6.ª semana</td></tr>
+<tr><td>Olfato</td><td>Altamente desarrollado. A la semana distingue el olor de su madre con 80 % de fiabilidad. No usar productos perfumados que alteren el olor propio</td></tr>
+<tr><td>Gusto</td><td>Programado para la leche materna; apetencia por sabores dulces</td></tr></table>
+<h3>Interacción armónica: qué observar</h3>
+<ul class="li"><li><b>Sensibilidad:</b> la madre está alerta a los signos de malestar y bienestar del bebé.</li>
+<li><b>Contingencia:</b> reacciona rápido ante el llanto o la necesidad de interacción. A mayor contingencia, menor tiempo de reacción.</li>
+<li><b>Calidez:</b> postura corporal y facial positiva en ambos.</li>
+<li><b>Reciprocidad:</b> madre y bebé conectados en la misma frecuencia emocional.</li></ul>
+<p>Interacciones predominantemente armónicas se consolidan en apegos seguros; las disarmónicas, en apegos ansiosos.</p>
+<div class="ok"><b>Prácticas concretas</b>Dirigirse al RN por su nombre propio · verbalizarle el procedimiento que se le hará ·
+dirigirse a la madre por su nombre · cuidar el gesto que acompaña el examen · higiene de las palabras.</div>
+<h3>Cinco maniobras de consuelo (Karp)</h3>
+<p>Contención, posición de lado o prono <i>en brazos</i>, balanceo, estímulo auditivo y succión. La contención con pañal no es permanente: hay que permitir la movilidad total del niño. Recuerda que para dormir, la posición es supina.</p>`},
+
+{ id:"rn-educacion", et:"Educación", t:"Educación al alta del RN", html:`
+<h3>Cuidados</h3>
+<ul class="li"><li><b>Piel:</b> jabón neutro o hipoalergénico. Aceites apropiados para lubricar. Baño en ambiente cálido, agua tibia a <b>37 °C</b>.</li>
+<li><b>Cordón:</b> aseo con alcohol para prevenir infecciones.</li>
+<li><b>Muda:</b> ropa de algodón, lavada con jabón neutro sin perfumes y con varios enjuagues. No sobreabrigar en invierno.</li></ul>
+<h3>Vacuna BCG</h3>
+<p>Primera vacuna del RN, inmuniza contra la tuberculosis.</p>
+<ul class="li"><li>Se administra a todo RN con peso mayor a <b>2.000 g</b>.</li>
+<li>Se inocula en el <b>brazo izquierdo</b>.</li>
+<li>Evolución: tumefacción sensible y roja que en 2 a 4 semanas se convierte en vesícula y luego en úlcera.</li>
+<li>La reacción disminuye en 2 a 5 meses y deja cicatriz de <b>2 a 10 mm</b>.</li>
+<li>No produce fiebre. Si no aparece el brote, avisar al centro de salud.</li></ul>
+<h3>PKU–TSH</h3>
+<p>Pesquisa hipotiroidismo congénito y fenilcetonuria, que sin tratamiento precoz producen discapacidad intelectual y retraso del desarrollo. Screening nacional desde 1992. La información demográfica debe ser fidedigna, porque si resulta positivo se contactará a la madre para una nueva muestra. <b>Si el examen es normal no se comunica el resultado</b>, salvo que se consulte.</p>
+<h3>Control en el centro de salud</h3>
+<ul class="li"><li>Control de salud del RN con su madre (control díada) <b>antes de los 7 días</b> de vida.</li>
+<li>Entre <b>48 y 72 horas</b> si el RN tiene factores de riesgo o es prematuro tardío.</li></ul>
+<h3>PARN · Programa de Apoyo al Recién Nacido</h3>
+<p>Set de implementos entregado al alta en la red pública, con paquete de cuna corral equipada, paquete de cuidados básicos y estimulación, y paquete de apego y vestuario. Incluye sesión educativa; durante la charla se ejemplifica el uso de cada elemento. El cojín de lactancia es exclusivamente para amamantar, nunca como almohada del bebé.</p>
+<h3>Beneficios legales</h3>
+<ul class="li"><li><b>Postnatal parental (Ley 20.545):</b> 12 semanas de descanso completo y luego 18 semanas de media jornada con 50 % del subsidio; o 12 semanas completas más las 12 restantes en jornada completa, pudiendo traspasar hasta 6 semanas al padre (12 si se opta por media jornada).</li>
+<li><b>Permiso paternal (Ley 20.047):</b> 5 días pagados, utilizables en forma conjunta o parcelada dentro del primer mes de vida. Es irrenunciable.</li></ul>`},
+
+{ id:"iaas", et:"Seguridad", t:"IAAS y procedimientos", html:`
+<h3>Los cinco momentos de la higiene de manos</h3>
+<table><tr><th>#</th><th>Momento</th><th>Ejemplo en puerperio</th></tr>
+<tr><td class="n">1</td><td>Antes de tocar a la usuaria</td><td>Antes de palpar el útero o tomar la presión</td></tr>
+<tr><td class="n">2</td><td>Antes de un procedimiento aséptico</td><td>Antes de la curación de herida o de instalar una vía</td></tr>
+<tr><td class="n">3</td><td>Después de exposición a fluidos</td><td>Después de revisar apósitos o manipular la bolsa recolectora</td></tr>
+<tr><td class="n">4</td><td>Después de tocar a la usuaria</td><td>Al finalizar el examen físico y obstétrico</td></tr>
+<tr><td class="n">5</td><td>Después del contacto con el entorno</td><td>Después de manipular cama, cuna, baranda o velador</td></tr></table>
+<div class="cifra">
+<div><div class="k">Agua y jabón</div><div class="v">40–60 <small>segundos</small></div></div>
+<div><div class="k">Alcohol gel</div><div class="v">20–30 <small>segundos</small></div></div>
+</div>
+<p>Uñas cortas, sin esmalte ni uñas artificiales. Sin anillos, pulseras ni reloj de pulsera. No es presentación personal: es control de infecciones.</p>
+<h3>Dispositivos</h3>
+<p>Regla que gobierna todas: <b>el dispositivo se retira apenas deja de ser necesario</b>.</p>
+<table><tr><th>Dispositivo</th><th>Qué pesquisas</th></tr>
+<tr><td>Vía venosa periférica</td><td>Dolor, eritema, cordón venoso palpable, calor, secreción, edema</td></tr>
+<tr><td>Catéter urinario</td><td>Orina turbia o de mal olor, dolor suprapúbico, fiebre, ausencia de flujo, escape periuretral</td></tr>
+<tr><td>Herida operatoria</td><td>Dolor o eritema que aumentan, secreción entre los puntos, dehiscencia, fiebre</td></tr>
+<tr><td>Episiorrafia</td><td>Dolor, tensión, enrojecimiento, secreción, dehiscencia</td></tr></table>
+<h3>Procedimientos: puntos críticos</h3>
+<ul class="li"><li><b>Control de retracción uterina:</b> vejiga vacía idealmente, palpación en hipogastrio, consignar consistencia y altura respecto del ombligo.</li>
+<li><b>Masaje uterino externo:</b> movimiento circular firme y sostenido hasta lograr consistencia dura. Siempre se avisa: el masaje no reemplaza el aviso.</li>
+<li><b>Aseo genital:</b> agua corriente de adelante hacia atrás, una pasada por movimiento, sin frotar la sutura, secar por contacto.</li>
+<li><b>Retiro de catéter urinario:</b> desinflar completamente el cuff, registrar hora, vigilar y consignar la primera micción espontánea con volumen.</li>
+<li><b>Accidente cortopunzante:</b> lavar con agua y jabón sin exprimir, informar de inmediato al profesional y al docente, activar el protocolo de exposición laboral.</li></ul>
+<div class="alerta"><b>Regla del estudiante</b>Nunca ejecutes un procedimiento por primera vez sin supervisión,
+aunque lo hayas practicado en simulación y aunque la usuaria te lo pida. «Todavía no lo he hecho, ¿me acompaña?»
+es la respuesta correcta.</div>`},
+
+{ id:"registro", et:"Registro", t:"Reglas de registro clínico", html:`
+<ul class="li"><li>Con lápiz de pasta, nunca grafito ni corrector.</li>
+<li>Letra legible: un registro ilegible equivale a un registro ausente.</li>
+<li>Cada anotación con fecha, hora, nombre completo y firma.</li>
+<li>Si te equivocas: una línea sobre el error, la corrección al lado y tu firma. No se borra, no se tapa, no se reescribe la hoja.</li>
+<li>No se registra por adelantado: se registra lo realizado, cuando se realizó.</li>
+<li>Los espacios en blanco se completan o se anulan; una casilla vacía es ambigua.</li>
+<li>Como estudiante, tu registro debe ser visado por el profesional responsable.</li></ul>
+<h3>Registro diario del RN</h3>
+<p>En la hoja de evaluación del RN se consigna fecha, hora, frecuencia cardíaca, frecuencia respiratoria, temperatura axilar y, solo por indicación médica, temperatura rectal. Se informa de inmediato al médico ante cualquier valor anormal, y se explica a la madre la razón del control.</p>`},
+
+{ id:"abrev", et:"Referencia", t:"Abreviaturas", html:`
+<table>
+<tr><th>Sigla</th><th>Significado</th></tr>
+<tr><td>ABDI</td><td>Abdomen blando, depresible, indoloro</td></tr>
+<tr><td>APS</td><td>Atención primaria de salud</td></tr>
+<tr><td>BEG</td><td>Buen estado general</td></tr>
+<tr><td>CRD</td><td>Categorización riesgo–dependencia</td></tr>
+<tr><td>CSV</td><td>Control de signos vitales</td></tr>
+<tr><td>EEII</td><td>Extremidades inferiores</td></tr>
+<tr><td>EPDS</td><td>Escala de Depresión Posparto de Edimburgo</td></tr>
+<tr><td>EVA</td><td>Escala visual análoga del dolor</td></tr>
+<tr><td>EV / IM / SC / VO</td><td>Endovenoso / intramuscular / subcutáneo / vía oral</td></tr>
+<tr><td>GEG / PEG</td><td>Grande / pequeño para la edad gestacional</td></tr>
+<tr><td>HGT</td><td>Hemoglucotest</td></tr>
+<tr><td>HPP</td><td>Hemorragia posparto</td></tr>
+<tr><td>IAAS</td><td>Infecciones asociadas a la atención de salud</td></tr>
+<tr><td>ITU / PNA</td><td>Infección urinaria / pielonefritis aguda</td></tr>
+<tr><td>LM / LME</td><td>Lactancia materna / lactancia materna exclusiva</td></tr>
+<tr><td>LPP</td><td>Lesiones por presión</td></tr>
+<tr><td>MAE</td><td>Medias antiembólicas</td></tr>
+<tr><td>PARN</td><td>Programa de Apoyo al Recién Nacido</td></tr>
+<tr><td>PKU–TSH</td><td>Fenilcetonuria e hipotiroidismo congénito</td></tr>
+<tr><td>PTVE</td><td>Parto de término vaginal espontáneo</td></tr>
+<tr><td>RN</td><td>Recién nacido</td></tr>
+<tr><td>SEMP</td><td>Superficie especial para el manejo de la presión</td></tr>
+<tr><td>SF / SRL</td><td>Suero fisiológico / suero Ringer lactato</td></tr>
+<tr><td>SOS</td><td>Según necesidad</td></tr>
+<tr><td>TVP / TEP</td><td>Trombosis venosa profunda / tromboembolismo pulmonar</td></tr>
+<tr><td>VVP</td><td>Vía venosa periférica</td></tr>
+</table>`}
+];
+
+const BLOQUES_ARO = [
 
 { id:"she-clasif", et:"SHE", t:"Clasificación y factores de riesgo", html:`
 <p>La enfermedad hipertensiva es una de las complicaciones médicas más frecuentes del embarazo. Su prevalencia varía entre el <b>7 y 10 %</b> de la población gestante, y entre 1990 y 1996 compartió con el aborto séptico el primer lugar entre las causas de mortalidad materna en Chile, con un 20 % de las muertes.</p>
@@ -883,69 +1655,407 @@ Por eso su elevación en una preeclampsia es un hallazgo significativo: no se ex
 <p>En los controles de la segunda mitad se buscan dirigidamente: cefalea, fotopsia y tinitus (hipertensión) · disuria, poliaquiuria, pujo y tenesmo vesical (infección urinaria) · contracciones uterinas (amenaza de parto prematuro) · <b>prurito palmo-plantar de predominio nocturno</b> (colestasia intrahepática) · pérdida de líquido por genitales · dolor abdominal · signos de ITS.</p>`}
 ];
 
-/* ---------- render ---------- */
-const cont=document.getElementById("contenido");
-function pintar(){
-  cont.innerHTML=BLOQUES.map(b=>
-    '<section class="bloq" id="b-'+b.id+'" data-id="'+b.id+'">'+
-      '<h2 role="button" tabindex="0"><span class="et">'+b.et+'</span>'+b.t+'<span class="fl"></span></h2>'+
-      '<div class="cuerpo">'+b.html+'</div>'+
-    '</section>').join("");
-  cont.querySelectorAll("section.bloq > h2").forEach(h=>{
-    const abrir=()=>h.parentElement.classList.toggle("abierta");
-    h.onclick=abrir;
-    h.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); abrir(); } };
+const FARMACOS = [
+  { n:"Labetalol",              pres:"100 mg / 20 ml",          tot:100,  vol:20,  u:"mg",
+    dil:"", via:"Bolo EV lento o infusión. Verifica el diluyente con el protocolo del servicio." },
+  { n:"Sulfato de magnesio",    pres:"1,25 g / 5 ml · al 25 %", tot:1.25, vol:5,   u:"g",
+    dil:"Suero glucosado al 5 %", fuente:true,
+    via:"Carga de 5 g en SG 5 %. Para mantención se agregan 10 a 20 g a la infusión, a velocidad que permita 1 a 2 g por hora." },
+  { n:"Oxitocina",              pres:"5 UI / 1 ml",             tot:5,    vol:1,   u:"UI",
+    dil:"Suero fisiológico", fuente:true,
+    via:"En puerperio se usa habitualmente 10 UI en 1.000 ml de suero fisiológico. Vigila tono uterino y signos vitales." },
+  { n:"Ergometrina · Methergin",pres:"0,2 mg / 1 ml",           tot:0.2,  vol:1,   u:"mg",
+    dil:"", via:"Vía intramuscular habitual. Verifica indicación y contraindicaciones antes de administrar." },
+  { n:"Carbetocina · Duratocin",pres:"100 mcg / 1 ml",          tot:100,  vol:1,   u:"mcg",
+    dil:"", via:"Dosis única. Verifica la vía y el momento de administración con el protocolo." },
+  { n:"Ácido tranexámico",      pres:"1.000 mg / 10 ml",        tot:1000, vol:10,  u:"mg",
+    dil:"", via:"Atención: la ampolla contiene 1.000 mg, no 100 mg." },
+  { n:"Betametasona",           pres:"4 mg / 1 ml",             tot:4,    vol:1,   u:"mg",
+    dil:"No requiere dilución", 
+    via:"Maduración pulmonar fetal: 12 mg cada 24 horas por dos veces, vía intramuscular." },
+  { n:"Dexametasona",           pres:"4 mg / 1 ml",             tot:4,    vol:1,   u:"mg",
+    dil:"No requiere dilución",
+    via:"Alternativa a betametasona: 6 mg cada 12 horas por cuatro dosis." },
+  { n:"Fenoterol",              pres:"0,5 mg / 10 ml",          tot:0.5,  vol:10,  u:"mg",
+    dil:"", via:"Tocolítico de segunda línea. Verifica dilución y velocidad con el protocolo." },
+  { n:"Nitroglicerina",         pres:"50 mg / 10 ml",           tot:50,   vol:10,  u:"mg",
+    dil:"", via:"No usar por vía endovenosa directa: siempre diluida en infusión." },
+  { n:"Atosiban",               pres:"37,5 mg / 5 ml",          tot:37.5, vol:5,   u:"mg",
+    dil:"", via:"Frasco para infusión, tras la dosis de carga." },
+  { n:"Atosiban · dosis carga", pres:"6,75 mg / 0,9 ml",        tot:6.75, vol:0.9, u:"mg",
+    dil:"No requiere dilución", via:"Bolo endovenoso inicial." },
+  { n:"Lidocaína 2 %",          pres:"20 mg/ml · 100 mg en 5 ml", tot:20, vol:1,   u:"mg",
+    dil:"No requiere dilución",
+    via:"Anestesia local. La administración endovenosa accidental produce toxicidad sistémica grave: aspira antes de infiltrar." },
+  { n:"Gluconato de calcio 10 %",pres:"100 mg/ml · 1 g en 10 ml", tot:100, vol:1,  u:"mg",
+    dil:"", via:"Antídoto de la toxicidad por sulfato de magnesio: 10 ml de la solución al 10 % en 3 minutos." },
+  { n:"Ampicilina",             pres:"500 mg polvo",            tot:500,  vol:5,   u:"mg",
+    dil:"", via:"Polvo liofilizado: la concentración depende del diluyente que agregues. Rotula el frasco reconstituido." }
+];
+
+
+/* Diluyentes anotados por el usuario, guardados en este dispositivo. */
+const CLAVE_DIL = "farmacos.diluyentes.v1";
+let DIL_LOCAL = {};
+let almacenaOK = true;
+try {
+  DIL_LOCAL = JSON.parse(localStorage.getItem(CLAVE_DIL) || "{}");
+  localStorage.setItem(CLAVE_DIL + ".test", "1"); localStorage.removeItem(CLAVE_DIL + ".test");
+} catch (e) { almacenaOK = false; DIL_LOCAL = {}; }
+
+function guardarDil(){
+  if (!almacenaOK) return;
+  try { localStorage.setItem(CLAVE_DIL, JSON.stringify(DIL_LOCAL)); } catch (e) { almacenaOK = false; }
+}
+
+/* ================= UTILIDADES ================= */
+const $ = id => document.getElementById(id);
+const num = v => { const x = parseFloat(String(v).replace(",", ".")); return isFinite(x) ? x : null; };
+
+/** Formatea sin decimales inútiles y con coma decimal. */
+function fmt(x){
+  if (x === null || !isFinite(x)) return "–";
+  let s;
+  if (Math.abs(x) >= 100) s = x.toFixed(1);
+  else if (Math.abs(x) >= 1) s = x.toFixed(2);
+  else s = x.toPrecision(3);
+  s = s.replace(/\.?0+$/, "");
+  return s.replace(".", ",");
+}
+function limpiar(el){ el.className = "res"; el.innerHTML = ""; }
+function pasos(el, lista, titulo, valor, nota, error){
+  el.className = "res" + (error ? " err" : "");
+  el.innerHTML =
+    lista.map(p => '<div class="paso">' + p + '</div>').join("") +
+    '<div class="final"><div class="k">' + titulo + '</div>' +
+    '<div class="v">' + valor + '</div>' +
+    (nota ? '<div class="n2">' + nota + '</div>' : '') + '</div>';
+}
+const op = t => '<span class="op">' + t + '</span>';
+
+/* ================= 1 · VOLUMEN A CARGAR ================= */
+function calc1(){
+  const el = $("c1-res");
+  const tot = num($("c1-tot").value), vol = num($("c1-vol").value), dosis = num($("c1-dosis").value);
+  const u = $("c1-unidad").value;
+  $("c1-u1").textContent = u; $("c1-u2").textContent = u;
+
+  if (tot === null || vol === null) { limpiar(el); return; }
+  if (tot <= 0 || vol <= 0) {
+    pasos(el, [], "Revisa los datos", "–", "La cantidad y el volumen deben ser mayores que cero.", true); return;
+  }
+  const conc = tot / vol;
+  const lista = ["Concentración por ml: " + op(fmt(tot) + " " + u + " ÷ " + fmt(vol) + " ml = " + fmt(conc) + " " + u + "/ml")];
+
+  if (dosis === null) {
+    pasos(el, lista, "Concentración por mililitro", fmt(conc) + " " + u + "/ml",
+      "Ingresa la dosis indicada para calcular el volumen a cargar.");
+    return;
+  }
+  if (dosis <= 0) { pasos(el, lista, "Revisa la dosis", "–", "La dosis debe ser mayor que cero.", true); return; }
+
+  const ml = dosis / conc;
+  lista.push("Volumen: " + op(fmt(dosis) + " " + u + " ÷ " + fmt(conc) + " " + u + "/ml = " + fmt(ml) + " ml"));
+
+  let nota = "";
+  const ampollas = ml / vol;
+  if (Math.abs(ampollas - Math.round(ampollas)) < 0.001 && ampollas >= 1)
+    nota = "Equivale a " + Math.round(ampollas) + (Math.round(ampollas) === 1 ? " ampolla completa." : " ampollas completas.");
+  else if (ampollas > 1)
+    nota = "Equivale a " + fmt(ampollas) + " ampollas. Verifica con el profesional cómo se maneja la fracción.";
+  if (ml > vol * 10)
+    nota += (nota ? " " : "") + "El volumen resultante es muy alto: revisa que la unidad sea la correcta.";
+
+  pasos(el, lista, "Volumen a cargar", fmt(ml) + " ml", nota);
+}
+
+/* ================= 2 · VELOCIDAD DE INFUSIÓN ================= */
+function calc2(){
+  const el = $("c2-res");
+  const tot = num($("c2-tot").value), vol = num($("c2-vol").value), dosis = num($("c2-dosis").value);
+  const u = $("c2-unidad").value, min = parseFloat($("c2-tiempo").value);
+  $("c2-u1").textContent = u; $("c2-u2").textContent = u;
+
+  if (tot === null || vol === null || dosis === null) { limpiar(el); return; }
+  if (tot <= 0 || vol <= 0 || dosis <= 0) {
+    pasos(el, [], "Revisa los datos", "–", "Todos los valores deben ser mayores que cero.", true); return;
+  }
+  const conc = tot / vol;
+  const dosisHora = min === 60 ? dosis : dosis * 60;
+  const lista = ["Concentración de la mezcla: " + op(fmt(tot) + " " + u + " ÷ " + fmt(vol) + " ml = " + fmt(conc) + " " + u + "/ml")];
+  if (min !== 60) lista.push("Dosis por hora: " + op(fmt(dosis) + " " + u + "/min × 60 = " + fmt(dosisHora) + " " + u + "/h"));
+  const mlh = dosisHora / conc;
+  lista.push("Velocidad: " + op(fmt(dosisHora) + " " + u + "/h ÷ " + fmt(conc) + " " + u + "/ml = " + fmt(mlh) + " ml/h"));
+
+  const gotas = Math.round(mlh * 20 / 60);
+  const micro = Math.round(mlh);
+  pasos(el, lista, "Velocidad de infusión", fmt(mlh) + " ml/h",
+    "Con macrogotero equivale a " + gotas + " gotas por minuto, o " + micro + " microgotas por minuto con microgotero.");
+}
+
+/* ================= 3 · GOTEO ================= */
+function calc3(){
+  const el = $("c3-res");
+  const mlh = num($("c3-mlh").value), f = parseFloat($("c3-eq").value);
+  if (mlh === null) { limpiar(el); return; }
+  if (mlh <= 0) { pasos(el, [], "Revisa la velocidad", "–", "Debe ser mayor que cero.", true); return; }
+  const g = mlh * f / 60;
+  const nombre = f === 20 ? "gotas" : "microgotas";
+  const lista = [
+    "Fórmula: " + op("(ml/h × " + f + ") ÷ 60"),
+    "Cálculo: " + op("(" + fmt(mlh) + " × " + f + ") ÷ 60 = " + fmt(g) + " " + nombre + "/min")
+  ];
+  const nota = f === 20
+    ? "Atajo de verificación: con macrogotero, las gotas por minuto son aproximadamente ml/h ÷ 3."
+    : "Con microgotero, las microgotas por minuto coinciden con los ml/h.";
+  pasos(el, lista, nombre + " por minuto", fmt(Math.round(g)) + " " + nombre + "/min", nota);
+}
+
+/* ================= 4 · PORCENTAJE ================= */
+function calc4(){
+  const el = $("c4-res");
+  const pct = num($("c4-pct").value), vol = num($("c4-vol").value);
+  if (pct === null) { limpiar(el); return; }
+  if (pct <= 0) { pasos(el, [], "Revisa el porcentaje", "–", "Debe ser mayor que cero.", true); return; }
+  const mgml = pct * 10;
+  const lista = ["Regla: " + op("1 % = 10 mg/ml"),
+                 "Cálculo: " + op(fmt(pct) + " % × 10 = " + fmt(mgml) + " mg/ml")];
+  if (vol !== null && vol > 0) {
+    const mg = mgml * vol;
+    lista.push("En " + fmt(vol) + " ml: " + op(fmt(mgml) + " mg/ml × " + fmt(vol) + " ml = " + fmt(mg) + " mg"));
+    pasos(el, lista, "Concentración", fmt(mgml) + " mg/ml",
+      "En " + fmt(vol) + " ml hay " + fmt(mg) + " mg" + (mg >= 1000 ? ", es decir " + fmt(mg/1000) + " g." : "."));
+  } else {
+    pasos(el, lista, "Concentración", fmt(mgml) + " mg/ml", "Ingresa un volumen para saber cuánto fármaco contiene.");
+  }
+}
+
+/* ================= LISTA DE FÁRMACOS ================= */
+function pintarFarmacos(filtro){
+  const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const f = filtro ? norm(filtro) : "";
+  const lista = FARMACOS.filter(x => !f || norm(x.n + " " + x.pres + " " + (x.dil||"")).includes(f));
+  const cont = $("lista-farm");
+  if (!lista.length) {
+    cont.innerHTML = '<div style="border:1px dashed var(--rejilla);background:var(--hoja);padding:24px;text-align:center;color:var(--tinta-2);font-size:14px">Sin resultados.</div>';
+    return;
+  }
+  cont.innerHTML = lista.map(x => {
+    const i = FARMACOS.indexOf(x);
+    const conc = x.tot / x.vol;
+    const propio = DIL_LOCAL[x.n] || "";
+    let dilHTML;
+    if (x.dil && x.fuente)
+      dilHTML = '<span class="dil-ok">' + x.dil + '</span><span class="dil-f">según Guía Perinatal</span>';
+    else if (x.dil)
+      dilHTML = '<span class="dil-ok">' + x.dil + '</span>';
+    else
+      dilHTML = '<span class="dil-no">Verifica el protocolo de tu servicio</span>';
+
+    return '<div class="farm-b">' +
+      '<div class="farm" role="button" tabindex="0" data-abre="' + i + '">' +
+        '<div class="info"><div class="nom">' + x.n + '</div><div class="pres">' + x.pres + '</div></div>' +
+        '<div class="conc">' + fmt(conc) + '<br><span style="font-size:10px;font-weight:400">' + x.u + '/ml</span></div>' +
+        '<span class="fl">›</span>' +
+      '</div>' +
+      '<div class="detalle" id="det-' + i + '">' +
+        '<div class="d-fila"><span class="d-k">Diluyente</span><span class="d-v">' + dilHTML + '</span></div>' +
+        (x.via ? '<div class="d-fila"><span class="d-k">Nota</span><span class="d-v">' + x.via + '</span></div>' : '') +
+        '<div class="d-fila"><span class="d-k">En mi servicio</span>' +
+          '<input class="d-in" data-farm="' + i + '" value="' + propio.replace(/"/g,"&quot;") + '" placeholder="Anota aquí el diluyente y el volumen que usa tu unidad"></div>' +
+        '<button class="usar" data-i="' + i + '">Usar en la calculadora</button>' +
+      '</div>' +
+    '</div>';
+  }).join("");
+
+  cont.querySelectorAll("[data-abre]").forEach(h => {
+    const abrir = () => {
+      const b = h.parentElement;
+      const ya = b.classList.contains("abierto");
+      cont.querySelectorAll(".farm-b.abierto").forEach(x => x.classList.remove("abierto"));
+      if (!ya) b.classList.add("abierto");
+    };
+    h.onclick = abrir;
+    h.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrir(); } };
+  });
+  cont.querySelectorAll(".d-in").forEach(inp => {
+    inp.oninput = () => {
+      const x = FARMACOS[parseInt(inp.dataset.farm, 10)];
+      const v = inp.value.trim();
+      if (v) DIL_LOCAL[x.n] = v; else delete DIL_LOCAL[x.n];
+      guardarDil();
+    };
+    inp.onclick = e => e.stopPropagation();
+  });
+  cont.querySelectorAll(".usar").forEach(b => {
+    b.onclick = e => {
+      e.stopPropagation();
+      const x = FARMACOS[parseInt(b.dataset.i, 10)];
+      $("c1-tot").value = x.tot; $("c1-vol").value = x.vol; $("c1-unidad").value = x.u;
+      $("c1-dosis").value = "";
+      calc1();
+      const btn = document.querySelector('.sub-tabs button[data-m="calc"]');
+      if (btn) btn.click();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      $("c1-dosis").focus();
+    };
   });
 }
-pintar();
 
-document.querySelectorAll("#atajos button").forEach(b=>{
-  b.onclick=()=>{
-    const s=document.getElementById("b-"+b.dataset.ir);
-    if(!s) return;
-    s.classList.add("abierta");
-    s.scrollIntoView({behavior:"smooth",block:"start"});
+
+
+
+/* ================= EVENTOS DE LAS CALCULADORAS ================= */
+["c1-tot","c1-vol","c1-dosis","c1-unidad"].forEach(id => { const e=$(id); if(e){ e.oninput=calc1; e.onchange=calc1; } });
+["c2-tot","c2-vol","c2-dosis","c2-unidad","c2-tiempo"].forEach(id => { const e=$(id); if(e){ e.oninput=calc2; e.onchange=calc2; } });
+["c3-mlh","c3-eq"].forEach(id => { const e=$(id); if(e){ e.oninput=calc3; e.onchange=calc3; } });
+["c4-pct","c4-vol"].forEach(id => { const e=$(id); if(e){ e.oninput=calc4; } });
+pintarFarmacos("");
+
+/* ================= UNIDADES ================= */
+const UNI = {
+  pue: { nom:"Puerperio y RN",  color:"#16325C" },
+  aro: { nom:"Alto Riesgo",     color:"#3A2A5C" },
+  med: { nom:"Medicamentos",    color:"#5C3A0A" }
+};
+
+const ATAJOS = {
+  pue: [["alarma-madre","Alarma · puérpera"],["alarma-rn","Alarma · RN"],["valoracion","Valoración"],
+        ["escalas","Escalas"],["lactancia","Lactancia"],["abrev","Abreviaturas"]],
+  aro: [["she-clasif","SHE"],["pe-manejo","Manejo PE"],["crisis","Crisis · Eclampsia"],["dm-dx","Diabetes"],
+        ["rciu","RCIU"],["colestasia","Colestasia"],["metrorragia","Metrorragia"],["parto-prematuro","Prematurez"],
+        ["rpm","RPM"],["distocia","Distocia"],["examenes","Exámenes"],["derivacion","Derivación"]]
+};
+
+let SECCION = "pue";
+
+/* ================= RENDER DE BLOQUES ================= */
+const cont = document.getElementById("contenido");
+const atajosWrap = document.getElementById("atajos-wrap");
+const secMed = document.getElementById("sec-med");
+const sin = document.getElementById("sin");
+
+function bloquesDe(sec){ return sec === "pue" ? BLOQUES_PUE : (sec === "aro" ? BLOQUES_ARO : []); }
+
+function pintarAtajos(sec){
+  const lista = ATAJOS[sec];
+  if (!lista) { atajosWrap.innerHTML = ""; return; }
+  atajosWrap.innerHTML = '<div class="cta-index" id="atajos">' +
+    lista.map(([id, t]) => '<button data-ir="' + id + '">' + t + '</button>').join("") + '</div>';
+  atajosWrap.querySelectorAll("button").forEach(b => {
+    b.onclick = () => {
+      const s = document.getElementById("b-" + b.dataset.ir);
+      if (!s) return;
+      s.classList.add("abierta");
+      s.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+  });
+}
+
+function pintar(sec, lista){
+  const datos = lista || bloquesDe(sec);
+  cont.innerHTML = datos.map(b =>
+    '<section class="bloq" id="b-' + b.id + '" data-id="' + b.id + '">' +
+      '<h2 role="button" tabindex="0">' +
+        (b._u ? '<span class="un" style="background:' + UNI[b._u].color + '">' + UNI[b._u].nom + '</span>' : '') +
+        '<span class="et">' + b.et + '</span>' + b.t + '<span class="fl"></span>' +
+      '</h2>' +
+      '<div class="cuerpo">' + b.html + '</div>' +
+    '</section>').join("");
+  cont.querySelectorAll("section.bloq > h2").forEach(h => {
+    const abrir = () => h.parentElement.classList.toggle("abierta");
+    h.onclick = abrir;
+    h.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrir(); } };
+  });
+}
+
+/* ================= SECCIONES ================= */
+function irA(sec){
+  SECCION = sec;
+  document.body.dataset.sec = sec;
+  document.querySelectorAll("nav.secs button").forEach(b => b.setAttribute("aria-selected", b.dataset.s === sec));
+  document.getElementById("q").value = "";
+  document.getElementById("wrap-buscar").classList.remove("lleno");
+  sin.hidden = true;
+
+  if (sec === "med") {
+    cont.innerHTML = ""; atajosWrap.innerHTML = "";
+    secMed.classList.remove("oculto");
+  } else {
+    secMed.classList.add("oculto");
+    pintarAtajos(sec);
+    pintar(sec);
+  }
+  window.scrollTo({ top: 0 });
+}
+
+document.querySelectorAll("nav.secs button").forEach(b => { b.onclick = () => irA(b.dataset.s); });
+
+/* ================= SUB-PESTAÑAS DE MEDICAMENTOS ================= */
+document.querySelectorAll(".sub-tabs button").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll(".sub-tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+    ["calc","farm","ref"].forEach(v => document.getElementById("m-" + v).classList.toggle("oculto", v !== b.dataset.m));
   };
 });
 
-const q=document.getElementById("q");
-const wrap=document.getElementById("wrap-buscar");
-const sin=document.getElementById("sin");
-const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+/* ================= BÚSQUEDA GLOBAL ================= */
+const q = document.getElementById("q");
+const wrap = document.getElementById("wrap-buscar");
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
 function buscar(){
-  const t=q.value.trim();
-  wrap.classList.toggle("lleno", t.length>0);
-  if(!t){ pintar(); sin.hidden=true; document.getElementById("atajos").hidden=false; return; }
-  document.getElementById("atajos").hidden=true;
-  const n=norm(t);
-  let vistos=0;
-  pintar();
-  cont.querySelectorAll("section.bloq").forEach(s=>{
-    if(norm(s.textContent).includes(n)){ s.classList.add("abierta"); resaltar(s.querySelector(".cuerpo"),t); vistos++; }
-    else s.remove();
+  const t = q.value.trim();
+  wrap.classList.toggle("lleno", t.length > 0);
+
+  if (!t) {
+    if (SECCION === "med") { secMed.classList.remove("oculto"); cont.innerHTML = ""; atajosWrap.innerHTML = ""; }
+    else { secMed.classList.add("oculto"); pintarAtajos(SECCION); pintar(SECCION); }
+    sin.hidden = true;
+    return;
+  }
+
+  // la búsqueda cruza Puerperio y ARO; medicamentos tiene su propio buscador
+  secMed.classList.add("oculto");
+  atajosWrap.innerHTML = "";
+  const n = norm(t);
+  const todos = [
+    ...BLOQUES_PUE.map(b => Object.assign({}, b, { _u: "pue" })),
+    ...BLOQUES_ARO.map(b => Object.assign({}, b, { _u: "aro" }))
+  ];
+  const hits = todos.filter(b => norm(b.t + " " + b.et + " " + b.html).includes(n));
+  pintar(null, hits);
+  cont.querySelectorAll("section.bloq").forEach(s => {
+    s.classList.add("abierta");
+    resaltar(s.querySelector(".cuerpo"), t);
   });
-  sin.hidden = vistos>0;
+  sin.hidden = hits.length > 0;
 }
-function resaltar(raiz,t){
-  const n=norm(t);
-  const it=document.createTreeWalker(raiz,NodeFilter.SHOW_TEXT);
-  const nodos=[]; let x;
-  while(x=it.nextNode()) if(norm(x.nodeValue).includes(n)) nodos.push(x);
-  nodos.forEach(nodo=>{
-    const v=nodo.nodeValue, i=norm(v).indexOf(n);
-    if(i<0) return;
-    const frag=document.createDocumentFragment();
-    frag.appendChild(document.createTextNode(v.slice(0,i)));
-    const m=document.createElement("mark"); m.textContent=v.slice(i,i+t.length);
+
+function resaltar(raiz, t){
+  const n = norm(t);
+  const it = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT);
+  const nodos = []; let x;
+  while (x = it.nextNode()) if (norm(x.nodeValue).includes(n)) nodos.push(x);
+  nodos.forEach(nodo => {
+    const v = nodo.nodeValue, i = norm(v).indexOf(n);
+    if (i < 0) return;
+    const frag = document.createDocumentFragment();
+    frag.appendChild(document.createTextNode(v.slice(0, i)));
+    const m = document.createElement("mark"); m.textContent = v.slice(i, i + t.length);
     frag.appendChild(m);
-    frag.appendChild(document.createTextNode(v.slice(i+t.length)));
-    nodo.parentNode.replaceChild(frag,nodo);
+    frag.appendChild(document.createTextNode(v.slice(i + t.length)));
+    nodo.parentNode.replaceChild(frag, nodo);
   });
 }
+
 let temp;
-q.oninput=()=>{ clearTimeout(temp); temp=setTimeout(buscar,180); };
-document.getElementById("limpiar").onclick=()=>{ q.value=""; q.focus(); buscar(); };
+q.oninput = () => { clearTimeout(temp); temp = setTimeout(buscar, 180); };
+document.getElementById("limpiar").onclick = () => { q.value = ""; q.focus(); buscar(); };
+
+/* ================= ARRANQUE ================= */
+irA("pue");
+
 </script>
 </body>
 </html>
