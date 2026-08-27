@@ -21,6 +21,7 @@
   --acento:#8C2F39; --acento-cl:#FBF3F4;
   --sand:#F0F4F4;
   --verde:#1B6B52; --verde-cl:#EDF5F2;
+  --ambar:#8A6410; --ambar-cl:#FBF4E4;
 }
 body[data-sec="pue"]{
   --tinta:#16325C; --tinta-2:#54718F; --tinta-3:#8CA0B4;
@@ -33,6 +34,10 @@ body[data-sec="aro"]{
 body[data-sec="med"]{
   --tinta:#5C3A0A; --tinta-2:#8A6B3A; --tinta-3:#B09A76;
   --acento:#A0392A; --acento-cl:#FBEEEB; --sand:#FBF5EA;
+}
+body[data-sec="cal"]{
+  --tinta:#1F5148; --tinta-2:#4C7B71; --tinta-3:#8FACA5;
+  --acento:#A0392A; --acento-cl:#FBEEEB; --sand:#EDF4F2;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;overflow-x:hidden}
@@ -216,6 +221,59 @@ h3.sec-r{font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;
   color:var(--tinta-3);margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--rejilla)}
 #m-ref ul.li li{font-size:14.5px}
 #m-ref p{font-size:14.5px}
+.barra{margin-top:12px;height:26px;background:var(--rejilla-2);position:relative;border:1px solid var(--rejilla)}
+.barra .zona{position:absolute;top:0;bottom:0}
+.barra .z1{background:#E4F0EA}
+.barra .z2{background:#FBF4E4}
+.barra .z3{background:#FBEDED}
+.barra .marca{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--tinta);z-index:2}
+.barra .etq{position:absolute;top:100%;margin-top:3px;font:9.5px var(--dato);color:var(--tinta-3);transform:translateX(-50%)}
+.etq{position:absolute;top:3px;font:9.5px var(--dato);color:var(--tinta-3);transform:translateX(-50%);white-space:nowrap}
+.barra-wrap{margin-bottom:22px}
+
+table{width:100%;border-collapse:collapse;margin:0 0 12px;font-size:13.5px;table-layout:fixed}
+th,td{border:1px solid var(--rejilla);padding:8px 9px;text-align:left;vertical-align:top;
+  word-break:break-word;overflow-wrap:anywhere}
+th{background:#F7F8FA;font-family:var(--label);text-transform:uppercase;letter-spacing:.06em;
+  font-size:10.5px;color:var(--tinta-2);font-weight:600}
+td .n{font-family:var(--dato);font-weight:600}
+
+.alerta-box{background:var(--acento-cl);border-left:3px solid var(--acento);padding:11px 13px;margin:0 0 14px;font-size:14px;color:#8A1B20;line-height:1.5}
+.alerta-box > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
+.ok-box{background:var(--verde-cl);border-left:3px solid var(--verde);padding:11px 13px;margin:0 0 14px;font-size:14px;color:#14503E;line-height:1.5}
+.ok-box > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
+.aviso-box{background:var(--ambar-cl);border-left:3px solid var(--ambar);padding:11px 13px;margin:0 0 14px;font-size:13.5px;color:#6B4E0C;line-height:1.5}
+.aviso-box > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
+
+h3.sec{font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:11px;
+  color:var(--tinta-3);margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--rejilla)}
+ul.li{list-style:none;margin:0 0 12px;padding:0}
+ul.li li{position:relative;padding-left:15px;font-size:14.5px;margin-bottom:6px;line-height:1.5}
+ul.li li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--tinta-3)}
+.fechas{margin-top:12px;display:flex;gap:1px;background:var(--rejilla);border:1px solid var(--rejilla);flex-wrap:wrap}
+.fechas div{background:var(--hoja);padding:11px 13px;flex:1 1 130px}
+.fechas div .k{font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:9.5px;color:var(--tinta-3)}
+.fechas div .v{font:16px var(--dato);font-weight:600;margin-top:3px;line-height:1.2}
+.fechas div .n3{font-size:11px;color:var(--tinta-3);margin-top:2px;line-height:1.35}
+tr.fila-dest td{background:#E3EBF4;font-weight:700;color:var(--tinta)}
+
+.res.alerta .final{background:var(--acento-cl);border-left-color:var(--acento)}
+.res.alerta .final .k,.res.alerta .final .v{color:var(--acento)}
+.res.alerta .final .n2{color:var(--acento)}
+.res.aviso .final{background:var(--ambar-cl);border-left-color:var(--ambar)}
+.res.aviso .final .k,.res.aviso .final .v{color:var(--ambar)}
+.res.aviso .final .n2{color:#6B4E0C}
+.alerta-box{background:var(--acento-cl);border-left:3px solid var(--acento);padding:11px 13px;margin:0 0 14px;font-size:14px;color:var(--acento);line-height:1.5}
+.alerta-box > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
+.ok-box{background:var(--verde-cl);border-left:3px solid var(--verde);padding:11px 13px;margin:0 0 14px;font-size:14px;color:#14503E;line-height:1.5}
+.ok-box > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
+.aviso-box > b:first-child{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
+h3.sec{font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:11px;
+  color:var(--tinta-3);margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--rejilla)}
+#sec-cal ul.li li{font-size:14.5px}
+#sec-cal p{font-size:14.5px}
+.oculto{display:none!important}
+
 .oculto{display:none!important}
 footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:var(--tinta-3);line-height:1.6}
 </style>
@@ -231,10 +289,11 @@ footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:
     <button role="tab" aria-selected="true"  data-s="pue">Puerperio y RN</button>
     <button role="tab" aria-selected="false" data-s="aro">Alto Riesgo</button>
     <button role="tab" aria-selected="false" data-s="med">Medicamentos</button>
+    <button role="tab" aria-selected="false" data-s="cal">Calculadoras</button>
   </nav>
   <div class="buscar" id="wrap-buscar">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
-    <input id="q" type="search" placeholder="Buscar en todas las secciones…" aria-label="Buscar" autocomplete="off">
+    <input id="q" type="search" placeholder="Buscar en Puerperio y Alto Riesgo…" aria-label="Buscar" autocomplete="off">
     <button class="x" id="limpiar" aria-label="Limpiar búsqueda">&times;</button>
   </div>
 </header>
@@ -436,11 +495,389 @@ footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:
     </div>
     </div>
   </section>
+
+  <!-- ===== SECCIÓN CALCULADORAS ===== -->
+  <section id="sec-cal" class="oculto">
+    <div class="sub-tabs" role="tablist">
+      <button role="tab" aria-selected="true"  data-k="peso">Baja de peso</button>
+      <button role="tab" aria-selected="false" data-k="eg">Edad gestacional</button>
+      <button role="tab" aria-selected="false" data-k="ict">Ictericia</button>
+      <button role="tab" aria-selected="false" data-k="dop">Doppler</button>
+    </div>
+<!-- ==================== BAJA DE PESO ==================== -->
+<section id="k-peso">
+
+  <div class="card">
+    <h2>Baja de peso del recién nacido</h2>
+    <div class="cuerpo-c">
+      <div class="dosfila">
+        <div class="campo">
+          <label>Peso de nacimiento</label>
+          <div class="fila"><input id="p-nac" type="number" inputmode="decimal" placeholder="3450"><span class="u">g</span></div>
+        </div>
+        <div class="campo">
+          <label>Peso actual</label>
+          <div class="fila"><input id="p-act" type="number" inputmode="decimal" placeholder="3250"><span class="u">g</span></div>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Día de vida</label>
+        <select id="p-dia">
+          <option value="0">Día 0 · primeras 24 horas</option>
+          <option value="1" selected>Día 1</option>
+          <option value="2">Día 2</option>
+          <option value="3">Día 3</option>
+          <option value="4">Día 4</option>
+          <option value="5">Día 5</option>
+          <option value="6">Día 6</option>
+          <option value="7">Día 7 o más</option>
+        </select>
+      </div>
+      <div class="res" id="p-res"></div>
+      <div class="barra-wrap oculto" id="p-barra-wrap">
+        <div class="barra" id="p-barra">
+          <div class="zona z1" style="left:0;width:70%"></div>
+          <div class="zona z2" style="left:70%;width:30%"></div>
+          <div class="marca" id="p-marca" style="left:0"></div>
+          <div class="etq" style="left:0">0 %</div>
+          <div class="etq" style="left:70%">7 %</div>
+          <div class="etq" style="left:100%">10 %</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Proyección hasta el alta</h2>
+    <div class="cuerpo-c">
+      <p style="font-size:14px;margin:0 0 12px;color:var(--tinta-2)">
+        Con el peso de nacimiento ingresado arriba, estos son los pesos que corresponderían al límite fisiológico en cada día.
+      </p>
+      <div id="p-tabla"></div>
+    </div>
+  </div>
+
+  <h3 class="sec">Qué dice la norma</h3>
+  <div class="ok-box">
+    <b>Baja fisiológica</b>
+    La baja fisiológica es de 3 % diario, o de 10 % en los primeros 3 días.
+    Para el alta, la baja de peso debe ser menor del 10 %, salvo error evidente de peso o baja del primer día por sobrehidratación prenatal.
+  </div>
+
+  <div class="alerta-box">
+    <b>Nunca indicar suplemento solo por descenso de peso el primer día</b>
+    Ante una baja mayor a la fisiológica hay que buscar la causa antes de suplementar.
+  </div>
+
+  <h3 class="sec">Causas de baja mayor a la fisiológica</h3>
+  <table>
+    <tr><th>Causa</th><th>Cómo se reconoce</th></tr>
+    <tr><td>Error de peso, actual o anterior</td><td>El peso diario de rutina minimiza este problema</td></tr>
+    <tr><td>Sobrehidratación prenatal materna</td><td>Aporte hídrico a la madre mayor de <b>200 ml/hora</b> y recién nacido con orina abundante y transparente. Solo requiere control: el peso debe bajar <b>2,5 % o menos</b> en las siguientes 24 horas</td></tr>
+    <tr><td>Sobreabrigo</td><td>Vestimenta excesiva, alzas de temperatura, signos de deshidratación</td></tr>
+    <tr><td>Patología</td><td>Infección, hipoglicemia, dolor, trastornos cardiológicos o neurológicos</td></tr>
+    <tr><td>Problema de lactancia</td><td>Frecuencia de mamadas, apego, dolor materno por parto, grietas o congestión</td></tr>
+  </table>
+
+  <h3 class="sec">Si el peso sube en vez de bajar</h3>
+  <ul class="li">
+    <li>Evaluar primero la posibilidad de error de peso.</li>
+    <li>Si el error es muy poco probable, considerar insuficiencia cardíaca o insuficiencia renal inicial.</li>
+    <li>Un leve ascenso después de las 36 horas, con descenso inicial previo, puede observarse si la madre tiene abundante calostro.</li>
+  </ul>
+
+  <div class="aviso-box">
+    <b>Antes de decidir</b>
+    Toda indicación de suplemento requiere indicación médica y debe considerarse como un medicamento, con sus propios riesgos.
+    Todo niño que ha recibido suplemento queda citado a control en 2 a 3 días.
+  </div>
+</section>
+
+<!-- ==================== EDAD GESTACIONAL ==================== -->
+<section id="k-eg" class="oculto">
+
+  <div class="card">
+    <h2>Edad gestacional por FUR</h2>
+    <div class="cuerpo-c">
+      <div class="campo">
+        <label>Fecha de última regla</label>
+        <div class="fila"><input id="e-fur" type="date"></div>
+      </div>
+      <div class="dosfila">
+        <div class="campo">
+          <label>Fecha de referencia</label>
+          <div class="fila"><input id="e-ref" type="date"></div>
+        </div>
+        <div class="campo">
+          <label>Duración del ciclo</label>
+          <div class="fila"><input id="e-ciclo" type="number" inputmode="numeric" value="28" min="20" max="45"><span class="u">días</span></div>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:var(--tinta-3);margin:0 0 4px">
+        Por omisión, la fecha de referencia es hoy y el ciclo de 28 días. Ajusta el ciclo si la usuaria lo tiene más largo o más corto:
+        cambia la fecha de concepción y la fecha probable de parto.
+      </p>
+      <div class="res" id="e-res"></div>
+      <div class="fechas oculto" id="e-fechas"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Edad corregida del prematuro</h2>
+    <div class="cuerpo-c">
+      <div class="dosfila">
+        <div class="campo">
+          <label>Edad gestacional al nacer</label>
+          <div class="fila"><input id="c-sem" type="number" inputmode="numeric" placeholder="32"><span class="u">sem</span></div>
+        </div>
+        <div class="campo">
+          <label>Días adicionales</label>
+          <div class="fila"><input id="c-dia" type="number" inputmode="numeric" placeholder="4"><span class="u">días</span></div>
+        </div>
+      </div>
+      <div class="campo">
+        <label>Fecha de nacimiento</label>
+        <div class="fila"><input id="c-fn" type="date"></div>
+      </div>
+      <div class="res" id="c-res"></div>
+    </div>
+  </div>
+
+  <h3 class="sec">Cómo se calcula</h3>
+  <table>
+    <tr><th>Qué</th><th>Fórmula</th></tr>
+    <tr><td>Edad gestacional</td><td class="n">días transcurridos desde la FUR ÷ 7</td></tr>
+    <tr><td>Fecha probable de parto (Naegele)</td><td class="n">FUR + 7 días − 3 meses + 1 año<br>equivale a FUR + 280 días</td></tr>
+    <tr><td>Fecha probable de parto ajustada</td><td class="n">FUR + 280 días + (duración del ciclo − 28)</td></tr>
+    <tr><td>Fecha probable de concepción</td><td class="n">FUR + (duración del ciclo − 14)</td></tr>
+    <tr><td>Edad cronológica</td><td class="n">días desde el nacimiento</td></tr>
+    <tr><td>Edad corregida</td><td class="n">edad cronológica − (40 semanas − EG al nacer)</td></tr>
+  </table>
+
+  <div class="ok-box">
+    <b>Por qué la duración del ciclo importa</b>
+    La fase lútea es de duración relativamente fija, alrededor de 14 días. Lo que varía entre mujeres es la fase folicular.
+    <br><br>
+    Por eso, en un ciclo de 28 días la ovulación ocurre alrededor del día 14, pero en uno de 32 días ocurre cerca del día 18,
+    y en uno de 24 días cerca del día 10. Ese desplazamiento mueve la concepción y, con ella, la fecha probable de parto.
+    <br><br>
+    La regla de Naegele clásica supone un ciclo de 28 días. En una mujer con ciclos de 35 días, aplicarla sin ajuste
+    adelanta la fecha probable de parto en una semana.
+  </div>
+
+  <div class="aviso-box">
+    <b>Sobre la fecha probable de concepción</b>
+    Es una estimación basada en el patrón de ovulación esperable, no un dato exacto. Si existe una fecha de concepción conocida
+    —por ejemplo en fertilización asistida o cuando hubo una única relación en el ciclo— esa fecha manda por sobre el cálculo.
+  </div>
+
+  <div class="aviso-box">
+    <b>Cuándo el cálculo por FUR no sirve</b>
+    Ciclos irregulares, FUR incierta o no recordada, uso reciente de anticoncepción hormonal, o discrepancia mayor con la biometría ecográfica.
+    En esos casos la edad gestacional se establece por ecografía precoz, que es el método de referencia.
+    Confirma siempre cuál es la edad gestacional operativa registrada en la ficha antes de usar este cálculo para una decisión.
+  </div>
+
+  <h3 class="sec">Clasificación por edad gestacional al nacer</h3>
+  <table>
+    <tr><th>Categoría</th><th>Edad gestacional</th></tr>
+    <tr><td>Pretérmino</td><td>Menos de 37 semanas</td></tr>
+    <tr><td>Prematuro tardío</td><td>Entre 34 y 36 semanas más 6 días</td></tr>
+    <tr><td>Término</td><td>Entre 37 y 41 semanas más 6 días</td></tr>
+    <tr><td>Postérmino</td><td>42 semanas o más</td></tr>
+  </table>
+
+  <div class="ok-box">
+    <b>Para qué sirve la edad corregida</b>
+    En el prematuro, la evaluación del crecimiento y del desarrollo psicomotor se hace según edad corregida, no cronológica.
+    Un niño de 6 meses de vida nacido a las 32 semanas tiene una edad corregida de 4 meses, y es a esa edad a la que corresponde compararlo.
+  </div>
+</section>
+
+<!-- ==================== ICTERICIA ==================== -->
+<section id="k-ict" class="oculto">
+
+  <div class="alerta-box">
+    <b>Lee esto antes de usar</b>
+    Esta sección calcula las <b>horas de vida exactas</b>, que es el dato del que depende toda la interpretación de la bilirrubina, y que con frecuencia se estima mal.
+    <br><br>
+    NO interpreta el valor ni indica tratamiento: los umbrales de fototerapia y de exanguinotransfusión dependen del nomograma vigente en tu servicio,
+    de la edad gestacional y de los factores de riesgo de cada recién nacido. Esa lectura la hace el equipo con el nomograma en mano.
+  </div>
+
+  <div class="card">
+    <h2>Horas de vida</h2>
+    <div class="cuerpo-c">
+      <div class="campo">
+        <label>Fecha y hora de nacimiento</label>
+        <div class="fila"><input id="i-nac" type="datetime-local"></div>
+      </div>
+      <div class="campo">
+        <label>Fecha y hora de la muestra o evaluación</label>
+        <div class="fila"><input id="i-mue" type="datetime-local"></div>
+      </div>
+      <div class="campo">
+        <label>Bilirrubina medida · opcional, solo para registro</label>
+        <div class="fila"><input id="i-bili" type="number" inputmode="decimal" placeholder="9.4"><span class="u">mg/dl</span></div>
+      </div>
+      <div class="res" id="i-res"></div>
+    </div>
+  </div>
+
+  <h3 class="sec">Por qué las horas exactas importan tanto</h3>
+  <div class="ok-box">
+    <b>El mismo valor significa cosas distintas</b>
+    Una bilirrubina de 10 mg/dl a las 24 horas de vida y la misma cifra a las 96 horas no tienen la misma implicancia:
+    la primera indica un ascenso rápido y la segunda puede ser parte de la evolución esperable.
+    <br><br>
+    Por eso los nomogramas se construyen sobre horas de vida y no sobre días. Redondear a «día 2» pierde justamente la información que se necesita.
+  </div>
+
+  <h3 class="sec">Evaluación clínica: progresión cefalocaudal</h3>
+  <p style="font-size:14.5px;margin:0 0 10px">
+    La ictericia progresa desde la cabeza hacia los pies a medida que aumenta la bilirrubina. Las zonas permiten estimar la magnitud
+    y decidir si corresponde medir, pero <b>no reemplazan la medición</b>.
+  </p>
+  <table>
+    <tr><th>Zona</th><th>Territorio comprometido</th></tr>
+    <tr><td>1</td><td>Cabeza y cuello</td></tr>
+    <tr><td>2</td><td>Tronco hasta el ombligo</td></tr>
+    <tr><td>3</td><td>Abdomen bajo y muslos</td></tr>
+    <tr><td>4</td><td>Brazos y piernas bajo las rodillas</td></tr>
+    <tr><td>5</td><td>Palmas y plantas</td></tr>
+  </table>
+  <div class="aviso-box">
+    <b>Sobre la correspondencia con cifras</b>
+    Existen valores orientativos asociados a cada zona, pero varían entre fuentes y la estimación visual tiene error considerable,
+    especialmente en pieles más oscuras y bajo luz artificial. Por eso no se incluyen aquí.
+    <br><br>
+    La evaluación clínica sirve para decidir <b>a quién medir</b>, no para decidir el tratamiento.
+  </div>
+
+  <h3 class="sec">Cómo se evalúa</h3>
+  <ul class="li">
+    <li>Con luz natural, cerca de una ventana. La luz artificial altera la percepción del color.</li>
+    <li>Mediante presión digital sobre la piel: al retirar el dedo, se observa el color del lecho blanqueado.</li>
+    <li>Se recorre en orden cefalocaudal para identificar hasta dónde llega el compromiso.</li>
+    <li>La evaluación se repite en cada control, idealmente junto con los signos vitales.</li>
+  </ul>
+
+  <div class="alerta-box">
+    <b>Qué debe consultarse con el equipo</b>
+    Ictericia que aparece en las primeras 24 horas de vida · ictericia que progresa rápidamente · ictericia que compromete más allá del tronco ·
+    recién nacido con ictericia y mal estado general, succión pobre o letargia · prematuro tardío con ictericia ·
+    baja de peso mayor a la fisiológica asociada a ictericia.
+  </div>
+
+  <div class="aviso-box">
+    <b>Completa esta sección con tu servicio</b>
+    Para que esta herramienta sea útil en el turno, anota junto a ella el nomograma vigente de tu unidad y los criterios de derivación.
+    Un nomograma pegado en la sala vale más que una calculadora que interpreta con umbrales que podrían no ser los de tu protocolo.
+  </div>
+</section>
+
+
+<!-- ==================== DOPPLER ==================== -->
+<section id="k-dop" class="oculto">
+
+  <div class="aviso-box">
+    <b>Sobre el alcance</b>
+    La interpretación del doppler y las decisiones que se derivan de ella corresponden al médico tratante.
+    Esta herramienta sirve para <b>entender el informe</b>: ubicar un valor respecto de los percentiles de referencia
+    y reconocer cuándo está fuera de rango. No reemplaza la lectura del especialista ni el contexto clínico completo.
+  </div>
+
+  <div class="card">
+    <h2>Ubicar un valor en los percentiles</h2>
+    <div class="cuerpo-c">
+      <div class="campo">
+        <label>Vaso y parámetro</label>
+        <select id="d-vaso"></select>
+      </div>
+      <div class="dosfila">
+        <div class="campo">
+          <label>Edad gestacional</label>
+          <div class="fila"><input id="d-sem" type="number" inputmode="numeric" placeholder="32"><span class="u">sem</span></div>
+        </div>
+        <div class="campo">
+          <label>Valor medido</label>
+          <div class="fila"><input id="d-val" type="number" inputmode="decimal" placeholder="1.35"></div>
+        </div>
+      </div>
+      <div class="res" id="d-res"></div>
+      <div class="barra-wrap oculto" id="d-barra-wrap">
+        <div class="barra" id="d-barra">
+          <div class="zona z1" style="left:0;width:100%"></div>
+          <div class="marca" id="d-p5" style="left:20%;background:var(--tinta-3)"></div>
+          <div class="marca" id="d-p50" style="left:50%;background:var(--tinta-3)"></div>
+          <div class="marca" id="d-p95" style="left:80%;background:var(--tinta-3)"></div>
+          <div class="marca" id="d-marca" style="left:50%"></div>
+        </div>
+        <div id="d-etq" style="position:relative;height:14px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Tabla de referencia</h2>
+    <div class="cuerpo-c">
+      <p style="font-size:14px;margin:0 0 12px;color:var(--tinta-2)">Percentiles del vaso seleccionado arriba. La fila de la semana ingresada aparece destacada.</p>
+      <div id="d-tabla"></div>
+    </div>
+  </div>
+
+  <h3 class="sec">La secuencia de deterioro en RCIU</h3>
+  <p style="font-size:14.5px;margin:0 0 10px">
+    Los vasos se alteran en un orden previsible que refleja la progresión del compromiso. Ese orden es lo que convierte una lista de valores en un razonamiento.
+  </p>
+  <table>
+    <tr><th>Orden</th><th>Hallazgo</th><th>Qué traduce</th></tr>
+    <tr><td class="n">1</td><td>Arteria umbilical: aumento de resistencia</td><td>Obliteración de parte del lecho vellositario. Primer signo</td></tr>
+    <tr><td class="n">2</td><td>Cerebral media: vasodilatación, índice bajo</td><td>Centralización. El feto redistribuye hacia cerebro, corazón y suprarrenales</td></tr>
+    <tr><td class="n">3</td><td>Umbilical: flujo diastólico ausente</td><td>Obliteración de la mayor parte del lecho</td></tr>
+    <tr><td class="n">4</td><td>Umbilical: flujo diastólico reverso</td><td>Compromiso severo</td></tr>
+    <tr><td class="n">5</td><td>Ductus venoso alterado</td><td>Falla cardíaca derecha. Cambia la naturaleza del problema</td></tr>
+    <tr><td class="n">6</td><td>Vena umbilical pulsátil</td><td>Signo preterminal</td></tr>
+  </table>
+
+  <div class="alerta-box">
+    <b>El concepto que más se malinterpreta</b>
+    La centralización no es una buena noticia. Que el flujo cerebral esté «protegido» significa que el feto ya está compensando una hipoxia.
+    Es evidencia de compromiso, no de bienestar.
+  </div>
+
+  <h3 class="sec">Criterios de severidad en RCIU</h3>
+  <ul class="li">
+    <li>Ductus venoso con índice de pulsatilidad sobre el percentil 95.</li>
+    <li>Signos de asfixia al doppler: centralización inicial, avanzada o descentralización.</li>
+    <li>Perfil biofísico menor de 6/10 con oligoamnios.</li>
+    <li>Monitorización fetal no estresante categoría II o III.</li>
+  </ul>
+
+  <h3 class="sec">Cuándo se indica cada estudio</h3>
+  <table>
+    <tr><th>Vaso</th><th>Indicación</th></tr>
+    <tr><td>Arterias uterinas</td><td>Predicción de preeclampsia y RCIU en mujeres con factores de riesgo: entre las 11 y 13+6 semanas, con seguimiento entre las 20 y 24 semanas</td></tr>
+    <tr><td>Arteria umbilical</td><td>Recomendada en embarazos de alto riesgo como predictor de muerte perinatal. NO se recomienda en bajo riesgo ni en población general</td></tr>
+    <tr><td>Cerebral media</td><td>No debe usarse como parámetro único para decidir interrupción. En RCIU tardío se recomienda evaluarla independiente del resultado de la umbilical</td></tr>
+    <tr><td>Ductus venoso</td><td>Recomendado en RCIU de origen hipóxico menor de 32 semanas. Bajo 26 semanas prima la edad gestacional sobre el ductus en la decisión</td></tr>
+  </table>
+
+  <div class="ok-box">
+    <b>Un matiz importante</b>
+    En restricción de crecimiento menor de 26 semanas, la edad gestacional pesa más que el ductus venoso en la toma de decisiones.
+    La edad gestacional es el parámetro más importante de predicción de muerte perinatal en ese grupo.
+  </div>
+</section>
+
+
+  </section>
+
 </main>
 
 <footer>
   Contenido basado en la Norma General Técnica para la Atención Integral en el Puerperio (MINSAL, 2015), la Norma General Técnica N.º 0194
-  de Atención del Recién Nacido (MINSAL, 2017) y la Guía Clínica Perinatal (MINSAL, 2015). Material de estudio: no reemplaza la indicación
+  de Atención del Recién Nacido (MINSAL, 2017) y la Guía Clínica Perinatal (MINSAL, 2015). Los percentiles de doppler provienen del anexo 3 de la Guía Perinatal. Material de estudio: no reemplaza la indicación
   del profesional a cargo ni el protocolo local del establecimiento. Ante duda clínica, consulta a la matrona responsable.
 </footer>
 
@@ -1912,6 +2349,463 @@ function pintarFarmacos(filtro){
 ["c4-pct","c4-vol"].forEach(id => { const e=$(id); if(e){ e.oninput=calc4; } });
 pintarFarmacos("");
 
+
+/* ================= CALCULADORAS CLÍNICAS ================= */
+(function(){
+
+
+const $ = id => document.getElementById(id);
+const num = v => { const x = parseFloat(String(v).replace(",", ".")); return isFinite(x) ? x : null; };
+function fmt(x, d){
+  if (x === null || !isFinite(x)) return "–";
+  const dec = (d === undefined) ? 2 : d;
+  let s = x.toFixed(dec);
+  if (dec > 0) s = s.replace(/\.?0+$/, "");   // solo si hay parte decimal
+  return s.replace(".", ",");
+}
+function limpiar(el){ el.className = "res"; el.innerHTML = ""; }
+function pasos(el, lista, titulo, valor, nota, tipo){
+  el.className = "res" + (tipo ? " " + tipo : "");
+  el.innerHTML =
+    lista.map(p => '<div class="paso">' + p + '</div>').join("") +
+    '<div class="final"><div class="k">' + titulo + '</div>' +
+    '<div class="v">' + valor + '</div>' +
+    (nota ? '<div class="n2">' + nota + '</div>' : '') + '</div>';
+}
+const op = t => '<span class="op">' + t + '</span>';
+
+/* ============ 1 · BAJA DE PESO ============ */
+function calcPeso(){
+  const el = $("p-res"), wrap = $("p-barra-wrap");
+  const nac = num($("p-nac").value), act = num($("p-act").value);
+  const dia = parseInt($("p-dia").value, 10);
+
+  pintarTabla(nac);
+
+  if (nac === null || act === null) { limpiar(el); wrap.classList.add("oculto"); return; }
+  if (nac <= 0 || act <= 0) {
+    pasos(el, [], "Revisa los datos", "–", "Los pesos deben ser mayores que cero.", "alerta");
+    wrap.classList.add("oculto"); return;
+  }
+
+  const dif = nac - act;
+  const pct = (dif / nac) * 100;
+  const lista = [];
+
+  if (dif >= 0) {
+    lista.push("Diferencia: " + op(fmt(nac,0) + " g − " + fmt(act,0) + " g = " + fmt(dif,0) + " g"));
+    lista.push("Porcentaje: " + op(fmt(dif,0) + " g ÷ " + fmt(nac,0) + " g × 100 = " + fmt(pct,1) + " %"));
+  } else {
+    lista.push("El peso actual es mayor que el de nacimiento: " + op("ascenso de " + fmt(-dif,0) + " g"));
+  }
+
+  // límite fisiológico según día: 3 % diario, tope 10 %
+  const limite = Math.min(3 * Math.max(dia, 1), 10);
+
+  if (dif < 0) {
+    pasos(el, lista, "Ascenso de peso", "+" + fmt(-pct,1) + " %",
+      "Evalúa primero la posibilidad de error de peso. Si es muy poco probable, considera insuficiencia cardíaca o renal inicial. " +
+      "Un leve ascenso después de las 36 horas, con descenso previo, puede observarse si la madre tiene abundante calostro.",
+      "aviso");
+    wrap.classList.add("oculto");
+    return;
+  }
+
+  let tipo = "", nota = "";
+  if (pct >= 10) {
+    tipo = "alerta";
+    nota = "Supera el 10 %. Está fuera del rango fisiológico y por sobre el criterio de alta. " +
+           "Busca la causa: error de peso, sobrehidratación prenatal, sobreabrigo, patología o problema de lactancia. " +
+           "No indiques suplemento sin evaluación.";
+  } else if (pct > limite) {
+    tipo = "aviso";
+    nota = "Está bajo el 10 %, pero supera el límite fisiológico de 3 % diario para el día " + dia +
+           " (que sería " + fmt(limite,1) + " %). Conviene revisar la técnica de lactancia, el número de mamadas, el abrigo y descartar error de peso.";
+  } else {
+    nota = "Dentro del rango fisiológico para el día " + dia + ", cuyo límite es " + fmt(limite,1) + " %. " +
+           "Para el alta se requiere una baja menor al 10 %.";
+  }
+
+  if (dia === 0 && pct > limite) {
+    nota += " Recuerda: nunca se indica suplemento solo por descenso de peso el primer día.";
+  }
+
+  pasos(el, lista, "Baja de peso", fmt(pct,1) + " %", nota, tipo);
+
+  // barra: 0 a 10 % mapeado al ancho; 7 % marca el cambio de zona
+  wrap.classList.remove("oculto");
+  const pos = Math.max(0, Math.min(100, (pct / 10) * 100));
+  $("p-marca").style.left = pos + "%";
+}
+
+function pintarTabla(nac){
+  const cont = $("p-tabla");
+  if (nac === null || nac <= 0) {
+    cont.innerHTML = '<p style="font-size:13.5px;color:var(--tinta-3);margin:0">Ingresa el peso de nacimiento para ver la proyección.</p>';
+    return;
+  }
+  let filas = '<tr><th>Día</th><th>Límite fisiológico</th><th>Peso mínimo esperable</th></tr>';
+  for (let d = 1; d <= 5; d++) {
+    const lim = Math.min(3 * d, 10);
+    const peso = nac * (1 - lim / 100);
+    filas += '<tr><td>Día ' + d + '</td><td class="n">' + fmt(lim,1) + ' %</td><td class="n">' + fmt(peso,0) + ' g</td></tr>';
+  }
+  const peso10 = nac * 0.9;
+  filas += '<tr><td><b>Criterio de alta</b></td><td class="n">menos de 10 %</td><td class="n">sobre ' + fmt(peso10,0) + ' g</td></tr>';
+  cont.innerHTML = '<table>' + filas + '</table>' +
+    '<p style="font-size:12.5px;color:var(--tinta-3);margin:0">El límite fisiológico es de 3 % diario, con un tope de 10 % en los primeros 3 días.</p>';
+}
+
+["p-nac","p-act","p-dia"].forEach(id => { const e = $(id); e.oninput = calcPeso; e.onchange = calcPeso; });
+
+/* ============ 2 · EDAD GESTACIONAL ============ */
+function hoyISO(){
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+function parseFecha(v){
+  if (!v) return null;
+  const p = v.split("-");
+  if (p.length !== 3) return null;
+  const d = new Date(+p[0], +p[1]-1, +p[2]);
+  return isNaN(d.getTime()) ? null : d;
+}
+function difDias(a, b){ return Math.round((b - a) / 86400000); }
+function fechaTexto(d){
+  return String(d.getDate()).padStart(2,"0") + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + d.getFullYear();
+}
+
+function calcEG(){
+  const el = $("e-res"), box = $("e-fechas");
+  const fur = parseFecha($("e-fur").value), ref = parseFecha($("e-ref").value);
+  let ciclo = parseInt($("e-ciclo").value, 10);
+  if (!isFinite(ciclo)) ciclo = 28;
+
+  if (!fur || !ref) { limpiar(el); box.classList.add("oculto"); return; }
+  if (ciclo < 20 || ciclo > 45) {
+    pasos(el, [], "Revisa el ciclo", "–", "La duración del ciclo debe estar entre 20 y 45 días.", "alerta");
+    box.classList.add("oculto"); return;
+  }
+  const dias = difDias(fur, ref);
+  if (dias < 0) { pasos(el, [], "Revisa las fechas", "–", "La fecha de referencia es anterior a la FUR.", "alerta"); box.classList.add("oculto"); return; }
+  if (dias > 320) { pasos(el, [], "Revisa las fechas", "–", "El resultado supera las 45 semanas: verifica la FUR.", "alerta"); box.classList.add("oculto"); return; }
+
+  const sem = Math.floor(dias / 7), d = dias % 7;
+  const ajuste = ciclo - 28;             // días de corrimiento por ciclo
+  const diaOvulacion = ciclo - 14;       // fase lútea fija de 14 días
+
+  // fecha probable de concepción
+  const fpc = new Date(fur.getTime());
+  fpc.setDate(fpc.getDate() + diaOvulacion);
+
+  // fecha probable de parto: Naegele, ajustada por ciclo
+  const fpp = new Date(fur.getTime());
+  fpp.setDate(fpp.getDate() + 280 + ajuste);
+
+  const lista = [
+    "Días desde la FUR: " + op(fechaTexto(fur) + " a " + fechaTexto(ref) + " = " + dias + " días"),
+    "Edad gestacional: " + op(dias + " ÷ 7 = " + sem + " semanas y " + d + " días")
+  ];
+  if (ajuste !== 0) {
+    lista.push("Ajuste por ciclo de " + ciclo + " días: " + op("ovulación estimada el día " + diaOvulacion + " del ciclo"));
+  }
+
+  let cat = "", tipo = "";
+  if (sem < 34) { cat = "Pretérmino"; tipo = "aviso"; }
+  else if (sem < 37) { cat = "Prematuro tardío"; tipo = "aviso"; }
+  else if (sem < 42) { cat = "Término"; }
+  else { cat = "Postérmino"; tipo = "aviso"; }
+
+  const faltan = difDias(ref, fpp);
+  let nota = cat + ".";
+  if (faltan > 0) nota += " Faltan " + faltan + " días para la fecha probable de parto.";
+  else if (faltan === 0) nota += " La fecha probable de parto es hoy.";
+  else nota += " Han pasado " + (-faltan) + " días desde la fecha probable de parto.";
+  if (ajuste !== 0) {
+    nota += " La edad gestacional se cuenta desde la FUR, según la convención habitual; el ajuste por ciclo se aplica a las fechas.";
+  }
+
+  pasos(el, lista, "Edad gestacional", sem + " sem " + d + " d", nota, tipo);
+
+  // panel de fechas
+  const semGest = Math.floor((280 + ajuste) / 7);
+  box.classList.remove("oculto");
+  box.innerHTML =
+    '<div><div class="k">Última regla</div><div class="v">' + fechaTexto(fur) + '</div>' +
+      '<div class="n3">Ciclo de ' + ciclo + ' días</div></div>' +
+    '<div><div class="k">Probable concepción</div><div class="v">' + fechaTexto(fpc) + '</div>' +
+      '<div class="n3">Día ' + diaOvulacion + ' del ciclo</div></div>' +
+    '<div><div class="k">Probable parto</div><div class="v">' + fechaTexto(fpp) + '</div>' +
+      '<div class="n3">' + (ajuste === 0 ? "Naegele estándar" : "Naegele ajustada " + (ajuste > 0 ? "+" : "") + ajuste + " días") + '</div></div>';
+}
+
+function calcCorregida(){
+  const el = $("c-res");
+  const sem = num($("c-sem").value), dExtra = num($("c-dia").value) || 0;
+  const fn = parseFecha($("c-fn").value);
+  if (sem === null || !fn) { limpiar(el); return; }
+  if (sem < 20 || sem > 42) { pasos(el, [], "Revisa la edad gestacional", "–", "Debe estar entre 20 y 42 semanas.", "alerta"); return; }
+
+  const hoy = new Date();
+  const hoy0 = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+  const diasVida = difDias(fn, hoy0);
+  if (diasVida < 0) { pasos(el, [], "Revisa la fecha", "–", "La fecha de nacimiento es futura.", "alerta"); return; }
+
+  const semNacTotal = sem + dExtra / 7;
+  const semanasQueFaltaban = 40 - semNacTotal;
+  const diasCorreccion = Math.round(semanasQueFaltaban * 7);
+  const diasCorregidos = diasVida - diasCorreccion;
+
+  const lista = [
+    "Edad cronológica: " + op(diasVida + " días de vida"),
+    "Le faltaban para el término: " + op("40 − " + fmt(semNacTotal,1) + " = " + fmt(semanasQueFaltaban,1) + " semanas, es decir " + diasCorreccion + " días")
+  ];
+
+  if (semNacTotal >= 40) {
+    pasos(el, lista, "No requiere corrección", diasVida + " días",
+      "Nació de 40 semanas o más: la edad corregida coincide con la cronológica.");
+    return;
+  }
+
+  if (diasCorregidos < 0) {
+    lista.push("Corrección: " + op(diasVida + " − " + diasCorreccion + " = " + diasCorregidos + " días"));
+    pasos(el, lista, "Edad corregida", fmt(Math.abs(diasCorregidos),0) + " días antes del término",
+      "Aún no alcanza las 40 semanas de edad posmenstrual. La evaluación del crecimiento se hace según edad posmenstrual, no corregida.",
+      "aviso");
+    return;
+  }
+
+  const mesesCorr = Math.floor(diasCorregidos / 30.44);
+  const restoDias = Math.round(diasCorregidos - mesesCorr * 30.44);
+  let txt = diasCorregidos + " días";
+  let nota = "Edad cronológica: " + diasVida + " días. ";
+  if (mesesCorr >= 1) {
+    nota += "Equivale aproximadamente a " + mesesCorr + (mesesCorr === 1 ? " mes" : " meses");
+    if (restoDias > 0) nota += " y " + restoDias + " días";
+    nota += " de edad corregida. ";
+  }
+  nota += "El crecimiento y el desarrollo psicomotor se evalúan según esta edad, no la cronológica.";
+
+  lista.push("Corrección: " + op(diasVida + " − " + diasCorreccion + " = " + diasCorregidos + " días"));
+  pasos(el, lista, "Edad corregida", txt, nota);
+}
+
+["e-fur","e-ref","e-ciclo"].forEach(id => { $(id).onchange = calcEG; $(id).oninput = calcEG; });
+["c-sem","c-dia","c-fn"].forEach(id => { $(id).onchange = calcCorregida; $(id).oninput = calcCorregida; });
+
+/* ============ 3 · ICTERICIA · HORAS DE VIDA ============ */
+function parseDT(v){
+  if (!v) return null;
+  const d = new Date(v);
+  return isNaN(d.getTime()) ? null : d;
+}
+function calcIct(){
+  const el = $("i-res");
+  const nac = parseDT($("i-nac").value), mue = parseDT($("i-mue").value);
+  const bili = num($("i-bili").value);
+  if (!nac || !mue) { limpiar(el); return; }
+
+  const ms = mue - nac;
+  if (ms < 0) { pasos(el, [], "Revisa las fechas", "–", "La muestra es anterior al nacimiento.", "alerta"); return; }
+
+  const horas = ms / 3600000;
+  const hEnteras = Math.floor(horas);
+  const minutos = Math.round((horas - hEnteras) * 60);
+  const dias = Math.floor(hEnteras / 24);
+  const hResto = hEnteras % 24;
+
+  const lista = [
+    "Intervalo: " + op(hEnteras + " horas y " + minutos + " minutos"),
+    "Equivale a: " + op(dias + (dias === 1 ? " día" : " días") + " y " + hResto + " horas")
+  ];
+
+  let nota = "", tipo = "";
+  if (hEnteras < 24) {
+    tipo = "alerta";
+    nota = "Menos de 24 horas de vida. La ictericia que aparece en este período requiere evaluación: consúltalo con el equipo.";
+  } else {
+    nota = "Usa este valor de horas al ubicar la bilirrubina en el nomograma vigente de tu servicio. " +
+           "No redondees a días: el nomograma se construye sobre horas.";
+  }
+  if (bili !== null && bili > 0) {
+    nota += " Valor registrado: " + fmt(bili,1) + " mg/dl a las " + hEnteras + " horas de vida.";
+  }
+
+  pasos(el, lista, "Horas de vida", hEnteras + " h", nota, tipo);
+}
+["i-nac","i-mue","i-bili"].forEach(id => { $(id).onchange = calcIct; $(id).oninput = calcIct; });
+
+/* Percentiles de referencia · Guía Clínica Perinatal 2015, anexo 3
+   Formato: semana: [p5, p50, p95] */
+const DOPPLER = {
+  au_ip: {
+    nombre: "Arteria umbilical · índice de pulsatilidad",
+    corto: "AU · IP",
+    alto: true,
+    nota: "El aumento de resistencia en la arteria umbilical es el primer signo de insuficiencia placentaria. Un IP sobre el percentil 95 es hallazgo anormal.",
+    d: {23:[0.93,1.25,1.69],24:[0.90,1.21,1.64],25:[0.87,1.17,1.59],26:[0.84,1.14,1.54],
+        27:[0.82,1.10,1.49],28:[0.79,1.07,1.45],29:[0.77,1.04,1.40],30:[0.75,1.01,1.36],
+        31:[0.72,0.98,1.32],32:[0.70,0.95,1.28],33:[0.68,0.92,1.24],34:[0.66,0.89,1.20],
+        35:[0.64,0.86,1.17],36:[0.62,0.84,1.13],37:[0.60,0.81,1.10],38:[0.58,0.79,1.06],
+        39:[0.56,0.76,1.03],40:[0.55,0.74,1.00]}
+  },
+  au_tvp: {
+    nombre: "Arteria umbilical · tiempo de velocidad promedio",
+    corto: "AU · TVP",
+    alto: null,
+    nota: "Valor complementario. Se interpreta junto con el índice de pulsatilidad.",
+    d: {23:[10.27,16.87,27.71],24:[10.43,17.14,28.15],25:[10.60,17.41,28.59],26:[10.77,17.68,29.05],
+        27:[10.94,17.96,29.51],28:[11.11,18.25,29.97],29:[11.29,18.54,30.45],30:[11.47,18.83,30.93],
+        31:[11.65,19.13,31.42],32:[11.83,19.43,31.92],33:[12.02,19.74,32.43],34:[12.21,20.05,32.94],
+        35:[12.40,20.37,33.46],36:[12.60,20.70,33.99],37:[12.80,21.02,34.53],38:[13.00,21.36,35.08],
+        39:[13.21,21.70,35.63],40:[13.42,22.04,36.20]}
+  },
+  acm_ip: {
+    nombre: "Arteria cerebral media · índice de pulsatilidad",
+    corto: "ACM · IP",
+    alto: false,
+    nota: "En la cerebral media lo anormal es el valor BAJO: la vasodilatación cerebral reduce el índice. Un IP bajo el percentil 5 indica centralización, es decir, redistribución del flujo hacia el cerebro. No es un signo tranquilizador: indica que el feto ya está compensando una hipoxia.",
+    d: {23:[1.47,2.01,2.74],24:[1.53,2.09,2.86],25:[1.58,2.16,2.95],26:[1.62,2.21,3.02],
+        27:[1.64,2.24,3.06],28:[1.65,2.25,3.08],29:[1.64,2.24,3.06],30:[1.62,2.21,3.02],
+        31:[1.58,2.16,2.94],32:[1.53,2.08,2.85],33:[1.46,2.00,2.73],34:[1.39,1.90,2.59],
+        35:[1.31,1.78,2.43],36:[1.22,1.66,2.27],37:[1.12,1.53,2.09],38:[1.03,1.40,1.91],
+        39:[0.93,1.27,1.73],40:[0.83,1.14,1.55]}
+  },
+  dv_ip: {
+    nombre: "Ductus venoso · índice de pulsatilidad",
+    corto: "DV · IP",
+    alto: true,
+    nota: "La alteración del ductus venoso marca un cambio de naturaleza: hasta ahí el problema era de perfusión placentaria; desde ahí es de función cardíaca fetal. Un IP sobre el percentil 95 es criterio de severidad en RCIU. La onda a ausente o reversa es un evento terminal.",
+    d: {23:[0.38,0.68,1.09],24:[0.37,0.66,1.06],25:[0.36,0.64,1.04],26:[0.35,0.62,1.01],
+        27:[0.33,0.60,0.99],28:[0.32,0.58,0.96],29:[0.31,0.57,0.94],30:[0.30,0.55,0.91],
+        31:[0.29,0.53,0.89],32:[0.28,0.52,0.87],33:[0.27,0.50,0.84],34:[0.26,0.49,0.82],
+        35:[0.25,0.47,0.80],36:[0.24,0.45,0.78],37:[0.23,0.44,0.76],38:[0.22,0.43,0.74],
+        39:[0.21,0.41,0.72],40:[0.20,0.40,0.70]}
+  },
+  ut_ip: {
+    nombre: "Arterias uterinas · índice de pulsatilidad promedio",
+    corto: "Uterinas · IP",
+    alto: true,
+    nota: "Predictor de preeclampsia y RCIU. Se evalúa entre las 11 y 13+6 semanas y entre las 20 y 24 semanas en mujeres con factores de riesgo. Un índice sobre el percentil 95 a las 22-24 semanas se relaciona con 18 % de riesgo de desarrollar preeclampsia o restricción de crecimiento grave.",
+    d: {11:[1.18,1.79,2.70],12:[1.11,1.68,2.53],13:[1.05,1.58,2.38],14:[0.99,1.49,2.24],
+        15:[0.94,1.41,2.11],16:[0.89,1.33,1.99],17:[0.85,1.27,1.88],18:[0.81,1.20,1.79],
+        19:[0.78,1.15,1.70],20:[0.74,1.10,1.61],21:[0.71,1.05,1.54],22:[0.69,1.00,1.47],
+        23:[0.66,0.96,1.41],24:[0.64,0.93,1.35],25:[0.62,0.89,1.30],26:[0.60,0.86,1.25],
+        27:[0.58,0.84,1.21],28:[0.56,0.81,1.17],29:[0.55,0.79,1.13],30:[0.54,0.77,1.10],
+        31:[0.52,0.75,1.06],32:[0.51,0.73,1.04],33:[0.50,0.71,1.01],34:[0.50,0.70,0.99],
+        35:[0.49,0.69,0.97],36:[0.48,0.68,0.95],37:[0.48,0.67,0.94],38:[0.47,0.66,0.92],
+        39:[0.47,0.65,0.91],40:[0.47,0.65,0.90],41:[0.47,0.65,0.89]}
+  },
+  ao_ip: {
+    nombre: "Aorta torácica · índice de pulsatilidad",
+    corto: "Aorta · IP",
+    alto: true,
+    nota: "Los valores de referencia son constantes entre las 23 y 40 semanas.",
+    d: (function(){ const o={}; for(let s=23;s<=40;s++) o[s]=[1.57,2.14,2.91]; return o; })()
+  }
+};
+
+
+/* ============ 4 · DOPPLER ============ */
+(function initDoppler(){
+  const sel = $("d-vaso");
+  Object.entries(DOPPLER).forEach(([k, v]) => {
+    const o = document.createElement("option");
+    o.value = k; o.textContent = v.nombre;
+    sel.appendChild(o);
+  });
+})();
+
+function calcDoppler(){
+  const el = $("d-res"), wrap = $("d-barra-wrap");
+  const k = $("d-vaso").value;
+  const v = DOPPLER[k];
+  const sem = parseInt($("d-sem").value, 10);
+  const val = num($("d-val").value);
+
+  pintarTablaDoppler(k, sem);
+
+  if (!isFinite(sem)) { limpiar(el); wrap.classList.add("oculto"); return; }
+  const ref = v.d[sem];
+  if (!ref) {
+    const semanas = Object.keys(v.d).map(Number);
+    pasos(el, [], "Sin referencia", "–",
+      "La tabla de " + v.corto + " cubre de la semana " + Math.min(...semanas) + " a la " + Math.max(...semanas) + ".",
+      "aviso");
+    wrap.classList.add("oculto"); return;
+  }
+
+  const [p5, p50, p95] = ref;
+  const lista = [
+    "Referencia a las " + sem + " semanas: " + op("p5 = " + fmt(p5,2) + " · p50 = " + fmt(p50,2) + " · p95 = " + fmt(p95,2))
+  ];
+
+  if (val === null) {
+    pasos(el, lista, "Percentiles de referencia", "p50 = " + fmt(p50,2),
+      "Ingresa el valor medido para ubicarlo respecto de estos percentiles.");
+    wrap.classList.add("oculto");
+    return;
+  }
+
+  let ubic, tipo = "", nota = "";
+  if (val < p5)       ubic = "bajo el p5";
+  else if (val < p50) ubic = "entre p5 y p50";
+  else if (val < p95) ubic = "entre p50 y p95";
+  else                ubic = "sobre el p95";
+
+  lista.push("Valor medido: " + op(fmt(val,2) + " → " + ubic));
+
+  if (v.alto === true) {
+    if (val > p95) { tipo = "alerta"; nota = "Sobre el percentil 95: valor anormal. " + v.nota; }
+    else if (val < p5) { tipo = "aviso"; nota = "Bajo el percentil 5. En este vaso lo anormal es el valor alto, pero un valor muy bajo merece revisión del registro."; }
+    else nota = "Dentro del rango de referencia para las " + sem + " semanas.";
+  } else if (v.alto === false) {
+    if (val < p5) { tipo = "alerta"; nota = "Bajo el percentil 5: valor anormal. " + v.nota; }
+    else if (val > p95) { tipo = "aviso"; nota = "Sobre el percentil 95. En este vaso lo anormal es el valor bajo; revisa el registro."; }
+    else nota = "Dentro del rango de referencia para las " + sem + " semanas.";
+  } else {
+    if (val < p5 || val > p95) { tipo = "aviso"; nota = "Fuera del rango entre p5 y p95. " + v.nota; }
+    else nota = "Dentro del rango de referencia para las " + sem + " semanas.";
+  }
+
+  pasos(el, lista, v.corto + " · " + sem + " semanas", fmt(val,2) + "  " + ubic, nota, tipo);
+
+  // barra: p5 al 20 %, p50 al 50 %, p95 al 80 %
+  wrap.classList.remove("oculto");
+  let pos;
+  if (val <= p5)        pos = Math.max(2, 20 * (val / p5));
+  else if (val <= p50)  pos = 20 + 30 * ((val - p5) / (p50 - p5));
+  else if (val <= p95)  pos = 50 + 30 * ((val - p50) / (p95 - p50));
+  else                  pos = Math.min(98, 80 + 18 * ((val - p95) / (p95 || 1)));
+  $("d-marca").style.left = pos + "%";
+  $("d-etq").innerHTML =
+    '<span class="etq" style="left:20%">p5 ' + fmt(p5,2) + '</span>' +
+    '<span class="etq" style="left:50%">p50 ' + fmt(p50,2) + '</span>' +
+    '<span class="etq" style="left:80%">p95 ' + fmt(p95,2) + '</span>';
+}
+
+function pintarTablaDoppler(k, semDestacada){
+  const v = DOPPLER[k], cont = $("d-tabla");
+  let filas = '<tr><th>Semana</th><th>p5</th><th>p50</th><th>p95</th></tr>';
+  Object.keys(v.d).map(Number).sort((a,b)=>a-b).forEach(s => {
+    const [a,b,c] = v.d[s];
+    const dest = (isFinite(semDestacada) && s === semDestacada) ? ' class="fila-dest"' : '';
+    filas += '<tr' + dest + '><td class="n">' + s + '</td><td class="n">' + fmt(a,2) +
+             '</td><td class="n">' + fmt(b,2) + '</td><td class="n">' + fmt(c,2) + '</td></tr>';
+  });
+  cont.innerHTML = '<table>' + filas + '</table>' +
+    '<p style="font-size:12.5px;color:var(--tinta-3);margin:0">' + v.nota + '</p>';
+}
+
+["d-vaso","d-sem","d-val"].forEach(id => { const e = $(id); e.oninput = calcDoppler; e.onchange = calcDoppler; });
+
+/* ============ ARRANQUE ============ */
+$("e-ref").value = hoyISO();
+pintarTabla(null);
+calcDoppler();
+
+})();
+
 /* ================= UNIDADES ================= */
 const UNI = {
   pue: { nom:"Puerperio y RN",  color:"#16325C" },
@@ -1978,11 +2872,15 @@ function irA(sec){
   document.getElementById("wrap-buscar").classList.remove("lleno");
   sin.hidden = true;
 
+  const secCal = document.getElementById("sec-cal");
   if (sec === "med") {
     cont.innerHTML = ""; atajosWrap.innerHTML = "";
-    secMed.classList.remove("oculto");
+    secMed.classList.remove("oculto"); secCal.classList.add("oculto");
+  } else if (sec === "cal") {
+    cont.innerHTML = ""; atajosWrap.innerHTML = "";
+    secMed.classList.add("oculto"); secCal.classList.remove("oculto");
   } else {
-    secMed.classList.add("oculto");
+    secMed.classList.add("oculto"); secCal.classList.add("oculto");
     pintarAtajos(sec);
     pintar(sec);
   }
@@ -1999,6 +2897,15 @@ document.querySelectorAll(".sub-tabs button").forEach(b => {
   };
 });
 
+
+document.querySelectorAll('#sec-cal .sub-tabs button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('#sec-cal .sub-tabs button').forEach(x => x.setAttribute("aria-selected", x === b));
+    ["peso","eg","ict","dop"].forEach(v => document.getElementById("k-" + v).classList.toggle("oculto", v !== b.dataset.k));
+    window.scrollTo({ top: 0 });
+  };
+});
+
 /* ================= BÚSQUEDA GLOBAL ================= */
 const q = document.getElementById("q");
 const wrap = document.getElementById("wrap-buscar");
@@ -2008,15 +2915,18 @@ function buscar(){
   const t = q.value.trim();
   wrap.classList.toggle("lleno", t.length > 0);
 
+  const secCal2 = document.getElementById("sec-cal");
   if (!t) {
-    if (SECCION === "med") { secMed.classList.remove("oculto"); cont.innerHTML = ""; atajosWrap.innerHTML = ""; }
-    else { secMed.classList.add("oculto"); pintarAtajos(SECCION); pintar(SECCION); }
+    if (SECCION === "med") { secMed.classList.remove("oculto"); secCal2.classList.add("oculto"); cont.innerHTML = ""; atajosWrap.innerHTML = ""; }
+    else if (SECCION === "cal") { secCal2.classList.remove("oculto"); secMed.classList.add("oculto"); cont.innerHTML = ""; atajosWrap.innerHTML = ""; }
+    else { secMed.classList.add("oculto"); secCal2.classList.add("oculto"); pintarAtajos(SECCION); pintar(SECCION); }
     sin.hidden = true;
     return;
   }
 
-  // la búsqueda cruza Puerperio y ARO; medicamentos tiene su propio buscador
+  // la búsqueda cruza Puerperio y ARO; medicamentos y calculadoras tienen su propia navegación
   secMed.classList.add("oculto");
+  secCal2.classList.add("oculto");
   atajosWrap.innerHTML = "";
   const n = norm(t);
   const todos = [
