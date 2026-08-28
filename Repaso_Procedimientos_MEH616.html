@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Repaso">
+<title>Repaso de procedimientos · MEH616</title>
+<style>
+:root{
+  --papel:#F5F6F8; --hoja:#FFFFFF;
+  --tinta:#23385C; --tinta-2:#5F6879; --tinta-3:#95A0B2;
+  --acento:#A8323C; --acento-cl:#FBEFF1;
+  --verde:#1F6B57; --verde-cl:#ECF4F1;
+  --ambar:#7A5A12; --ambar-cl:#FBF6E8;
+  --rejilla:#D3D9E4; --rejilla-2:#E9ECF2;
+  --label:"Avenir Next Condensed","Helvetica Neue Condensed","Arial Narrow",sans-serif;
+  --texto:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --dato:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;overflow-x:hidden}
+body{background:var(--papel);color:var(--tinta);font:16px/1.5 var(--texto);
+  -webkit-text-size-adjust:100%;padding-bottom:40px}
+
+header{position:sticky;top:0;z-index:40;background:var(--hoja);
+  border-bottom:2px solid var(--tinta);padding:calc(env(safe-area-inset-top) + 11px) 16px 0}
+header h1{font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:14px;font-weight:700;margin:0}
+header .sub{font-size:10.5px;color:var(--tinta-3);letter-spacing:.05em;margin-top:2px}
+nav.tabs{display:flex;margin:11px -16px 0;padding:0 16px;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{flex:0 0 auto;background:none;border:none;padding:11px 0;margin-right:22px;cursor:pointer;
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:12px;
+  color:var(--tinta-3);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--tinta);border-bottom-color:var(--acento)}
+
+main{max-width:800px;margin:0 auto;padding:16px;overflow-x:hidden}
+.intro{background:var(--hoja);border:1px solid var(--rejilla);border-left:3px solid var(--tinta);
+  padding:13px 15px;margin-bottom:18px;font-size:13.5px;line-height:1.55;color:var(--tinta-2)}
+.intro b{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;
+  font-size:11px;color:var(--tinta);margin-bottom:4px}
+
+.lista{background:var(--hoja);border:1px solid var(--rejilla)}
+.fila{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--rejilla-2);cursor:pointer}
+.fila:last-child{border-bottom:none}
+.fila:hover{background:#FAFBFC}
+.fila .num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--rejilla-2);color:var(--tinta);
+  display:grid;place-items:center;font:12px var(--dato);font-weight:700}
+.fila.hecho .num{background:var(--verde);color:#fff}
+.fila .info{flex:1;min-width:0}
+.fila .nom{font-size:14.5px;font-weight:600;line-height:1.3}
+.fila .sub{font-size:11.5px;color:var(--tinta-3);margin-top:2px}
+.fila .fl{flex:0 0 auto;color:var(--tinta-3);font-size:19px}
+.grupo{font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:11px;
+  color:var(--tinta-3);margin:18px 0 7px;padding-bottom:5px;border-bottom:1px solid var(--rejilla)}
+.grupo:first-child{margin-top:0}
+
+.card{background:var(--hoja);border:1px solid var(--rejilla);margin-bottom:14px}
+.card h2{margin:0;padding:13px 15px;font-family:var(--label);text-transform:uppercase;
+  letter-spacing:.09em;font-size:13px;font-weight:700;border-bottom:1px dashed var(--rejilla)}
+.card .cuerpo{padding:14px 15px}
+
+.btn{font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:12px;
+  background:var(--tinta);color:#fff;border:none;padding:11px 16px;cursor:pointer;margin:4px 6px 4px 0}
+.btn.sec{background:var(--hoja);color:var(--tinta);border:1px solid var(--rejilla)}
+.btn.ok{background:var(--verde)}
+.btn.no{background:var(--acento)}
+.btn:disabled{opacity:.4;cursor:default}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+
+.paso{display:flex;gap:11px;padding:11px 13px;border:1px solid var(--rejilla);background:var(--hoja);margin-bottom:7px}
+.paso .n{flex:0 0 24px;height:24px;border-radius:50%;background:var(--tinta);color:#fff;
+  display:grid;place-items:center;font:11px var(--dato);font-weight:700}
+.paso .t{flex:1;min-width:0;font-size:14.5px;line-height:1.5}
+.paso.oculto .t{color:var(--tinta-3);font-style:italic}
+.paso.acierto{border-left:3px solid var(--verde);background:var(--verde-cl)}
+.paso.acierto .n{background:var(--verde)}
+.paso.falla{border-left:3px solid var(--acento);background:var(--acento-cl)}
+.paso.falla .n{background:var(--acento)}
+
+.progreso{height:5px;background:var(--rejilla-2);margin:12px 0 4px;overflow:hidden}
+.progreso div{height:100%;background:var(--tinta);transition:width .25s}
+.contador{font:12px var(--dato);color:var(--tinta-3);text-align:right}
+
+.crono{font:36px var(--dato);font-weight:700;text-align:center;padding:14px 0;letter-spacing:.03em}
+.crono.alerta{color:var(--acento)}
+
+.resultado{padding:16px;text-align:center;border-left:3px solid var(--verde);background:var(--verde-cl)}
+.resultado .v{font:34px var(--dato);font-weight:700;color:var(--verde);line-height:1.1}
+.resultado .k{font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--verde)}
+.resultado .n2{font-size:13.5px;color:#14503E;margin-top:8px;line-height:1.5}
+.resultado.medio{border-left-color:var(--ambar);background:var(--ambar-cl)}
+.resultado.medio .v,.resultado.medio .k{color:var(--ambar)}
+.resultado.medio .n2{color:#6B4E0C}
+.resultado.bajo{border-left-color:var(--acento);background:var(--acento-cl)}
+.resultado.bajo .v,.resultado.bajo .k{color:var(--acento)}
+.resultado.bajo .n2{color:#8A1B20}
+
+.preg{font-size:15.5px;line-height:1.5;margin-bottom:14px;font-weight:600}
+.op{display:block;width:100%;text-align:left;background:var(--hoja);border:1px solid var(--rejilla);
+  padding:12px 14px;margin-bottom:8px;font:14.5px/1.45 var(--texto);color:var(--tinta);cursor:pointer}
+.op:hover{border-color:var(--tinta)}
+.op.correcta{background:var(--verde-cl);border-color:var(--verde);color:#14503E;font-weight:600}
+.op.incorrecta{background:var(--acento-cl);border-color:var(--acento);color:#8A1B20}
+.op:disabled{cursor:default}
+.fb{background:var(--rejilla-2);border-left:3px solid var(--tinta-3);padding:11px 13px;
+  font-size:13.5px;line-height:1.5;color:var(--tinta-2);margin-top:10px}
+
+.chip{display:inline-block;font:9.5px var(--label);letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 7px;background:var(--rejilla-2);color:var(--tinta-2);margin-right:5px}
+.aviso{background:var(--ambar-cl);border-left:3px solid var(--ambar);padding:11px 13px;
+  margin:0 0 14px;font-size:13.5px;color:#6B4E0C;line-height:1.5}
+.aviso b{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:3px}
+.ok-box{background:var(--verde-cl);border-left:3px solid var(--verde);padding:11px 13px;
+  margin:0 0 14px;font-size:13.5px;color:#14503E;line-height:1.5}
+.ok-box b{display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:3px}
+.oculto{display:none!important}
+footer{max-width:800px;margin:22px auto 0;padding:0 16px;font-size:11.5px;color:var(--tinta-3);line-height:1.6}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Repaso de procedimientos</h1>
+  <div class="sub">MEH616 · Atención en Matronería en el Entorno Hospitalario I</div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true"  data-v="est">Estudiar</button>
+    <button role="tab" aria-selected="false" data-v="pra">Practicar</button>
+    <button role="tab" aria-selected="false" data-v="sim">Simulacro</button>
+    <button role="tab" aria-selected="false" data-v="pre">Preguntas</button>
+  </nav>
+</header>
+
+<main>
+  <section id="v-est"></section>
+  <section id="v-pra" class="oculto"></section>
+  <section id="v-sim" class="oculto"></section>
+  <section id="v-pre" class="oculto"></section>
+</main>
+
+<footer>
+  Los pasos provienen del Manual de procedimientos de matronería elaborado para esta asignatura, que cita a su vez
+  las normas técnicas del Ministerio de Salud de Chile y las guías internacionales correspondientes.
+  Material de estudio: no reemplaza la indicación del profesional a cargo ni el protocolo del establecimiento.
+</footer>
+
+<script>
+"use strict";
+
+const SEC = [{"p":1,"vol":1,"proc":"Recepción e ingreso a hospitalización","sub":"","pasos":["Realiza higiene de manos antes de tomar contacto con la usuaria.","Preséntate con tu nombre y tu rol: «Soy [nombre], estudiante de Obstetricia y Puericultura». Nunca omitas la condición de estudiante.","Identifica activamente a la usuaria: pídele que diga su nombre completo y su RUT, y contrástalos con la documentación. No leas el nombre en voz alta para que ella confirme: eso no es identificación activa.","Verifica el motivo de ingreso y su correspondencia con la derivación o la indicación médica.","Instala el brazalete de identificación y verifica que los datos sean correctos antes de colocarlo.","Explica a la usuaria dónde está, quién la va a atender, qué le vas a realizar y cuánto va a demorar.","Pregunta si viene acompañada y quién es su acompañante significativo, según la política de acompañamiento del servicio.","Realiza la anamnesis de ingreso: identificación, antecedentes mórbidos, quirúrgicos, alergias, fármacos en uso, antecedentes obstétricos, fórmula obstétrica, edad gestacional y motivo de consulta actual.","Registra la fecha de última regla y verifica la edad gestacional consignada en la ficha con el carné de control.","Consulta y consigna alergias de forma destacada. Este dato condiciona toda la indicación farmacológica posterior.","Realiza el control de signos vitales completo: presión arterial, frecuencia cardíaca, frecuencia respiratoria, temperatura y saturación.","Registra peso y talla si corresponde al protocolo del ingreso.","Realiza la valoración obstétrica según el procedimiento 3 de este manual.","Verifica y consigna la presencia de dinámica uterina, pérdida de líquido, sangrado y percepción de movimientos fetales.","Solicita la firma de los documentos que correspondan, previa explicación de su contenido.","Instala a la usuaria en su unidad: verifica cama en posición baja y frenada, timbre al alcance, barandas según evaluación de riesgo de caída.","Orienta a la usuaria sobre el funcionamiento de la unidad: horarios, ubicación del baño, uso del timbre, política de visitas.","Informa a la usuaria qué signos debe avisar de inmediato.","Realiza higiene de manos al terminar.","Registra el ingreso con fecha, hora, hallazgos, procedimientos realizados, información entregada y tu nombre y firma.","Comunica al profesional responsable el ingreso y los hallazgos relevantes."]},{"p":2,"vol":1,"proc":"Documentos legales y consentimiento informado","sub":"Reglas del registro","pasos":["Registra con lápiz de pasta. Nunca con lápiz grafito ni con corrector.","Escribe con letra legible. Un registro ilegible equivale a un registro ausente.","Consigna siempre fecha, hora, nombre completo y firma.","Registra lo realizado, en el momento en que se realizó. Nunca por adelantado.","Completa o anula los espacios en blanco. Un espacio vacío permite que otro escriba después.","Ante un error: traza una línea sobre él de modo que siga siendo legible, escribe la corrección al lado y firma. No borres, no taches hasta ilegibilidad, no uses corrector.","Usa solo abreviaturas normadas por el establecimiento.","Registra los hechos y los hallazgos objetivos, no interpretaciones ni juicios sobre la usuaria."]},{"p":2,"vol":1,"proc":"Documentos legales y consentimiento informado","sub":"","pasos":["Verifica que quien entrega la información sea el profesional responsable del procedimiento. Como estudiante no obtienes consentimiento: acompañas el proceso.","Asegura un entorno donde la usuaria pueda escuchar y preguntar: sin ruido, sin prisa aparente, con privacidad.","Verifica que la usuaria esté en condiciones de comprender: sin sedación que altere la conciencia, sin dolor incapacitante.","Verifica que la información se entregue en lenguaje comprensible, sin tecnicismos innecesarios.","Confirma que la usuaria haya tenido oportunidad real de preguntar y que sus dudas se hayan respondido.","Verifica que el documento esté completo antes de la firma: datos correctos, procedimiento especificado, sin espacios en blanco.","Verifica que la firma sea de la propia usuaria cuando ella pueda otorgarla.","Consigna en la ficha que el consentimiento fue informado y firmado, con fecha y hora.","Archiva el documento según protocolo del establecimiento."]},{"p":3,"vol":1,"proc":"Valoración obstétrica","sub":"Secuencia general","pasos":["Higiene de manos.","Identificación activa de la usuaria.","Presentación y explicación de lo que se va a realizar. Solicitud de autorización.","Resguardo de la privacidad: puerta o cortina cerrada, exposición mínima necesaria.","Control de signos vitales maternos.","Evaluación del estado general, coloración de piel y mucosas, presencia de edema.","Evaluación de síntomas dirigidos según patología: cefalea, fotopsia, tinitus, epigastralgia, prurito, disuria, contracciones, pérdida de líquido, sangrado.","Valoración obstétrica: altura uterina, maniobras de Leopold, auscultación de latidos cardíacos fetales, dinámica uterina.","Evaluación de la percepción materna de movimientos fetales.","Inspección de genitales externos si corresponde: presencia de sangrado, líquido, características.","Evaluación del dolor con escala validada.","Verificación de dispositivos: vía venosa, sonda, drenajes.","Higiene de manos al terminar.","Registro completo con hora y firma.","Comunicación de hallazgos alterados al profesional responsable."]},{"p":3,"vol":1,"proc":"Valoración obstétrica","sub":"Altura uterina","pasos":["Explica el procedimiento y solicita autorización.","Posiciona a la usuaria en decúbito dorsal, con la vejiga vacía y las piernas semiflexionadas.","Descubre solo el abdomen, manteniendo cubierto el resto.","Identifica el borde superior de la sínfisis púbica.","Identifica el fondo uterino mediante palpación.","Mide con cinta métrica desde el borde superior de la sínfisis hasta el fondo uterino, siguiendo la curvatura del abdomen.","Lee la medición en centímetros.","Contrasta el resultado con la curva de altura uterina según edad gestacional.","Registra el valor y su ubicación en la curva."]},{"p":3,"vol":1,"proc":"Valoración obstétrica","sub":"Maniobras de Leopold","pasos":["Explica el procedimiento y solicita autorización.","Verifica que la usuaria tenga la vejiga vacía.","Posiciona en decúbito dorsal con piernas semiflexionadas, para relajar la pared abdominal.","Calienta tus manos antes de tocar el abdomen.","Realiza las tres primeras maniobras de frente a la usuaria.","Realiza la cuarta maniobra de espaldas a la usuaria, mirando hacia sus pies.","Palpa con las palmas y la superficie de los dedos, no con las puntas.","Verbaliza los hallazgos de cada maniobra.","Concluye situación, presentación, posición y grado de encajamiento.","Registra el resultado."]},{"p":3,"vol":1,"proc":"Valoración obstétrica","sub":"Auscultación de latidos cardíacos fetales","pasos":["Determina previamente la posición del dorso fetal mediante las maniobras de Leopold.","Ubica el foco de auscultación en el hemiabdomen correspondiente al dorso.","Si usas doppler, aplica gel conductor. Si usas Pinard, apoya el instrumento perpendicular a la pared abdominal.","Diferencia el latido fetal del pulso materno: palpa simultáneamente el pulso radial de la usuaria y compara frecuencias.","Ausculta durante 30 segundos después de la contracción uterina, o durante 60 segundos si el objetivo es determinar la frecuencia basal.","Determina la frecuencia en latidos por minuto.","Contrasta con el rango normal, que es de 110 a 160 latidos por minuto.","Verbaliza el hallazgo y registra."]},{"p":3,"vol":1,"proc":"Valoración obstétrica","sub":"Dinámica uterina","pasos":["Explica el procedimiento y solicita autorización.","Posiciona a la usuaria cómoda, preferentemente en decúbito lateral izquierdo.","Apoya la mano extendida sobre el fondo uterino, sin presionar.","Controla durante 10 minutos continuos. Menos tiempo no permite caracterizar la dinámica.","Registra el número de contracciones ocurridas en ese período.","Determina la duración de cada contracción, desde el inicio del endurecimiento hasta su relajación.","Evalúa la intensidad por la consistencia que alcanza el útero.","Verifica el tono uterino entre contracciones: el útero debe relajarse completamente.","Verbaliza y registra: número de contracciones en 10 minutos, duración e intensidad."]},{"p":4,"vol":1,"proc":"Solicitud e interpretación de exámenes","sub":"Toma de muestras","pasos":["Verifica la indicación: qué examen, para qué usuaria, con qué urgencia.","Realiza higiene de manos y usa guantes.","Identifica activamente a la usuaria antes de tomar la muestra.","Explica qué muestra vas a tomar y para qué sirve.","Verifica que el tubo o recipiente sea el correcto para el examen solicitado.","Rotula el tubo en presencia de la usuaria, antes de que salga de la unidad: nombre completo, RUT, fecha, hora y tu identificación.","Toma la muestra con técnica aséptica.","Verifica el volumen requerido y homogeneiza si el tubo lo necesita.","Descarta el material cortopunzante en el contenedor correspondiente, sin reencapuchar.","Verifica una vez más la correspondencia entre el rótulo, la orden y la usuaria.","Envía la muestra según el tiempo y las condiciones que el examen requiera.","Registra la toma con fecha, hora y firma.","Realiza el seguimiento del resultado y comunícalo al profesional responsable."]},{"p":5,"vol":1,"proc":"Manejo e interpretación de la MEFI","sub":"Instalación","pasos":["Verifica la indicación de monitorización y su modalidad: continua o intermitente.","Higiene de manos.","Identificación activa de la usuaria.","Explica en qué consiste el examen, cuánto dura y qué va a sentir.","Posiciona a la usuaria en semi-Fowler o decúbito lateral izquierdo. Evita el decúbito dorsal estricto por compresión de la vena cava.","Realiza maniobras de Leopold para determinar la posición del dorso fetal.","Aplica gel conductor en el transductor de ultrasonido.","Ubica el transductor de FCF sobre el foco de auscultación, en el hemiabdomen del dorso fetal.","Ubica el transductor de dinámica uterina (tocodinamómetro) en el fondo uterino, sin gel.","Fija ambos transductores con las bandas elásticas, firmes pero sin comprimir.","Verifica que la señal sea continua y de buena calidad antes de dejar el registro corriendo.","Consigna en el trazado los datos de identificación, la fecha y la hora de inicio.","Registra la posición materna y cualquier evento relevante durante el trazado.","Verifica periódicamente la calidad de la señal y la comodidad de la usuaria."]},{"p":5,"vol":1,"proc":"Manejo e interpretación de la MEFI","sub":"Ante MEFI categoría II","pasos":["Cambio de posición a decúbito lateral izquierdo, para descomprimir la vena cava y mejorar el retorno venoso.","Hidratación endovenosa para corregir la hipotensión.","Oxígeno por mascarilla.","Suspensión de la conducción con oxitocina.","Amnioinfusión en caso de desaceleraciones variables recurrentes, excepto en contexto de categoría III.","Tocolisis de urgencia en caso de taquisistolía."]},{"p":5,"vol":1,"proc":"Manejo e interpretación de la MEFI","sub":"Secuencia de actuación ante trazado alterado","pasos":["Reconoce y clasifica el trazado según los seis parámetros.","Verbaliza la categoría en voz alta.","Avisa de inmediato al profesional responsable. No esperes a completar las medidas.","Cambia la posición de la usuaria a decúbito lateral izquierdo.","Suspende la conducción oxitócica si está en curso.","Administra oxígeno por mascarilla según indicación.","Verifica la permeabilidad de la vía venosa e hidrata según indicación.","Controla presión arterial materna para descartar hipotensión.","Explica a la usuaria qué está ocurriendo y qué se está haciendo, sin alarmarla innecesariamente.","Permanece con la usuaria.","Registra la hora del hallazgo, la categoría, las medidas tomadas y la hora de cada una.","Reevalúa el trazado tras las medidas y comunica la respuesta."]},{"p":6,"vol":1,"proc":"Preparación y administración de medicamentos","sub":"","pasos":["Verifica la indicación en la ficha: fármaco, dosis, vía, frecuencia, y que esté firmada por el profesional.","Verifica alergias de la usuaria.","Higiene de manos.","Reúne el material y verifica el fármaco: nombre, concentración, fecha de vencimiento, integridad del envase y aspecto de la solución.","Calcula la concentración por mililitro antes de calcular el volumen: cantidad total dividida por volumen total.","Calcula el volumen a cargar: dosis indicada dividida por concentración por mililitro.","Verifica que las unidades coincidan antes de dividir.","Si es medicamento de alto riesgo, solicita doble chequeo a un profesional.","Prepara con técnica aséptica.","Rotula la preparación: fármaco, cantidad total y volumen, concentración resultante, velocidad si corresponde, fecha, hora e iniciales.","Lleva la preparación junto con la ficha o el registro de administración.","Identifica activamente a la usuaria antes de administrar.","Explica qué medicamento vas a administrar, para qué sirve y qué puede sentir.","Administra según la vía y la velocidad indicadas.","Descarta el cortopunzante sin reencapuchar.","Higiene de manos.","Registra inmediatamente después de administrar: fármaco, dosis, vía, hora real y firma.","Vigila el efecto esperado y los efectos adversos posibles."]},{"p":6,"vol":1,"proc":"Preparación y administración de medicamentos","sub":"Si te equivocaste","pasos":["Informa de inmediato al profesional a cargo. No hay ninguna situación en que ocultarlo sea mejor.","Vigila a la usuaria y controla signos vitales según el fármaco involucrado.","Registra objetivamente lo ocurrido: qué se administró, cuánto, a qué hora y qué se hizo.","Notifica como evento adverso según el protocolo del establecimiento.","No modifiques ni borres registros previos."]},{"p":7,"vol":1,"proc":"Preparación preoperatoria","sub":"Verificación documental","pasos":["Verifica que la ficha esté completa y corresponda a la usuaria.","Verifica que el consentimiento informado esté firmado, con el procedimiento correctamente especificado y sin espacios en blanco.","Verifica que estén disponibles los exámenes preoperatorios solicitados: hemograma, grupo sanguíneo y Rh, pruebas de coagulación y los específicos según patología.","Verifica la clasificación de grupo y Rh y la disponibilidad de hemoderivados si el procedimiento lo requiere.","Verifica la indicación de profilaxis antibiótica y de tromboprofilaxis.","Confirma la hora programada y la coordinación con pabellón."]},{"p":7,"vol":1,"proc":"Preparación preoperatoria","sub":"Preparación de la usuaria","pasos":["Identificación activa y verificación del brazalete.","Explica el procedimiento, qué va a ocurrir, cuánto va a durar y qué va a sentir al despertar.","Verifica el cumplimiento del ayuno y registra la hora de inicio.","Realiza o verifica el aseo según protocolo del establecimiento.","Verifica el retiro de esmalte de uñas, joyas, prótesis dentales removibles, lentes de contacto y horquillas.","Verifica que la usuaria haya vaciado la vejiga, o instala sonda si está indicado.","Instala o verifica la permeabilidad de la vía venosa.","Coloca las medias antiembólicas si están indicadas.","Realiza el control de signos vitales previo al traslado y registra.","Verifica la administración de la premedicación si está indicada.","Explora el estado emocional de la usuaria y responde sus dudas.","Verifica que se haya resuelto el acompañamiento y la información a la familia.","Traslada con la ficha completa y la documentación correspondiente.","Entrega el caso al equipo de pabellón: identificación, procedimiento, alergias, ayuno, signos vitales y cualquier hallazgo relevante.","Registra la preparación completa con hora y firma."]},{"p":7,"vol":1,"proc":"Preparación preoperatoria","sub":"Recepción del postoperatorio","pasos":["Recibe el caso del equipo de pabellón: procedimiento realizado, hallazgos, tiempo quirúrgico, pérdida estimada, anestesia utilizada, indicaciones.","Identificación activa de la usuaria.","Control de signos vitales completo al ingreso.","Evaluación del nivel de conciencia y del bloqueo residual si hubo anestesia regional.","Evaluación del sangrado genital y del apósito de la herida operatoria.","En puérpera de cesárea: evaluación de la retracción uterina.","Evaluación del dolor con escala validada.","Verificación de dispositivos: vía venosa, sonda vesical, drenajes.","Verificación de la diuresis.","Verificación de la permeabilidad y velocidad de las infusiones.","Explicación a la usuaria de dónde está y qué va a ocurrir.","Facilitación del contacto con el recién nacido apenas la condición lo permita.","Registro completo del ingreso al postoperatorio."]},{"p":8,"vol":2,"proc":"Ingreso y diagnóstico de trabajo de parto","sub":"","pasos":["Higiene de manos e identificación activa de la usuaria.","Presentación con nombre y condición de estudiante.","Anamnesis dirigida: hora de inicio de las contracciones, frecuencia, intensidad percibida, pérdida de líquido con hora y características, sangrado, percepción de movimientos fetales.","Revisa el carné de control prenatal: edad gestacional, curva de crecimiento, exámenes, patología asociada, resultado del cultivo de estreptococo grupo B.","Verifica y consigna alergias.","Control de signos vitales maternos completo.","Valoración obstétrica: altura uterina, maniobras de Leopold, auscultación de latidos cardíacos fetales.","Control de dinámica uterina durante 10 minutos continuos, registrando número, duración e intensidad.","Inspección de genitales externos: presencia de sangrado, líquido amniótico, características y cantidad.","Tacto vaginal según el procedimiento 9, previa autorización.","Integra los hallazgos y establece el diagnóstico: trabajo de parto en fase latente, en fase activa, o pródromos.","Verbaliza el diagnóstico y su fundamento.","Comunica los hallazgos al profesional responsable.","Informa a la usuaria el diagnóstico y qué va a ocurrir a continuación.","Registra completo con hora y firma."]},{"p":9,"vol":2,"proc":"Tacto vaginal obstétrico","sub":"","pasos":["Verifica que exista indicación: no se tacta por rutina horaria sino cuando el hallazgo va a cambiar una decisión.","Verifica ausencia de contraindicación: sangrado sin causa establecida o placenta previa no descartada.","Explica el procedimiento, qué va a sentir y cuánto va a durar. Solicita autorización explícita.","Resguarda la privacidad: puerta o cortina cerrada, cubre a la usuaria con una sábana.","Solicita a la usuaria que vacíe la vejiga si es posible.","Posiciona en decúbito dorsal con piernas flexionadas y separadas.","Higiene de manos y colocación de guantes estériles.","Realiza aseo genital según protocolo del establecimiento.","Lubrica los dedos índice y medio.","Separa los labios con la mano no dominante e introduce los dedos suavemente, sin tocar la región anal.","Evalúa sistemáticamente y en el mismo orden: cuello, membranas, presentación, descenso y pelvis.","Retira los dedos y observa el guante: presencia de sangre, líquido amniótico y sus características.","Cubre a la usuaria e informa el hallazgo en términos comprensibles.","Retira los guantes y realiza higiene de manos.","Registra el hallazgo completo con hora."]},{"p":11,"vol":2,"proc":"Aceleración ocitócica","sub":"","pasos":["Verifica la indicación médica escrita: dosis inicial, incrementos y dosis máxima.","Verifica el diagnóstico de hipodinamia con dos controles sucesivos documentados.","Descarta desproporción céfalo-pelviana antes de acelerar. Si hay signos sugerentes, comunícalo antes de iniciar.","Verifica que la vigilancia fetal esté normal antes de iniciar.","Prepara la mezcla según indicación, calcula la concentración por mililitro y rotula completamente.","Instala la infusión en bomba. La bomba de infusión continua debe ser el estándar.","Explica a la usuaria qué se le va a administrar y para qué.","Controla dinámica uterina cada 30 minutos mientras la infusión esté en curso.","Controla latidos cardíacos fetales con la frecuencia que corresponda al riesgo.","Titula la dosis según indicación, buscando 3 a 5 contracciones en 10 minutos.","Ante taquisistolía, definida como 6 o más contracciones en 10 minutos: disminuye o suspende la dosis según indicación, y comunica.","Vigila el tono uterino entre contracciones: debe relajarse completamente.","Registra cada cambio de dosis con hora, y la respuesta obtenida.","Ante alteración del monitoreo, suspende la conducción y avisa de inmediato."]},{"p":12,"vol":2,"proc":"Atención del período expulsivo","sub":"","pasos":["Confirma la dilatación completa.","Posiciona a la parturienta semisentada, salvo indicación distinta.","No hagas pujar a la mujer hasta que el feto esté encajado en espinas +2 a +3. En ese momento se traslada a la sala de partos.","Mantén monitoreo electrónico continuo hasta el paso a la sala de partos.","Controla latidos cardíacos fetales con la frecuencia que corresponda: cada 5 minutos en alto riesgo, cada 15 en bajo riesgo.","Guía el pujo: coordinado con la contracción, con la técnica que la mujer tolere mejor.","Acompaña con instrucciones claras y breves. Informa el avance.","Prepara el material de atención del parto y la mesa de reanimación neonatal.","Verifica que el equipo de neonatología esté disponible.","Asiste el desprendimiento según técnica, protegiendo el periné.","Verifica la hora exacta de nacimiento.","Toma gases de cordón si hubo sospecha de hipoxia durante la vigilancia intraparto.","Favorece el apego apenas verificado el nacimiento.","Registra hora de dilatación completa, hora de inicio de pujo, hora de nacimiento y eventos."]},{"p":12,"vol":2,"proc":"Atención del período expulsivo","sub":"","pasos":["Pinza el cordón a unos 25 cm de la inserción del recién nacido.","Pinza nuevamente en el sitio esperado de colocación del clamp permanente.","Exprime el cordón desde la pinza distal hacia el feto, logrando que el segmento entre pinzas se ingurgite.","Pinza a distal con una tercera pinza.","Secciona el cordón y entrega al recién nacido.","De esta forma el recién nacido se entrega con un segmento de cordón adecuado para identificar las arterias umbilicales y tomar la muestra correctamente."]},{"p":13,"vol":2,"proc":"Manejo activo del alumbramiento","sub":"Las cuatro medidas","pasos":["Administra el uterotónico: 5 a 10 unidades de oxitocina en bolo directo, o 20 a 40 unidades en infusión continua, según indicación.","Realiza drenaje del cordón.","Realiza tracción suave y sostenida del cordón umbilical, acompañada de contra-tracción suprapúbica con la otra mano.","Evalúa el fondo uterino luego de la expulsión de la placenta.","Verifica la integridad de la placenta y de las membranas.","Cuantifica la pérdida sanguínea de forma objetiva.","Vigila la retracción uterina y el sangrado en los minutos siguientes.","Registra hora de alumbramiento, características de la placenta, pérdida estimada y uterotónico administrado."]},{"p":14,"vol":2,"proc":"Atención del puerperio inmediato","sub":"En sala de recuperación","pasos":["Recibe a la puérpera con la información del parto: tipo de parto, hora, pérdida estimada, medicamentos administrados, complicaciones.","Identificación activa.","Control cada 30 minutos de signos vitales, sangrado vaginal y retracción uterina, durante las primeras 2 a 4 horas.","Palpa el fondo uterino verificando que esté retraído, duro y firme.","Cuantifica el sangrado de forma objetiva: apósitos por unidad de tiempo, con hora, y descripción de coágulos.","Vigila la micción espontánea: al menos 180 cc durante las primeras 6 horas.","Evalúa el dolor con escala validada.","Verifica la permeabilidad de la vía venosa y las infusiones en curso.","Favorece y apoya el inicio de la lactancia durante la primera hora posparto.","Facilita el contacto piel a piel y el vínculo con el recién nacido.","Informa a la puérpera qué debe avisar de inmediato.","Registra cada control con hora y firma."]},{"p":15,"vol":2,"proc":"Atención en urgencia gineco-obstétrica","sub":"Valoración inicial","pasos":["Higiene de manos e identificación activa.","Establece el motivo de consulta en la primera pregunta.","Evalúa el estado general de forma inmediata: conciencia, coloración, dificultad respiratoria, dolor.","Control de signos vitales completo.","Calcula el índice de shock: frecuencia cardíaca dividida por presión arterial sistólica. Un valor sobre 1 indica compromiso hemodinámico aunque la presión aún sea normal.","Determina la edad gestacional.","Ausculta latidos cardíacos fetales si la edad gestacional lo permite.","Realiza la anamnesis dirigida según el motivo de consulta.","Verifica alergias.","Establece la prioridad de atención y comunica al profesional responsable.","Instala vía venosa si la condición lo requiere o está indicado.","Informa a la usuaria y a su acompañante qué va a ocurrir.","Registra con hora."]},{"p":16,"vol":2,"proc":"Acompañamiento en duelo perinatal","sub":"","pasos":["Verifica qué información ha recibido la familia y de quién, antes de decir nada.","Asegura un espacio privado. Si es posible, traslada a la mujer a una habitación individual.","Facilita el acompañamiento de la persona que la mujer elija.","Preséntate y ofrece tu disponibilidad, sin invadir.","Escucha sin interrumpir. Tolera el silencio.","Responde solo lo que se te pregunte, dentro de tu ámbito. Lo que corresponda al equipo médico, facilita el contacto.","Ofrece, sin imponer, las opciones de despedida que el establecimiento contemple: ver al recién nacido, tomarlo, tomar fotografías, conservar recuerdos como la huella o un mechón de cabello.","Respeta la decisión, sea cual sea, y no la cuestiones ni intentes persuadir.","Consulta sobre necesidades religiosas o espirituales y facilita su atención.","Cuida el entorno: en lo posible, evita que la mujer comparta espacio con puérperas y recién nacidos.","Explica los procedimientos que vendrán, con anticipación y en lenguaje claro.","Informa sobre la supresión de la lactancia si corresponde, y sobre qué esperar en los días siguientes.","Pregunta por sus redes de apoyo.","Activa la derivación psicosocial según protocolo del establecimiento.","Registra objetivamente lo ocurrido, lo informado, lo ofrecido y lo que la familia decidió.","Comunica la situación al turno siguiente, para que nadie repita preguntas dolorosas."]},{"p":17,"vol":3,"proc":"Atención inmediata del recién nacido","sub":"Preparación previa al nacimiento","pasos":["Verifica la edad gestacional y los antecedentes: patología materna, líquido amniótico, vigilancia fetal intraparto, factores de riesgo de infección.","Verifica la temperatura de la sala y que no haya corrientes de aire.","Precalienta la cuna de procedimientos o la fuente de calor radiante.","Prepara paños precalentados para el secado.","Verifica el equipo de reanimación: fuente de oxígeno, aspiración, bolsa y mascarilla del tamaño correcto, laringoscopio.","Verifica que el equipo de neonatología esté disponible o avisado si hay factores de riesgo.","Higiene de manos y colocación de guantes."]},{"p":17,"vol":3,"proc":"Atención inmediata del recién nacido","sub":"Los primeros minutos","pasos":["Registra la hora exacta del nacimiento.","Evalúa de inmediato tres preguntas: ¿es de término?, ¿respira o llora?, ¿tiene buen tono muscular? Si las tres respuestas son afirmativas, el recién nacido permanece con su madre.","Seca al recién nacido con paños precalentados, con especial atención a la cabeza, que es la mayor superficie de pérdida de calor. Retira los paños húmedos y reemplázalos por secos.","Favorece el contacto piel a piel con la madre apenas verificado el nacimiento. Cubre a ambos con un paño seco y coloca gorro al recién nacido.","Verifica permeabilidad de la vía aérea sin aspiración rutinaria.","Pinza el cordón umbilical según la técnica y el momento que indique el protocolo del servicio.","Evalúa la puntuación de Apgar al minuto y a los cinco minutos, sin interrumpir el contacto piel a piel.","Mantén la vigilancia continua durante el período de transición: color, respiración, tono, temperatura.","Favorece el inicio de la lactancia durante la primera hora, en el momento en que el recién nacido muestre signos de disposición.","Realiza la identificación con brazalete, en presencia de la madre, verificando los datos antes de instalarlo.","Realiza los procedimientos de la atención inmediata según protocolo, difiriéndolos hasta después del primer contacto cuando la condición lo permita.","Registra hora de nacimiento, Apgar, antropometría, procedimientos realizados y hora de inicio del contacto piel a piel."]},{"p":18,"vol":3,"proc":"Ingreso del recién nacido a puerperio","sub":"","pasos":["Higiene de manos.","Verifica la identificación del recién nacido contrastando el brazalete con el de la madre y con la ficha. Este es el punto de mayor riesgo de error de identidad en todo el proceso.","Recibe la información del parto: tipo, hora, Apgar, antropometría, procedimientos realizados, hallazgos, factores de riesgo.","Verifica los antecedentes maternos relevantes: grupo sanguíneo y Rh, serología, cultivo de estreptococo grupo B, patología, medicamentos.","Realiza el control de signos vitales: temperatura axilar, frecuencia cardíaca, frecuencia respiratoria.","Realiza el examen físico completo según el procedimiento 19.","Verifica el peso de ingreso y contrástalo con el peso de nacimiento.","Evalúa la eliminación: presencia y características de orina y meconio, con hora de la primera micción y deposición.","Evalúa el estado del cordón umbilical.","Observa una mamada completa y evalúa el acople.","Verifica las condiciones ambientales de la unidad.","Educa a la madre sobre los cuidados básicos y los signos de alarma.","Registra el ingreso con hora, hallazgos y firma."]},{"p":19,"vol":3,"proc":"Examen físico del recién nacido","sub":"Antes de examinar","pasos":["Higiene de manos y calentamiento de las manos.","Verifica la identificación del recién nacido.","Explica a la madre qué vas a hacer y para qué.","Realiza el examen bajo fuente de calor o en un ambiente térmicamente neutro.","Descubre solo el segmento que estás examinando.","Aprovecha los períodos de calma para auscultar y evaluar tono."]},{"p":21,"vol":3,"proc":"Apoyo a la lactancia","sub":"Procedimiento de apoyo","pasos":["Higiene de manos.","Explica a la madre que vas a acompañar una mamada y solicita su autorización.","Resguarda la privacidad.","Observa la posición de la madre: cómoda, con espalda apoyada, sin tensión en hombros.","Observa la posición del recién nacido: cuerpo alineado, frente a la mama, cabeza y cuerpo en el mismo eje, sostenido.","Observa el acople según los signos de la tabla anterior.","Observa la deglución audible y el ritmo de succión.","Pregunta a la madre si siente dolor y en qué momento.","Corrige la posición o el acople si es necesario, guiando con palabras antes que con las manos.","Si necesitas tocar, pide autorización previa.","Refuerza lo que la madre está haciendo bien, no solo lo que hay que corregir.","Verifica el estado de los pezones tras la mamada.","Educa sobre libre demanda: sin horarios, sin tiempos de mamada, sin suplementos, salvo indicación.","Registra la evaluación y la orientación entregada."]},{"p":23,"vol":3,"proc":"Educación y alta del recién nacido","sub":"Cómo se verifica la comprensión","pasos":["Entrega la información en lenguaje comprensible, sin tecnicismos innecesarios.","Fracciona: no toda la educación el día del alta.","Involucra a la persona que acompañará el cuidado en el domicilio, no solo a la madre.","Pide que te repitan con sus palabras los signos de alarma. Preguntar «¿entendió?» no verifica nada: casi todo el mundo responde que sí.","Entrega material escrito de apoyo si está disponible.","Asegura que sepan a dónde consultar y en qué horario.","Registra la educación entregada y la comprensión verificada."]},{"p":23,"vol":3,"proc":"Educación y alta del recién nacido","sub":"Verificación previa al alta","pasos":["Examen físico del recién nacido normal.","Baja de peso menor al 10 %.","Lactancia establecida, con mamada efectiva observada.","Micción y deposición presentes.","Termorregulación adecuada.","Exámenes tomados según protocolo: PKU, TSH, y los que correspondan.","Vacuna BCG administrada o su indicación consignada.","Educación entregada y comprensión verificada.","Control de la díada agendado, con fecha y lugar informados.","Documentación completa: certificado de nacimiento, carné, epicrisis.","Registro del alta con hora y firma."]},{"p":24,"vol":4,"proc":"Recepción y clasificación en urgencia","sub":"Valoración inicial","pasos":["Higiene de manos e identificación activa.","Establece el motivo de consulta en la primera pregunta, sin desviarte a la anamnesis completa.","Evalúa el estado general de inmediato: conciencia, coloración, dificultad respiratoria, dolor, capacidad de caminar y de hablar en frases completas.","Control de signos vitales completo.","Calcula el índice de shock: frecuencia cardíaca dividida por presión arterial sistólica. Sobre 1 indica compromiso hemodinámico aunque la presión aún esté en rango.","Determina la edad gestacional con el carné o la ficha.","Ausculta latidos cardíacos fetales si la edad gestacional lo permite.","Realiza la anamnesis dirigida según el motivo de consulta.","Verifica alergias.","Establece la prioridad y comunícala al profesional responsable.","Instala vía venosa si la condición lo requiere o está indicado.","Informa a la usuaria y a su acompañante qué va a ocurrir y en qué plazo aproximado.","Registra con hora."]},{"p":25,"vol":4,"proc":"Prolapso de cordón umbilical","sub":"","pasos":["Pide ayuda y asegura la disponibilidad de pabellón y de asistencia neonatal.","Mantén comunicación constante con la mujer y su familia.","Determina la edad gestacional.","Realiza tacto vaginal y determina: borramiento y dilatación, presentación, y presencia de pulsaciones en el cordón.","Eleva la presentación con la mano y déjala puesta. Mantén la elevación hasta el parto. Esto puede requerir insertar completamente la mano en la vagina.","Coloca a la mujer en posición rodilla-pecho.","No intentes reintroducir el cordón. Si está fuera de la vagina, mantenlo tibio, por ejemplo con un paño tibio con suero fisiológico, y evita manipularlo.","Administra oxígeno.","Prepara de inmediato la cesárea.","Si el parto vaginal es inminente e inmediatamente viable, es aceptable proceder con parto vaginal o fórceps.","Registra la hora del diagnóstico, las maniobras y la hora de cada una."]},{"p":25,"vol":4,"proc":"Prolapso de cordón umbilical","sub":"En caso de traslado","pasos":["Coloca sonda Foley y llena con 500 a 700 cc de suero fisiológico. Clampea la sonda. Debe drenarse antes de la cesárea.","Eleva la presentación con la mano y mantenla hasta el parto.","Posición rodilla-pecho o Trendelenburg. Puede ser aceptable elevar las caderas en vez de inclinar la camilla.","No intentes reintroducir el cordón. Mantenlo tibio si está fuera de la vagina.","Usa tocolisis de emergencia: nitroglicerina o fenoterol.","Administra antibióticos de amplio espectro.","Realiza la cesárea."]},{"p":26,"vol":4,"proc":"Distocia de hombros","sub":"","pasos":["Reconoce el signo de la tortuga y la ausencia de restitución espontánea.","Pide ayuda y declara el problema en voz alta: «esto es una distocia de hombros». Enunciarlo activa el esquema correcto en el equipo que llega.","Convoca: apoyo de matronería, obstetra, equipo de reanimación neonatal y anestesista.","Indica a la mujer que deje de pujar: el pujo puede exacerbar la impactación.","McRoberts: quita almohadas, posición plana, baja la cabecera e hiperflexiona ambas piernas sobre el abdomen. Aplica luego tracción de rutina en dirección axial.","Presión suprapúbica: desde el lado del dorso fetal, hacia abajo y lateral, justo sobre la sínfisis. Reduce el diámetro biacromial.","Si no resuelve: maniobras internas por vía posterior, hacia el hueco sacro, con la mano completa. Rotación interna o extracción del brazo posterior.","Alternativa: posición de cuatro apoyos, especialmente en mujer móvil y sin epidural.","Registra la hora de salida de la cabeza, las maniobras en orden, quién las ejecutó, y la hora de salida del cuerpo."]},{"p":27,"vol":4,"proc":"Hemorragia posparto","sub":"Medidas de primera línea","pasos":["Pide ayuda y avisa de inmediato al profesional responsable.","No dejes sola a la usuaria.","Instaura el masaje uterino de forma rápida.","Verifica la permeabilidad de la vía venosa e instala una segunda si es necesario.","Administra el uterotónico indicado.","Administra ácido tranexámico según indicación, dentro de las 3 horas del parto.","Administra fluidos endovenosos: cristaloides isotónicos.","Facilita el examen del tracto genital, que forma parte del paquete inicial y no de la respuesta al fracaso.","Cuantifica la pérdida de forma objetiva, no visual.","Controla signos vitales y calcula el índice de shock.","Registra las horas de cada medida."]}];
+
+const PROCS = {
+  1:  "Recepción e ingreso a hospitalización",
+  2:  "Documentos legales y consentimiento informado",
+  3:  "Valoración de la usuaria obstétrica",
+  4:  "Solicitud e interpretación de exámenes",
+  5:  "Manejo e interpretación de la MEFI",
+  6:  "Preparación y administración de medicamentos",
+  7:  "Preparación preoperatoria",
+  8:  "Ingreso y diagnóstico de trabajo de parto",
+  9:  "Tacto vaginal obstétrico",
+  10: "Atención del trabajo de parto en fase activa",
+  11: "Aceleración ocitócica",
+  12: "Atención del período expulsivo",
+  13: "Manejo activo del alumbramiento",
+  14: "Atención del puerperio inmediato",
+  15: "Atención en urgencia gineco-obstétrica",
+  16: "Acompañamiento en duelo perinatal",
+  17: "Atención inmediata del recién nacido",
+  18: "Ingreso del recién nacido a puerperio",
+  19: "Examen físico del recién nacido",
+  20: "Signos de alarma y vigilancia del RN",
+  21: "Apoyo a la lactancia",
+  22: "Vigilancia del peso",
+  23: "Educación y alta del recién nacido",
+  24: "Recepción y clasificación en urgencia",
+  25: "Prolapso de cordón umbilical",
+  26: "Distocia de hombros",
+  27: "Hemorragia posparto",
+  28: "Paro cardiorrespiratorio en la embarazada"
+};
+
+const NUC = { 1:{procs:[1,2,3,4,5,6,7]}, 2:{procs:[8,9,10,11,12,13,14,15,16]},
+              3:{procs:[17,18,19,20,21,22,23]}, 4:{procs:[24,25,26,27,28]} };
+
+const PREGUNTAS = [
+
+/* ===================== PROC 1 · INGRESO ===================== */
+{ p:1, t:"La identificación activa de una usuaria consiste en:",
+  op:["Pedirle que diga su nombre completo y RUT, y contrastarlos con la documentación",
+      "Leer su nombre en voz alta y esperar que confirme",
+      "Verificar el nombre en el brazalete","Preguntar si es la usuaria de la cama asignada"],
+  fb:"Leer el nombre e induce la respuesta. Una usuaria angustiada o con dolor puede asentir a cualquier nombre." },
+{ p:1, t:"Al presentarse ante una usuaria, el estudiante debe:",
+  op:["Indicar su nombre y su condición de estudiante","Indicar solo su nombre",
+      "Presentarse como parte del equipo tratante","No es necesario presentarse si la usuaria ya fue recibida"],
+  fb:"Omitir la condición de estudiante vulnera el derecho de la usuaria a saber quién la atiende." },
+{ p:1, t:"El brazalete de identificación debe:",
+  op:["Verificarse en sus datos antes de instalarlo","Instalarse de inmediato y verificarse después",
+      "Instalarlo el personal administrativo","Colocarse solo si la usuaria será intervenida"],
+  fb:"Un brazalete con datos errados es peor que ningún brazalete, porque genera falsa confianza." },
+{ p:1, t:"La consulta por alergias durante el ingreso:",
+  op:["Se realiza siempre y se consigna de forma destacada, aunque ya figure en la ficha",
+      "Solo se realiza si la usuaria recibirá medicamentos","Se omite si la ficha ya la registra",
+      "La realiza exclusivamente el médico"],
+  fb:"El dato condiciona toda la indicación farmacológica posterior y debe verificarse en cada ingreso." },
+{ p:1, t:"Al instalar a la usuaria en su unidad se verifica:",
+  op:["Cama en posición baja y frenada, y timbre al alcance","Solo que la cama esté limpia",
+      "Barandas arriba en todas las usuarias","Que tenga acompañante permanente"],
+  fb:"Cama baja y frenada son medidas generales de prevención de caídas que aplican a toda usuaria." },
+{ p:1, t:"El registro del ingreso debe realizarse:",
+  op:["En el momento, con fecha, hora, hallazgos y firma","Al finalizar el turno, con todos los ingresos juntos",
+      "Solo si hubo hallazgos alterados","Cuando lo solicite el profesional responsable"],
+  fb:"Un ingreso registrado horas después pierde valor legal y clínico." },
+
+/* ===================== PROC 2 · DOCUMENTOS ===================== */
+{ p:2, t:"Ante un error en el registro clínico, corresponde:",
+  op:["Trazar una línea sobre el error dejándolo legible, escribir la corrección al lado y firmar",
+      "Usar corrector y escribir encima","Borrar y reescribir la hoja completa","Tachar hasta que sea ilegible"],
+  fb:"El corrector borra la trazabilidad del documento y ante una investigación se interpreta como intento de ocultamiento." },
+{ p:2, t:"Respecto del momento del registro, la regla es:",
+  op:["Se registra lo realizado, en el momento en que se realizó; nunca por adelantado",
+      "Puede registrarse por adelantado si el cuidado está programado",
+      "Se completa todo al final del turno","Basta registrar los hallazgos alterados"],
+  fb:"Los espacios en blanco se completan o se anulan, para impedir que otro escriba después." },
+{ p:2, t:"El consentimiento informado es válido cuando:",
+  op:["La información fue entregada por el profesional responsable, en lenguaje comprensible y con oportunidad real de preguntar",
+      "El documento está firmado por la usuaria","Lo firmó un familiar directo",
+      "Se obtuvo antes del ingreso a pabellón"],
+  fb:"La firma solo documenta un proceso de información y decisión. Sin ese proceso, el documento no tiene validez." },
+{ p:2, t:"Como estudiante, respecto del consentimiento informado:",
+  op:["No lo obtienes: acompañas el proceso y verificas que el documento esté completo",
+      "Puedes obtenerlo si el profesional te lo delega","Puedes obtenerlo en procedimientos de bajo riesgo",
+      "Solo lo firmas como testigo"],
+  fb:"Quien entrega la información debe ser el profesional responsable del procedimiento." },
+{ p:2, t:"La Ley N.º 20.584 resguarda, entre otros:",
+  op:["El derecho a ser informada, a decidir informadamente, a un trato digno y a la confidencialidad",
+      "Únicamente el derecho a la atención oportuna","Solo los deberes de la usuaria",
+      "Exclusivamente el acceso a la ficha clínica"],
+  fb:"Regula los derechos y deberes de las personas en relación con acciones vinculadas a su atención en salud." },
+
+/* ===================== PROC 3 · VALORACIÓN ===================== */
+{ p:3, t:"La segunda maniobra de Leopold determina:",
+  op:["La ubicación del dorso fetal","Qué polo ocupa el fondo uterino",
+      "El grado de encajamiento","Qué polo se presenta sobre el estrecho superior"],
+  fb:"Identificar el dorso determina dónde auscultar y desde qué lado se aplica la presión suprapúbica en una distocia." },
+{ p:3, t:"La cuarta maniobra de Leopold se realiza:",
+  op:["De espaldas a la usuaria, mirando hacia sus pies","De frente a la usuaria",
+      "Desde el lado derecho exclusivamente","Con la usuaria en decúbito lateral"],
+  fb:"Las tres primeras se realizan de frente; la cuarta de espaldas, deslizando ambas manos hacia la pelvis." },
+{ p:3, t:"Al auscultar los latidos cardíacos fetales debe palparse simultáneamente el pulso materno para:",
+  op:["Diferenciar el latido fetal del pulso de la madre","Evaluar la perfusión materna",
+      "Sincronizar con la contracción","Determinar la frecuencia cardíaca materna basal"],
+  fb:"El error ocurre especialmente en bradicardia fetal y ante muerte fetal, donde se ausculta el pulso materno y se informa como latido fetal presente." },
+{ p:3, t:"El control de dinámica uterina debe realizarse durante:",
+  op:["10 minutos continuos","3 minutos","5 minutos","30 minutos"],
+  fb:"Menos tiempo no permite caracterizar la dinámica ni determinar el número de contracciones en la ventana estándar." },
+{ p:3, t:"Se define taquisistolía como:",
+  op:["Más de 5 contracciones en 10 minutos","Más de 3 contracciones en 10 minutos",
+      "Contracciones de más de 60 segundos","Ausencia de relajación entre contracciones"],
+  fb:"El consenso recomienda abandonar los términos polisistolía, hiperestimulación e hipercontractilidad, y usar taquisistolía." },
+{ p:3, t:"La altura uterina se mide:",
+  op:["Desde el borde superior de la sínfisis púbica hasta el fondo uterino","Desde el ombligo hasta el fondo uterino",
+      "Desde el pubis hasta el apéndice xifoides","Entre ambas crestas ilíacas"],
+  fb:"Se mide siguiendo la curvatura del abdomen, con la usuaria en decúbito dorsal y vejiga vacía." },
+
+/* ===================== PROC 4 · EXÁMENES ===================== */
+{ p:4, t:"El tubo con la muestra debe rotularse:",
+  op:["En presencia de la usuaria, antes de que salga de la unidad","Al llegar al laboratorio",
+      "Al finalizar la ronda de tomas","Solo si hay más de una usuaria en la sala"],
+  fb:"Rotular después es el mecanismo por el cual una muestra termina atribuida a otra persona." },
+{ p:4, t:"En la embarazada, la creatinina se considera normal cuando es:",
+  op:["Menor de 0,8 mg/dl","Menor de 1,1 mg/dl","Menor de 1,4 mg/dl","Menor de 2,0 mg/dl"],
+  fb:"Usar el rango de la mujer no embarazada hace que una creatinina ya elevada se lea como normal." },
+{ p:4, t:"Una uricemia sobre 5 mg/dl en una gestante orienta a:",
+  op:["Preeclampsia","Diabetes gestacional","Colestasia intrahepática","Infección urinaria"],
+  fb:"Es un valor característico de la preeclampsia, junto con el hematocrito elevado que refleja hemoconcentración." },
+{ p:4, t:"La PTGO se realiza de rutina entre las semanas:",
+  op:["24 y 28","12 y 16","32 y 36","36 y 40"],
+  fb:"Se repite entre las 30 y 33 semanas si existen factores de riesgo de diabetes gestacional." },
+{ p:4, t:"Una anemia con hematocrito menor de 28 % en una gestante requiere derivación:",
+  op:["A nivel terciario, de forma inmediata","A nivel secundario en 30 días",
+      "A control en atención primaria","No requiere derivación si está asintomática"],
+  fb:"Con hematocrito sobre 28 % la derivación es a nivel secundario, también inmediata." },
+
+/* ===================== PROC 5 · MEFI ===================== */
+{ p:5, t:"Antes de instalar el transductor de frecuencia cardíaca fetal debe:",
+  op:["Realizarse maniobras de Leopold para determinar la posición del dorso","Aplicarse gel en el tocodinamómetro",
+      "Colocarse a la usuaria en decúbito dorsal estricto","Verificarse la dilatación cervical"],
+  fb:"Sin determinar el dorso, la señal es intermitente y en el peor caso se registra el pulso materno." },
+{ p:5, t:"La variabilidad moderada corresponde a una amplitud de:",
+  op:["6 a 25 latidos por minuto","Menor a 5 latidos por minuto","Mayor a 25 latidos por minuto","Indetectable"],
+  fb:"Se evalúa en una ventana de 10 minutos, sin considerar aceleraciones ni desaceleraciones." },
+{ p:5, t:"Una desaceleración se considera recurrente cuando ocurre en:",
+  op:["Más del 50 % de las contracciones en una ventana de 20 minutos","Todas las contracciones",
+      "Más del 25 % de las contracciones","Al menos tres contracciones consecutivas"],
+  fb:"La distinción importa porque las desaceleraciones recurrentes, junto a variabilidad ausente, definen la categoría III." },
+{ p:5, t:"Configura una MEFI categoría III:",
+  op:["Variabilidad ausente con desaceleraciones tardías recurrentes","Desaceleraciones variables intermitentes",
+      "Taquicardia fetal aislada","Variabilidad mínima con aceleraciones presentes"],
+  fb:"La variabilidad ausente es el elemento que debe acompañar a las desaceleraciones recurrentes o a la bradicardia. También se incluye el patrón sinusoidal." },
+{ p:5, t:"En una gestante de alto riesgo en fase activa, los latidos cardíacos fetales se controlan cada:",
+  op:["15 minutos","5 minutos","30 minutos","60 minutos"],
+  fb:"En el período expulsivo de alto riesgo el control es cada 5 minutos. En bajo riesgo: 30 minutos en fase activa y 15 en expulsivo." },
+{ p:5, t:"Ante una MEFI categoría III, una de las primeras medidas es:",
+  op:["Suspender la conducción ocitócica","Aumentar la velocidad de la infusión de oxitocina",
+      "Colocar a la usuaria en decúbito dorsal","Esperar 30 minutos y repetir el registro"],
+  fb:"La taquisistolía reduce el tiempo de relajación uterina, que es cuando ocurre la perfusión del espacio intervelloso." },
+{ p:5, t:"En embarazos de bajo riesgo, respecto de la monitorización continua:",
+  op:["No se recomienda por sobre la auscultación intermitente para disminuir la mortalidad perinatal",
+      "Se recomienda en todos los casos","Es obligatoria desde la fase latente",
+      "Reemplaza a la auscultación intermitente"],
+  fb:"Se ha asociado a mayor tasa de cesárea sin reducir la mortalidad perinatal global." },
+
+/* ===================== PROC 6 · MEDICAMENTOS ===================== */
+{ p:6, t:"Una ampolla indica 100 mg / 20 ml. La concentración por mililitro es:",
+  op:["5 mg/ml","100 mg/ml","20 mg/ml","2.000 mg/ml"],
+  fb:"Concentración por ml = cantidad total dividida por volumen total. Confundir ambos datos es el error más frecuente." },
+{ p:6, t:"Se indica betametasona 12 mg y se dispone de ampollas de 4 mg / 1 ml. Corresponde cargar:",
+  op:["3 ml","12 ml","1,5 ml","4 ml"],
+  fb:"12 mg dividido por 4 mg/ml da 3 ml, equivalentes a 3 ampollas completas." },
+{ p:6, t:"Una solución al 25 % contiene:",
+  op:["250 mg/ml","25 mg/ml","2,5 mg/ml","2.500 mg/ml"],
+  fb:"La regla es que 1 % equivale a 10 mg/ml. Por lo tanto 25 % son 250 mg/ml." },
+{ p:6, t:"Antes de cada dosis de mantención de sulfato de magnesio se verifica:",
+  op:["Reflejo patelar, frecuencia respiratoria mayor a 12 y diuresis mayor a 100 ml en 4 horas",
+      "Solo presión arterial y frecuencia cardíaca","Únicamente el nivel plasmático de magnesio",
+      "Glicemia capilar y temperatura"],
+  fb:"El reflejo patelar es el signo más precoz de toxicidad; su abolición precede a la depresión respiratoria." },
+{ p:6, t:"El antídoto ante toxicidad por sulfato de magnesio es:",
+  op:["Gluconato de calcio al 10 %, 10 ml en 3 minutos","Naloxona","Atropina","Bicarbonato de sodio"],
+  fb:"El magnesio compite con el calcio en la placa neuromuscular: administrar calcio revierte el bloqueo de forma directa." },
+{ p:6, t:"Una preparación sin rótulo:",
+  op:["Se descarta, sin excepción","Se administra si quien la preparó recuerda su contenido",
+      "Se rotula al momento de administrar","Se consulta con el turno anterior"],
+  fb:"El rótulo lleva fármaco, cantidad y volumen, concentración, velocidad, fecha, hora e iniciales." },
+{ p:6, t:"El registro de la administración de un medicamento se realiza:",
+  op:["Inmediatamente después de administrar","Antes de administrar, para no olvidarlo",
+      "Al final del turno","Solo si hubo efectos adversos"],
+  fb:"Registrar antes de administrar es una de las causas de error más difíciles de detectar después." },
+
+/* ===================== PROC 7 · PREOPERATORIO ===================== */
+{ p:7, t:"El retiro del esmalte de uñas antes de una cirugía se realiza porque:",
+  op:["Impide la lectura del saturómetro","Es una norma de presentación personal",
+      "Aumenta el riesgo de infección","Interfiere con la anestesia"],
+  fb:"No es un requisito estético: sin lectura de saturación se pierde un parámetro de monitorización esencial." },
+{ p:7, t:"Respecto del ayuno preoperatorio, corresponde:",
+  op:["Verificarlo y registrar la hora de inicio","Consignar solo que la usuaria está en ayunas",
+      "Confiar en lo que indique el familiar","Verificarlo solo en cirugía electiva"],
+  fb:"«Está en ayunas» sin hora no permite decidir si es seguro anestesiar." },
+{ p:7, t:"En la preparación para una cesárea de urgencia:",
+  op:["Las verificaciones de seguridad se ejecutan más rápido y en paralelo, pero no se omiten",
+      "Se omiten las verificaciones para ganar tiempo","Se omite la información a la usuaria",
+      "Se difiere el consentimiento hasta después de la cirugía"],
+  fb:"Que sea urgente no autoriza a trasladar a la usuaria sin explicarle qué va a ocurrir." },
+
+/* ===================== PROC 8 · DIAGNÓSTICO TRABAJO DE PARTO ===================== */
+{ p:8, t:"El diagnóstico operacional de trabajo de parto requiere:",
+  op:["Más de 2 contracciones en 10 minutos, de 30 segundos o más, por una hora, con borramiento mayor a 50 % y dilatación mayor a 1 cm",
+      "Contracciones regulares durante 2 horas","Dilatación de 4 cm con membranas rotas",
+      "Contracciones dolorosas y expulsión del tapón mucoso"],
+  fb:"Los cuatro elementos deben cumplirse simultáneamente. Contracciones sin modificación cervical no son trabajo de parto." },
+{ p:8, t:"Según la Guía Perinatal chilena, la fase activa del trabajo de parto comprende:",
+  op:["De 3 a 10 cm de dilatación","De 5 a 10 cm de dilatación","De 4 a 8 cm","Desde el inicio hasta los 3 cm"],
+  fb:"La fase latente va hasta cuello borrado y 3 cm. Las recomendaciones de la OMS de 2018 sitúan el inicio de la fase activa en 5 cm: verifica el criterio de tu servicio." },
+{ p:8, t:"El criterio de ingreso recomendado para una buena evolución del trabajo de parto es:",
+  op:["Mínimo 3 cm de dilatación y borramiento del 100 %","Cualquier dilatación con contracciones regulares",
+      "5 cm de dilatación","Solo tras la rotura de membranas"],
+  fb:"Hace excepción la presencia de patología del embarazo o de la unidad fetoplacentaria." },
+{ p:8, t:"La causa más frecuente de fase latente prolongada en multíparas es:",
+  op:["Falso trabajo de parto","Desproporción céfalo-pelviana","Hipodinamia uterina","Cuello inmaduro"],
+  fb:"En nulíparas, la causa más frecuente es el inicio del trabajo de parto con cuello inmaduro." },
+
+/* ===================== PROC 9 · TACTO VAGINAL ===================== */
+{ p:9, t:"Antes de realizar un tacto vaginal en una usuaria con sangrado debe:",
+  op:["Verificarse que la placenta esté normoinserta","Tomarse una muestra de sangre",
+      "Instalarse una vía venosa","Administrarse analgesia"],
+  fb:"Es la regla que más rápido puede causar daño si se olvida, y la tentación de examinar es alta cuando la usuaria llega sangrando." },
+{ p:9, t:"El nivel de descenso de la presentación se expresa en relación con:",
+  op:["Las espinas ciáticas","La sínfisis púbica","El promontorio sacro","El borde del cuello uterino"],
+  fb:"Las espinas corresponden a la estación cero; los valores negativos indican que la presentación está por encima." },
+{ p:9, t:"La frecuencia de los tactos vaginales durante el trabajo de parto debe ser:",
+  op:["La mínima necesaria, porque cada tacto aumenta el riesgo de infección ascendente",
+      "Horaria, para documentar la progresión","Cada 30 minutos en fase activa",
+      "Cada vez que la usuaria refiera aumento del dolor"],
+  fb:"Más de cinco tactos durante el trabajo de parto justifica profilaxis antibiótica: es un dato con consecuencia clínica." },
+
+/* ===================== PROC 10 · FASE ACTIVA ===================== */
+{ p:10, t:"El control de dinámica uterina en fase activa con conducción ocitócica se realiza cada:",
+  op:["30 minutos","60 minutos","15 minutos","2 horas"],
+  fb:"Sin oxitocina, el control es cada 60 minutos." },
+{ p:10, t:"La rotura artificial de membranas durante el trabajo de parto:",
+  op:["No se realiza de rutina; solo bajo indicación específica","Se realiza de rutina al alcanzar los 5 cm",
+      "Acelera el parto en todos los casos","Se realiza siempre antes de la analgesia"],
+  fb:"Las indicaciones incluyen observar el líquido, iniciar prueba de trabajo de parto, colocar electrodo, obtener descenso u optimizar la dinámica." },
+{ p:10, t:"El acompañamiento continuo durante el trabajo de parto:",
+  op:["Figura entre las estrategias que disminuyen el riesgo de distocia","Es una concesión a la usuaria sin efecto clínico",
+      "Se permite solo en la fase latente","Debe ser realizado por personal de salud exclusivamente"],
+  fb:"Aparece junto a la posición y la hidratación como estrategia clínica, especialmente el acompañamiento de personal no médico, doula o familiar." },
+{ p:10, t:"Requiere profilaxis antibiótica para estreptococo grupo B una gestante con:",
+  op:["Rotura prematura de membranas de más de 18 horas","Cesárea anterior",
+      "Edad materna mayor de 35 años","Diabetes gestacional"],
+  fb:"También: antecedente de RN con sepsis por EGB, bacteriuria por EGB, cultivo positivo, trabajo de parto de pretérmino, o temperatura mayor a 38 °C intraparto." },
+
+/* ===================== PROC 11 · ACELERACIÓN ===================== */
+{ p:11, t:"El objetivo de la aceleración ocitócica es obtener:",
+  op:["3 a 5 contracciones en 10 minutos","6 a 8 contracciones en 10 minutos",
+      "Contracciones de más de 90 segundos","Dilatación de 1 cm por hora"],
+  fb:"La progresión del parto se logra con 200 Unidades Montevideo, que resultan de multiplicar frecuencia por intensidad." },
+{ p:11, t:"Ante taquisistolía durante la conducción ocitócica corresponde:",
+  op:["Disminuir o suspender la dosis según indicación, y comunicar","Mantener la dosis y vigilar",
+      "Aumentar la hidratación","Realizar rotura artificial de membranas"],
+  fb:"La taquisistolía reduce el tiempo de relajación uterina, que es cuando ocurre la perfusión del espacio intervelloso." },
+
+/* ===================== PROC 12 · EXPULSIVO ===================== */
+{ p:12, t:"No debe hacerse pujar a la mujer hasta que la presentación esté en:",
+  op:["Espinas +2 a +3","Espinas 0","Espinas −2","Dilatación completa, independiente del descenso"],
+  fb:"El nivel de descenso, y no solo la dilatación, determina cuándo se pasa a la siguiente etapa." },
+{ p:12, t:"El período expulsivo no debe exceder:",
+  op:["90 minutos en nulíparas y 60 en multíparas","60 minutos en nulíparas y 30 en multíparas",
+      "2 horas en ambos casos","30 minutos en todos los casos"],
+  fb:"Siempre que la vigilancia de la unidad fetoplacentaria sea normal." },
+{ p:12, t:"Se considera expulsivo detenido cuando, estando la mujer en sala de partos, no se produce el parto luego de:",
+  op:["10 minutos","30 minutos","5 minutos","60 minutos"],
+  fb:"En ese momento debe llamarse al médico para evaluación y manejo. Es un plazo corto y explícito." },
+{ p:12, t:"La episiotomía en el parto vaginal espontáneo:",
+  op:["No debe ser un procedimiento estándar; solo se efectúa ante indicación caso a caso",
+      "Se realiza de rutina en nulíparas","Previene los desgarros de tercer grado",
+      "Está indicada en todo parto instrumental"],
+  fb:"Su realización implica contar con las competencias para resolver sus complicaciones, como hematomas y desgarros." },
+{ p:12, t:"La aspiración del recién nacido al nacer:",
+  op:["No es necesaria como rutina; se reserva para meconio 2+ o mayor","Se realiza en todos los partos",
+      "Se realiza solo en cesárea","Es obligatoria antes del contacto piel a piel"],
+  fb:"La aspiración innecesaria puede producir bradicardia refleja, apnea y lesión de la mucosa." },
+
+/* ===================== PROC 13 · ALUMBRAMIENTO ===================== */
+{ p:13, t:"El manejo activo del alumbramiento previene la hemorragia posparto en aproximadamente:",
+  op:["68 %","25 %","90 %","40 %"],
+  fb:"Acelera la liberación de la placenta, incrementa las contracciones e impide la atonía uterina." },
+{ p:13, t:"La tracción del cordón umbilical debe acompañarse siempre de:",
+  op:["Contra-tracción suprapúbica con la otra mano","Presión sobre el fondo uterino",
+      "Masaje uterino simultáneo","Maniobra de Valsalva materna"],
+  fb:"La tracción sin contra-tracción puede producir inversión uterina, que es una emergencia obstétrica grave." },
+{ p:13, t:"Se recomienda profilaxis antibiótica tras el parto cuando:",
+  op:["Hubo más de 5 tactos vaginales durante el trabajo de parto","La usuaria tuvo analgesia epidural",
+      "El parto duró más de 6 horas","Se administró oxitocina"],
+  fb:"También en partos operatorios con laceraciones vaginales y en casos de inercia uterina." },
+
+/* ===================== PROC 14 · PUERPERIO INMEDIATO ===================== */
+{ p:14, t:"En sala de recuperación, el control de signos vitales, sangrado y retracción uterina se realiza cada:",
+  op:["30 minutos","2 horas","4 horas","8 horas"],
+  fb:"Durante las primeras 2 a 4 horas, avisando ante cualquier alteración." },
+{ p:14, t:"La cuantificación del sangrado posparto debe realizarse:",
+  op:["Consignando número de apósitos por unidad de tiempo, con hora y descripción de coágulos",
+      "Estimándolo como escaso, moderado o abundante","Solo si la usuaria refiere molestias",
+      "Al final del período de recuperación"],
+  fb:"La estimación visual subestima de forma sistemática, y el error es mayor cuanto mayor es el volumen real." },
+{ p:14, t:"La micción espontánea esperable en las primeras 6 horas posparto es de al menos:",
+  op:["180 cc","50 cc","500 cc","1.000 cc"],
+  fb:"Su ausencia obliga a evaluar retención urinaria." },
+{ p:14, t:"En el puerperio inmediato, la precarga cardíaca:",
+  op:["Aumenta bruscamente por la autotransfusión del lecho uteroplacentario","Disminuye por la pérdida hemática",
+      "Se mantiene sin cambios","Disminuye por la vasodilatación periférica"],
+  fb:"Explica el riesgo de edema pulmonar en la preeclámptica y la necesidad de controlar el balance hídrico." },
+
+/* ===================== PROC 15 · URGENCIA ===================== */
+{ p:15, t:"El índice de shock se calcula como:",
+  op:["Frecuencia cardíaca dividida por presión arterial sistólica","Presión sistólica dividida por frecuencia cardíaca",
+      "Presión diastólica dividida por frecuencia cardíaca","Frecuencia cardíaca por presión media"],
+  fb:"Un valor mayor de 1 indica compromiso hemodinámico aunque la presión arterial aún esté en rango." },
+{ p:15, t:"El valor del índice de shock en obstetricia radica en que:",
+  op:["Detecta la fase compensada del shock, cuando la presión aún es normal","Reemplaza la medición de la presión arterial",
+      "Predice la necesidad de transfusión","Determina la causa del sangrado"],
+  fb:"La gestante joven mantiene la presión a costa de taquicardia hasta que la compensación se agota y cae de forma abrupta." },
+{ p:15, t:"Ante una usuaria que consulta por cefalea, fotopsia y tinitus, la primera acción es:",
+  op:["Tomar la presión arterial","Solicitar exámenes de laboratorio",
+      "Administrar analgesia","Realizar monitorización fetal"],
+  fb:"La tríada orienta a síndrome hipertensivo del embarazo, y la presión arterial es el dato que confirma o descarta." },
+
+/* ===================== PROC 16 · DUELO ===================== */
+{ p:16, t:"Ante una mujer que cursa una pérdida reproductiva, corresponde:",
+  op:["Ofrecer presencia, escuchar sin interrumpir y tolerar el silencio","Ofrecer frases de consuelo para animarla",
+      "Explicarle que podrá tener otro embarazo","Evitar el tema para no hacerla sufrir"],
+  fb:"Frases como «eres joven, vas a tener otro» no consuelan: cierran la conversación y comunican que la pérdida no es importante." },
+{ p:16, t:"Respecto de la posibilidad de ver al recién nacido fallecido:",
+  op:["Se ofrece sin imponer, y se respeta la decisión sea cual sea","Se evita para no aumentar el sufrimiento",
+      "Se insiste porque facilita el duelo","La decide el equipo tratante"],
+  fb:"Ver o no ver, tomarlo o no, nombrarlo o no, son decisiones de la familia y no del equipo." },
+{ p:16, t:"Un error frecuente con consecuencias duraderas en duelo perinatal es:",
+  op:["Que distintos miembros del equipo pregunten repetidamente por su embarazo porque nadie comunicó la situación",
+      "Registrar objetivamente lo ocurrido","Ofrecer derivación psicosocial",
+      "Facilitar el acompañamiento de la persona que ella elija"],
+  fb:"Por eso la comunicación al turno siguiente forma parte del procedimiento, no es un accesorio." },
+
+/* ===================== PROC 17 · ATENCIÓN INMEDIATA ===================== */
+{ p:17, t:"Las tres preguntas iniciales de la evaluación del recién nacido son:",
+  op:["¿Es de término?, ¿respira o llora?, ¿tiene buen tono muscular?",
+      "¿Respira?, ¿tiene pulso?, ¿está rosado?","¿Cuánto pesa?, ¿respira?, ¿llora?",
+      "¿Es de término?, ¿tiene meconio?, ¿está rosado?"],
+  fb:"Si las tres respuestas son afirmativas, el recién nacido permanece con su madre." },
+{ p:17, t:"El secado del recién nacido debe poner especial atención en:",
+  op:["La cabeza, que es la mayor superficie de pérdida de calor","El tronco",
+      "Las extremidades","Los pliegues cutáneos"],
+  fb:"Además debe retirarse el paño húmedo y reemplazarse por uno seco: un paño mojado sigue enfriando." },
+{ p:17, t:"El contacto piel a piel inmediato se recomienda porque:",
+  op:["Previene la hipotermia y promueve la lactancia","Facilita la evaluación del Apgar",
+      "Permite diferir los procedimientos de rutina","Reduce el llanto del recién nacido"],
+  fb:"Es la fuente térmica más eficiente y no consume oxígeno ni glucosa, a diferencia de la termogénesis por grasa parda." },
+{ p:17, t:"Respecto de la puntuación de Apgar:",
+  op:["No es el instrumento para decidir si se inicia la reanimación","Determina el inicio de la reanimación",
+      "Predice por sí solo el pronóstico neurológico","Se evalúa solo a los cinco minutos"],
+  fb:"La reanimación se inicia según las tres preguntas iniciales, no esperando al minuto de vida para calcular el puntaje." },
+{ p:17, t:"La hipotermia en el recién nacido produce hipoglicemia porque:",
+  op:["La termogénesis por grasa parda consume glucosa y oxígeno","Disminuye la absorción intestinal",
+      "Aumenta la secreción de insulina","Reduce la producción hepática de glucógeno"],
+  fb:"Hipotermia, hipoglicemia y aumento del consumo de oxígeno son consecuencias encadenadas del mismo mecanismo." },
+
+/* ===================== PROC 18-19 · INGRESO Y EXAMEN RN ===================== */
+{ p:18, t:"La verificación de la identificación del recién nacido al ingresar a puerperio se realiza:",
+  op:["Contrastando su brazalete con el de la madre y con la ficha","Solo leyendo su brazalete",
+      "Consultando a la matrona que lo trasladó","Al momento del alta"],
+  fb:"Es el punto de mayor riesgo de error de identidad en todo el proceso asistencial." },
+{ p:18, t:"La temperatura ambiental recomendada en la unidad de puerperio es:",
+  op:["22 a 25 °C","18 a 20 °C","26 a 28 °C","20 a 22 °C"],
+  fb:"El ruido máximo recomendado es de 45 decibeles y la iluminación máxima de 600 lux." },
+{ p:18, t:"La posición para dormir del recién nacido debe ser:",
+  op:["Supina o lateral, nunca en prono","Prono para favorecer la digestión",
+      "Decúbito lateral izquierdo exclusivamente","Semisentado"],
+  fb:"Es prevención de muerte súbita del lactante y una de las educaciones al alta de mayor impacto." },
+{ p:19, t:"¿Cuál de los siguientes hallazgos en el recién nacido NO es normal?",
+  op:["Tos","Estornudos","Suspiros","Ingurgitación mamaria en ambos sexos"],
+  fb:"Estornudos y suspiros son parte del patrón respiratorio normal; la ingurgitación responde a efectos hormonales maternos. La tos siempre obliga a consultar." },
+{ p:19, t:"La secuencia del examen físico del recién nacido debe ser:",
+  op:["Céfalo-caudal, siempre en el mismo orden","Según lo que llame la atención",
+      "Comenzando por el abdomen","De distal a proximal"],
+  fb:"La constancia del orden es lo que impide omitir un segmento cuando hay presión asistencial." },
+
+/* ===================== PROC 20 · ALARMA RN ===================== */
+{ p:20, t:"Constituye un signo de alarma del recién nacido:",
+  op:["Rechazo de la lactancia","Deposiciones amarillas semilíquidas",
+      "Hipo después de mamar","Descamación de la piel al tercer día"],
+  fb:"También: fiebre o hipotermia, decaimiento, dificultad respiratoria, cianosis, ictericia que progresa y signos de onfalitis." },
+{ p:20, t:"El prematuro tardío corresponde al recién nacido de:",
+  op:["35 a 36 semanas más 6 días","34 a 35 semanas","32 a 34 semanas","37 a 38 semanas"],
+  fb:"Es el grupo que más se subestima, porque su aspecto y peso pueden ser normales pese a tener menor reserva." },
+{ p:20, t:"El hijo de madre diabética tiene riesgo de hipoglicemia porque:",
+  op:["El hiperinsulinismo fetal persiste tras cortarse el aporte de glucosa placentaria",
+      "Nace con menor reserva de glucógeno","Tiene menor capacidad de succión",
+      "La insulina materna atraviesa la placenta"],
+  fb:"La insulina materna NO cruza la placenta: el feto produce la suya en respuesta a la hiperglicemia materna." },
+
+/* ===================== PROC 21 · LACTANCIA ===================== */
+{ p:21, t:"Un signo de buen acople durante la mamada es:",
+  op:["Boca bien abierta abarcando gran parte de la areola, labios evertidos y mentón tocando la mama",
+      "Labio inferior invertido hacia adentro","Succión rápida sin deglución audible",
+      "Dolor mantenido durante toda la mamada"],
+  fb:"La ausencia de dolor mantenido y la deglución audible son parte de la evaluación." },
+{ p:21, t:"La producción de leche después de la primera semana se regula:",
+  op:["Localmente en cada mama, según la remoción de leche","Por los niveles de prolactina sistémica",
+      "Por la frecuencia de las mamadas nocturnas exclusivamente","Por la ingesta hídrica materna"],
+  fb:"Un factor inhibidor presente en la leche frena la síntesis mientras permanece en el alvéolo. Al removerla, se libera el freno." },
+{ p:21, t:"Un suplemento puede disminuir la producción de leche porque:",
+  op:["Reduce la remoción de leche y con ello se mantiene activo el freno local",
+      "Altera la composición del calostro","Disminuye la prolactina materna",
+      "Produce confusión de pezón exclusivamente"],
+  fb:"Es la aplicación directa del control autocrino de la producción." },
+{ p:21, t:"El inicio de la lactancia materna debe promoverse:",
+  op:["Durante la primera hora posparto","A las 6 horas posparto",
+      "Cuando la madre lo solicite","Después del primer control de signos vitales"],
+  fb:"Junto con el apoyo a la técnica y la evaluación del acople." },
+
+/* ===================== PROC 22 · PESO ===================== */
+{ p:22, t:"La baja de peso fisiológica del recién nacido es de:",
+  op:["3 % diario, o 10 % en los primeros 3 días","5 % diario","10 % diario","15 % en la primera semana"],
+  fb:"Para el alta, la baja debe ser menor del 10 %." },
+{ p:22, t:"Ante una baja de peso mayor a la fisiológica, corresponde:",
+  op:["Buscar la causa antes de indicar cualquier suplemento","Indicar suplemento de inmediato",
+      "Aumentar la frecuencia de las mamadas sin evaluar","Repetir el peso al día siguiente"],
+  fb:"Nunca se indica suplemento solo por descenso de peso el primer día. Las causas incluyen error de peso, sobrehidratación prenatal, sobreabrigo, patología y problemas de lactancia." },
+{ p:22, t:"Si el peso del recién nacido sube en vez de bajar en los primeros días, lo primero a evaluar es:",
+  op:["La posibilidad de error de peso","Insuficiencia cardíaca","Insuficiencia renal","Sobrealimentación"],
+  fb:"Si el error es muy poco probable, se consideran insuficiencia cardíaca o renal inicial." },
+
+/* ===================== PROC 23 · ALTA ===================== */
+{ p:23, t:"Respecto del examen de PKU y TSH, corresponde informar a la familia que:",
+  op:["El resultado solo será comunicado si se encuentra alterado","El resultado se entrega antes del alta",
+      "Debe retirarse en el laboratorio","Se repite al mes de vida"],
+  fb:"Decirlo explícitamente evita que la familia interprete la ausencia de noticias como negligencia." },
+{ p:23, t:"La forma más adecuada de verificar que la familia comprendió la educación es:",
+  op:["Pedirles que repitan con sus palabras los signos de alarma","Preguntar si entendieron",
+      "Entregar material escrito","Repetir la información dos veces"],
+  fb:"Preguntar «¿entendió?» no verifica nada: casi todo el mundo responde que sí." },
+
+/* ===================== PROC 24-25 · URGENCIA Y PROLAPSO ===================== */
+{ p:24, t:"En la unidad de urgencia, la prioridad de atención se establece:",
+  op:["Por la condición de la usuaria","Por el orden de llegada",
+      "Por la edad gestacional","Por la derivación que traiga"],
+  fb:"La valoración inicial rápida es lo que permite establecer esa prioridad." },
+{ p:25, t:"Ante bradicardia fetal inmediatamente posterior a la rotura de membranas debe sospecharse:",
+  op:["Prolapso de cordón umbilical","Desprendimiento placentario","Rotura uterina","Corioamnionitis"],
+  fb:"A menudo una desaceleración espontánea o bradicardia tras la rotura es el primer indicador. Debe realizarse tacto vaginal de inmediato." },
+{ p:25, t:"En el manejo del prolapso de cordón, respecto del cordón mismo:",
+  op:["No debe intentarse reintroducirlo","Debe reintroducirse con cuidado",
+      "Debe pinzarse de inmediato","Debe traccionarse suavemente"],
+  fb:"Si está fuera de la vagina se mantiene tibio, por ejemplo con un paño con suero fisiológico, y se evita manipularlo." },
+{ p:25, t:"La maniobra central en el manejo del prolapso de cordón es:",
+  op:["Elevar la presentación con la mano y mantenerla hasta el parto","Colocar a la mujer en decúbito lateral izquierdo",
+      "Administrar tocolisis y esperar","Acelerar el trabajo de parto con oxitocina"],
+  fb:"Esa mano es lo que mantiene la perfusión del cordón. Quien la sostiene se queda haciendo eso; otra persona hace todo lo demás." },
+{ p:25, t:"En caso de traslado por prolapso de cordón, la sonda Foley se llena con:",
+  op:["500 a 700 cc de suero fisiológico","100 cc de suero fisiológico",
+      "1.000 cc de suero glucosado","Solo se instala, sin llenar"],
+  fb:"El llenado vesical eleva la presentación de forma sostenida. Debe drenarse antes de la cesárea." },
+
+/* ===================== PROC 26 · DISTOCIA ===================== */
+{ p:26, t:"Ante una distocia de hombros, la primera maniobra es:",
+  op:["McRoberts: hiperflexión de ambas piernas sobre el abdomen","Presión sobre el fondo uterino",
+      "Tracción lateral firme de la cabeza fetal","Maniobra de Zavanelli"],
+  fb:"Se acompaña de presión suprapúbica desde el lado del dorso fetal." },
+{ p:26, t:"Las «4 P» que deben evitarse en la distocia de hombros incluyen:",
+  op:["Empujar el fondo uterino","Pedir ayuda al equipo","Practicar episiotomía si se requiere acceso",
+      "Posicionar a la mujer en cuatro apoyos"],
+  fb:"Las cuatro son: tirar, empujar, pánico y bascular la cabeza. La presión fundal agrava la impactación y puede producir rotura uterina." },
+{ p:26, t:"La tracción sobre la cabeza fetal durante la distocia de hombros debe ser:",
+  op:["Axial y de rutina, la misma magnitud de un parto normal","Firme y sostenida hacia abajo",
+      "Lateral, alternando lados","Progresivamente mayor con cada maniobra"],
+  fb:"La tracción lateral o hacia abajo es lo que produce la lesión del plexo braquial. Debe evitarse en TODOS los partos." },
+{ p:26, t:"El margen de tiempo para resolver una distocia de hombros es de aproximadamente:",
+  op:["5 minutos","10 minutos","2 minutos","15 minutos"],
+  fb:"Existe una tasa muy baja de daño hipóxico-isquémico cuando el intervalo entre la salida de la cabeza y la del cuerpo es menor de cinco minutos." },
+{ p:26, t:"Respecto de la predicción de la distocia de hombros:",
+  op:["Más del 50 % de los casos ocurre sin factores de riesgo identificados","Se predice con el peso fetal estimado",
+      "Ocurre casi exclusivamente en macrosómicos","Se previene con McRoberts profiláctico"],
+  fb:"El equipo debe estar preparado en todo parto vaginal. La diabetes materna sí multiplica el riesgo para el mismo peso." },
+
+/* ===================== PROC 27 · HPP ===================== */
+{ p:27, t:"Ante una hemorragia posparto, el hallazgo que ordena el diagnóstico es:",
+  op:["El estado del útero: blando o firme","La cuantía del sangrado",
+      "La presión arterial","El tipo de parto"],
+  fb:"Blando orienta a Tono o Tejido; firme con sangrado activo obliga a buscar Trauma o Trombina." },
+{ p:27, t:"Una puérpera sangra con útero firme y bien retraído. La causa más probable es:",
+  op:["Trauma del tracto genital","Atonía uterina","Retención de restos placentarios","Inversión uterina"],
+  fb:"Es el patrón que más se pasa por alto: se administran uterotónicos sucesivos a una mujer que tenía un desgarro." },
+{ p:27, t:"El ácido tranexámico en el tratamiento de la hemorragia posparto debe administrarse:",
+  op:["Dentro de las 3 horas del parto","Dentro de las 24 horas del parto",
+      "Como profilaxis en todos los partos","Solo si falló el uterotónico"],
+  fb:"El beneficio disminuye con el tiempo transcurrido. No es un fármaco de rescate tardío ni se recomienda para prevención." },
+{ p:27, t:"El masaje uterino externo funciona porque:",
+  op:["La contracción ocluye mecánicamente los vasos que atraviesan el miometrio",
+      "Estimula la liberación de oxitocina endógena","Favorece la formación del coágulo",
+      "Reduce el flujo sanguíneo uterino"],
+  fb:"Es el mecanismo de las ligaduras vivientes de Pinard: la hemostasia posparto es en primer lugar un fenómeno muscular." },
+{ p:27, t:"Ante sospecha de hemorragia posparto, mientras llega el equipo, corresponde:",
+  op:["Estimular la retracción con masaje uterino y permanecer con la usuaria","Ir a buscar ayuda dejando sola a la usuaria",
+      "Elevar las piernas y esperar","Administrar oxitocina por iniciativa propia"],
+  fb:"El masaje no reemplaza el aviso: se hacen ambas cosas, y no se deja sola a la usuaria." },
+
+/* ===================== PROC 28 · PCR ===================== */
+{ p:28, t:"Durante la reanimación de una embarazada, la maniobra propia del embarazo es:",
+  op:["Desplazamiento lateral izquierdo del útero","Compresiones con menor profundidad",
+      "Desfibrilación con dosis reducida","Ventilaciones más frecuentes"],
+  fb:"Sin ese desplazamiento las compresiones son mucho menos eficaces, porque el útero comprime la vena cava y la aorta." },
+{ p:28, t:"Durante la reanimación cardiopulmonar de la embarazada, la monitorización fetal:",
+  op:["No se recomienda; se controla la FCF solo si la resucitación es exitosa","Debe mantenerse continua",
+      "Determina el momento de la cesárea","Se realiza cada 5 minutos"],
+  fb:"La única forma de salvar al feto es salvar a la madre: el monitor distrae recursos y atención de ese objetivo." },
+{ p:28, t:"En el paro cardiorrespiratorio de una embarazada de 30 semanas, la cesárea se realiza:",
+  op:["A partir de los 4 minutos de reanimación sin respuesta","Solo si la reanimación fracasa completamente",
+      "A los 15 minutos","Únicamente si hay latidos fetales presentes"],
+  fb:"Forma parte de la reanimación, no de lo que viene después. Muchas reanimaciones exitosas ocurren tras la extracción, porque se elimina la compresión aortocava." },
+{ p:28, t:"En el paro cardiorrespiratorio, las vías venosas deben instalarse en:",
+  op:["Extremidades superiores o cuello","Extremidades inferiores","Vena femoral","Cualquier acceso disponible"],
+  fb:"La compresión aortocava por el útero grávido compromete el retorno desde las extremidades inferiores." }
+
+];
+
+const $ = id => document.getElementById(id);
+const mezclar = a => { for (let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
+
+/* ---------- memoria local ---------- */
+const CLAVE = "meh616.repaso.v1";
+let ESTADO = { hechos: {}, mejores: {} };
+let guardaOK = true;
+try {
+  ESTADO = Object.assign(ESTADO, JSON.parse(localStorage.getItem(CLAVE) || "{}"));
+  localStorage.setItem(CLAVE + ".t", "1"); localStorage.removeItem(CLAVE + ".t");
+} catch (e) { guardaOK = false; }
+function guardar(){ if(!guardaOK) return; try{ localStorage.setItem(CLAVE, JSON.stringify(ESTADO)); }catch(e){ guardaOK=false; } }
+
+const VOLS = { 1:"Núcleo 1 · Gestión intrahospitalaria", 2:"Núcleo 2 · Preparto, parto y puerperio",
+               3:"Núcleo 3 · Recién nacido", 4:"Núcleo 4 · Urgencias obstétricas" };
+
+function nombreSec(s){ return s.sub ? s.proc + " · " + s.sub : s.proc; }
+function idSec(i){ return "s" + i; }
+
+/* ================= ESTUDIAR ================= */
+function pintarEstudiar(){
+  const c = $("v-est");
+  let h = '<div class="intro"><b>Cómo usar esta sección</b>' +
+    'Aquí ves los pasos completos de cada procedimiento, en el orden en que se ejecutan y se evalúan. ' +
+    'Léelos entendiendo la lógica: por qué ese orden y no otro. Después pasa a Practicar, que es donde ' +
+    'realmente se fija la secuencia.</div>';
+  [1,2,3,4].forEach(v => {
+    const grupo = SEC.map((s,i)=>({s,i})).filter(x=>x.s.vol===v);
+    if(!grupo.length) return;
+    h += '<div class="grupo">' + VOLS[v] + '</div><div class="lista">';
+    grupo.forEach(({s,i}) => {
+      const hecho = ESTADO.hechos[idSec(i)] ? " hecho" : "";
+      h += '<div class="fila' + hecho + '" data-ver="' + i + '">' +
+        '<span class="num">' + s.pasos.length + '</span>' +
+        '<span class="info"><span class="nom">' + nombreSec(s) + '</span>' +
+        '<span class="sub">Procedimiento ' + s.p + ' · ' + s.pasos.length + ' pasos</span></span>' +
+        '<span class="fl">›</span></div>';
+    });
+    h += '</div>';
+  });
+  c.innerHTML = h;
+  c.querySelectorAll("[data-ver]").forEach(f => { f.onclick = () => verSecuencia(+f.dataset.ver); });
+}
+
+function verSecuencia(i){
+  const s = SEC[i], c = $("v-est");
+  c.innerHTML =
+    '<button class="btn sec" id="volver">‹ Volver</button>' +
+    '<div class="card"><h2>' + nombreSec(s) + '</h2><div class="cuerpo">' +
+    '<div style="margin-bottom:12px"><span class="chip">Proc. ' + s.p + '</span>' +
+    '<span class="chip">' + s.pasos.length + ' pasos</span></div>' +
+    s.pasos.map((p,n) => '<div class="paso"><span class="n">' + (n+1) + '</span><span class="t">' + p + '</span></div>').join("") +
+    '<div class="btns"><button class="btn" id="ir-practicar">Practicar esta secuencia</button>' +
+    '<button class="btn sec" id="marcar">' + (ESTADO.hechos[idSec(i)] ? "Quitar marca de leído" : "Marcar como leído") + '</button></div>' +
+    '</div></div>';
+  $("volver").onclick = pintarEstudiar;
+  $("marcar").onclick = () => {
+    if (ESTADO.hechos[idSec(i)]) delete ESTADO.hechos[idSec(i)]; else ESTADO.hechos[idSec(i)] = 1;
+    guardar(); verSecuencia(i);
+  };
+  $("ir-practicar").onclick = () => { irA("pra"); practicar(i); };
+  window.scrollTo({top:0});
+}
+
+/* ================= PRACTICAR ================= */
+function pintarPracticar(){
+  const c = $("v-pra");
+  let h = '<div class="intro"><b>Recuperación activa</b>' +
+    'Intenta recordar cada paso ANTES de verlo. Ese esfuerzo de recuperación es lo que fija la secuencia en la memoria: ' +
+    'releer es mucho menos eficaz que intentar recordar y fallar.<br><br>' +
+    'Marca honestamente si lo recordaste o no. La app registra tu mejor resultado por secuencia.</div>';
+  [1,2,3,4].forEach(v => {
+    const grupo = SEC.map((s,i)=>({s,i})).filter(x=>x.s.vol===v);
+    if(!grupo.length) return;
+    h += '<div class="grupo">' + VOLS[v] + '</div><div class="lista">';
+    grupo.forEach(({s,i}) => {
+      const m = ESTADO.mejores[idSec(i)];
+      h += '<div class="fila" data-pra="' + i + '">' +
+        '<span class="num">' + (m !== undefined ? m + "%" : "–") + '</span>' +
+        '<span class="info"><span class="nom">' + nombreSec(s) + '</span>' +
+        '<span class="sub">' + (m !== undefined ? "Mejor resultado: " + m + " %" : "Sin practicar") + '</span></span>' +
+        '<span class="fl">›</span></div>';
+    });
+    h += '</div>';
+  });
+  c.innerHTML = h;
+  c.querySelectorAll("[data-pra]").forEach(f => { f.onclick = () => practicar(+f.dataset.pra); });
+}
+
+let PRA = null;
+function practicar(i){
+  PRA = { i, n: 0, aciertos: 0, marcas: [] };
+  pasoPractica();
+}
+
+function pasoPractica(){
+  const s = SEC[PRA.i], c = $("v-pra"), total = s.pasos.length;
+  if (PRA.n >= total) return finPractica();
+
+  const pct = Math.round(PRA.n / total * 100);
+  c.innerHTML =
+    '<button class="btn sec" id="salir">‹ Salir</button>' +
+    '<div class="card"><h2>' + nombreSec(s) + '</h2><div class="cuerpo">' +
+    '<div class="progreso"><div style="width:' + pct + '%"></div></div>' +
+    '<div class="contador">Paso ' + (PRA.n+1) + ' de ' + total + '</div>' +
+    PRA.marcas.map((m,k) => '<div class="paso ' + (m ? "acierto" : "falla") + '"><span class="n">' + (k+1) +
+      '</span><span class="t">' + s.pasos[k] + '</span></div>').join("") +
+    '<div class="paso oculto" id="actual"><span class="n">' + (PRA.n+1) + '</span>' +
+    '<span class="t">¿Cuál es el paso ' + (PRA.n+1) + '? Piénsalo antes de revelarlo.</span></div>' +
+    '<div class="btns" id="acciones"><button class="btn" id="revelar">Revelar el paso</button></div>' +
+    '</div></div>';
+  $("salir").onclick = pintarPracticar;
+  $("revelar").onclick = () => {
+    const el = $("actual");
+    el.classList.remove("oculto");
+    el.querySelector(".t").textContent = s.pasos[PRA.n];
+    $("acciones").innerHTML =
+      '<button class="btn ok" id="si">Lo recordé</button>' +
+      '<button class="btn no" id="no">No lo recordé</button>';
+    $("si").onclick = () => { PRA.marcas.push(true);  PRA.aciertos++; PRA.n++; pasoPractica(); };
+    $("no").onclick = () => { PRA.marcas.push(false); PRA.n++; pasoPractica(); };
+  };
+  window.scrollTo({top:0});
+}
+
+function finPractica(){
+  const s = SEC[PRA.i], total = s.pasos.length;
+  const pct = Math.round(PRA.aciertos / total * 100);
+  const previo = ESTADO.mejores[idSec(PRA.i)];
+  if (previo === undefined || pct > previo) { ESTADO.mejores[idSec(PRA.i)] = pct; guardar(); }
+
+  let clase = "", msg = "";
+  if (pct >= 85) { msg = "Tienes la secuencia. Vuelve a practicarla en unos días para consolidarla."; }
+  else if (pct >= 60) { clase = "medio"; msg = "Vas bien, pero aún se te escapan pasos. Revisa los marcados en rojo y repite."; }
+  else { clase = "bajo"; msg = "Conviene volver a la sección Estudiar antes de seguir practicando: todavía no está la base."; }
+
+  const fallados = s.pasos.filter((p,k) => !PRA.marcas[k]);
+  $("v-pra").innerHTML =
+    '<button class="btn sec" id="salir">‹ Volver a la lista</button>' +
+    '<div class="card"><h2>' + nombreSec(s) + '</h2><div class="cuerpo">' +
+    '<div class="resultado ' + clase + '"><div class="k">Recordaste</div><div class="v">' + pct + ' %</div>' +
+    '<div class="n2">' + PRA.aciertos + ' de ' + total + ' pasos. ' + msg + '</div></div>' +
+    (fallados.length ? '<div style="margin-top:16px"><div class="grupo">Pasos que no recordaste</div>' +
+      fallados.map(p => '<div class="paso falla"><span class="n">·</span><span class="t">' + p + '</span></div>').join("") + '</div>' : '') +
+    '<div class="btns"><button class="btn" id="repetir">Repetir</button>' +
+    '<button class="btn sec" id="ver">Ver la secuencia completa</button></div>' +
+    '</div></div>';
+  $("salir").onclick = pintarPracticar;
+  $("repetir").onclick = () => practicar(PRA.i);
+  $("ver").onclick = () => { irA("est"); verSecuencia(PRA.i); };
+  window.scrollTo({top:0});
+}
+
+/* ================= SIMULACRO ================= */
+function pintarSimulacro(){
+  const c = $("v-sim");
+  let h = '<div class="intro"><b>Qué es esto</b>' +
+    'Un ensayo cronometrado. Eliges una secuencia, corre el tiempo, y vas marcando los pasos a medida que los ejecutas ' +
+    'en voz alta o mentalmente. Al final ves qué omitiste y cuánto demoraste.<br><br>' +
+    'Sirve para lo que más cuesta en una estación de ECOE: ejecutar completo bajo presión de tiempo.</div>' +
+    '<div class="aviso"><b>Antes de empezar</b>Ponte de pie y ejecuta de verdad: di en voz alta lo que harías y simula los gestos. ' +
+    'Hacerlo sentada, leyendo, no entrena lo mismo.</div>';
+  [1,2,3,4].forEach(v => {
+    const grupo = SEC.map((s,i)=>({s,i})).filter(x=>x.s.vol===v);
+    if(!grupo.length) return;
+    h += '<div class="grupo">' + VOLS[v] + '</div><div class="lista">';
+    grupo.forEach(({s,i}) => {
+      h += '<div class="fila" data-sim="' + i + '">' +
+        '<span class="num">' + s.pasos.length + '</span>' +
+        '<span class="info"><span class="nom">' + nombreSec(s) + '</span>' +
+        '<span class="sub">Tiempo sugerido: ' + Math.max(3, Math.ceil(s.pasos.length * 0.6)) + ' minutos</span></span>' +
+        '<span class="fl">›</span></div>';
+    });
+    h += '</div>';
+  });
+  c.innerHTML = h;
+  c.querySelectorAll("[data-sim]").forEach(f => { f.onclick = () => simulacro(+f.dataset.sim); });
+}
+
+let SIM = null;
+function simulacro(i){
+  const s = SEC[i];
+  SIM = { i, inicio: Date.now(), marcados: new Array(s.pasos.length).fill(false), timer: null };
+  const sugerido = Math.max(3, Math.ceil(s.pasos.length * 0.6)) * 60;
+
+  $("v-sim").innerHTML =
+    '<button class="btn sec" id="salir">‹ Salir</button>' +
+    '<div class="card"><h2>' + nombreSec(s) + '</h2><div class="cuerpo">' +
+    '<div class="crono" id="crono">00:00</div>' +
+    '<div class="contador" id="cont">0 de ' + s.pasos.length + ' pasos</div>' +
+    '<div id="pasos" style="margin-top:14px"></div>' +
+    '<div class="btns"><button class="btn" id="terminar">Terminar</button></div>' +
+    '</div></div>';
+
+  function pintarPasos(){
+    $("pasos").innerHTML = s.pasos.map((p,k) =>
+      '<div class="paso' + (SIM.marcados[k] ? " acierto" : "") + '" data-m="' + k + '" style="cursor:pointer">' +
+      '<span class="n">' + (SIM.marcados[k] ? "\u2713" : (k+1)) + '</span><span class="t">' + p + '</span></div>').join("");
+    $("pasos").querySelectorAll("[data-m]").forEach(el => {
+      el.onclick = () => { const k = +el.dataset.m; SIM.marcados[k] = !SIM.marcados[k]; pintarPasos(); actualizarCont(); };
+    });
+  }
+  function actualizarCont(){
+    const n = SIM.marcados.filter(Boolean).length;
+    $("cont").textContent = n + " de " + s.pasos.length + " pasos";
+  }
+  pintarPasos(); actualizarCont();
+
+  SIM.timer = setInterval(() => {
+    const seg = Math.floor((Date.now() - SIM.inicio) / 1000);
+    const cr = $("crono");
+    if (!cr) { clearInterval(SIM.timer); return; }
+    cr.textContent = String(Math.floor(seg/60)).padStart(2,"0") + ":" + String(seg%60).padStart(2,"0");
+    cr.classList.toggle("alerta", seg > sugerido);
+  }, 500);
+
+  $("salir").onclick = () => { clearInterval(SIM.timer); pintarSimulacro(); };
+  $("terminar").onclick = () => finSimulacro(sugerido);
+  window.scrollTo({top:0});
+}
+
+function finSimulacro(sugerido){
+  clearInterval(SIM.timer);
+  const s = SEC[SIM.i];
+  const seg = Math.floor((Date.now() - SIM.inicio) / 1000);
+  const n = SIM.marcados.filter(Boolean).length;
+  const pct = Math.round(n / s.pasos.length * 100);
+  const omitidos = s.pasos.filter((p,k) => !SIM.marcados[k]);
+
+  let clase = "", msg = "";
+  if (pct === 100 && seg <= sugerido) msg = "Secuencia completa dentro del tiempo. Así se ejecuta en una estación.";
+  else if (pct === 100) { clase = "medio"; msg = "Completaste todos los pasos, pero por sobre el tiempo sugerido. Repite buscando fluidez."; }
+  else if (pct >= 80) { clase = "medio"; msg = "Te faltaron pasos. Revisa cuáles: los que se omiten bajo presión son los que hay que automatizar."; }
+  else { clase = "bajo"; msg = "Omitiste bastante. Vuelve a Practicar antes de intentar el simulacro de nuevo."; }
+
+  $("v-sim").innerHTML =
+    '<button class="btn sec" id="salir">‹ Volver a la lista</button>' +
+    '<div class="card"><h2>' + nombreSec(s) + '</h2><div class="cuerpo">' +
+    '<div class="resultado ' + clase + '"><div class="k">Ejecutaste</div>' +
+    '<div class="v">' + n + ' / ' + s.pasos.length + '</div>' +
+    '<div class="n2">Tiempo: ' + String(Math.floor(seg/60)).padStart(2,"0") + ":" + String(seg%60).padStart(2,"0") +
+    '  ·  sugerido: ' + String(Math.floor(sugerido/60)).padStart(2,"0") + ':00<br>' + msg + '</div></div>' +
+    (omitidos.length ? '<div style="margin-top:16px"><div class="grupo">Pasos omitidos</div>' +
+      omitidos.map(p => '<div class="paso falla"><span class="n">·</span><span class="t">' + p + '</span></div>').join("") + '</div>' : '') +
+    '<div class="btns"><button class="btn" id="repetir">Repetir</button></div>' +
+    '</div></div>';
+  $("salir").onclick = pintarSimulacro;
+  $("repetir").onclick = () => simulacro(SIM.i);
+  window.scrollTo({top:0});
+}
+
+/* ================= PREGUNTAS ================= */
+function pintarPreguntas(){
+  const c = $("v-pre");
+  const conteo = {};
+  PREGUNTAS.forEach(q => conteo[q.p] = (conteo[q.p] || 0) + 1);
+  let h = '<div class="intro"><b>Cómo usar esta sección</b>' +
+    'Preguntas de selección única con explicación. Sirven para verificar comprensión, no para memorizar respuestas: ' +
+    'lee siempre la explicación, incluso cuando aciertes.</div>' +
+    '<div class="lista"><div class="fila" data-q="todos">' +
+    '<span class="num">' + PREGUNTAS.length + '</span>' +
+    '<span class="info"><span class="nom">Todas las preguntas, mezcladas</span>' +
+    '<span class="sub">' + PREGUNTAS.length + ' preguntas de los cuatro núcleos</span></span>' +
+    '<span class="fl">›</span></div></div>';
+  [1,2,3,4].forEach(v => {
+    const nu = NUC[v];
+    const procs = nu.procs.filter(p => conteo[p]);
+    if(!procs.length) return;
+    h += '<div class="grupo">' + VOLS[v] + '</div><div class="lista">';
+    procs.forEach(p => {
+      h += '<div class="fila" data-q="' + p + '">' +
+        '<span class="num">' + conteo[p] + '</span>' +
+        '<span class="info"><span class="nom">' + PROCS[p] + '</span>' +
+        '<span class="sub">Procedimiento ' + p + '</span></span><span class="fl">›</span></div>';
+    });
+    h += '</div>';
+  });
+  c.innerHTML = h;
+  c.querySelectorAll("[data-q]").forEach(f => { f.onclick = () => iniciarQuiz(f.dataset.q); });
+}
+
+let QZ = null;
+function iniciarQuiz(filtro){
+  const lista = filtro === "todos" ? PREGUNTAS.slice() : PREGUNTAS.filter(q => q.p === +filtro);
+  QZ = { preg: mezclar(lista.slice()), n: 0, aciertos: 0, filtro };
+  pasoQuiz();
+}
+
+function pasoQuiz(){
+  const c = $("v-pre");
+  if (QZ.n >= QZ.preg.length) return finQuiz();
+  const q = QZ.preg[QZ.n];
+  const ops = mezclar(q.op.slice());
+  const pct = Math.round(QZ.n / QZ.preg.length * 100);
+
+  c.innerHTML =
+    '<button class="btn sec" id="salir">‹ Salir</button>' +
+    '<div class="card"><h2>' + PROCS[q.p] + '</h2><div class="cuerpo">' +
+    '<div class="progreso"><div style="width:' + pct + '%"></div></div>' +
+    '<div class="contador">Pregunta ' + (QZ.n+1) + ' de ' + QZ.preg.length + '</div>' +
+    '<div class="preg" style="margin-top:12px">' + q.t + '</div>' +
+    '<div id="ops">' + ops.map((o,k) => '<button class="op" data-o="' + k + '">' + o + '</button>').join("") + '</div>' +
+    '<div id="fb"></div></div></div>';
+
+  $("salir").onclick = pintarPreguntas;
+  c.querySelectorAll("[data-o]").forEach(b => {
+    b.onclick = () => {
+      const elegida = ops[+b.dataset.o];
+      const bien = elegida === q.op[0];
+      if (bien) QZ.aciertos++;
+      c.querySelectorAll("[data-o]").forEach(x => {
+        x.disabled = true;
+        const txt = ops[+x.dataset.o];
+        if (txt === q.op[0]) x.classList.add("correcta");
+        else if (x === b) x.classList.add("incorrecta");
+      });
+      $("fb").innerHTML = '<div class="fb"><b>' + (bien ? "Correcto. " : "Incorrecto. ") + '</b>' + q.fb + '</div>' +
+        '<div class="btns"><button class="btn" id="sig">' + (QZ.n+1 < QZ.preg.length ? "Siguiente" : "Ver resultado") + '</button></div>';
+      $("sig").onclick = () => { QZ.n++; pasoQuiz(); };
+      $("sig").scrollIntoView({ behavior:"smooth", block:"center" });
+    };
+  });
+  window.scrollTo({top:0});
+}
+
+function finQuiz(){
+  const pct = Math.round(QZ.aciertos / QZ.preg.length * 100);
+  let clase = "", msg = "";
+  if (pct >= 80) msg = "Buen dominio del contenido. Complementa con la práctica de secuencias.";
+  else if (pct >= 60) { clase = "medio"; msg = "Comprensión parcial. Revisa en el manual los procedimientos donde fallaste."; }
+  else { clase = "bajo"; msg = "Conviene volver al manual antes de seguir respondiendo preguntas."; }
+
+  $("v-pre").innerHTML =
+    '<button class="btn sec" id="salir">‹ Volver</button>' +
+    '<div class="card"><h2>Resultado</h2><div class="cuerpo">' +
+    '<div class="resultado ' + clase + '"><div class="k">Respuestas correctas</div>' +
+    '<div class="v">' + pct + ' %</div>' +
+    '<div class="n2">' + QZ.aciertos + ' de ' + QZ.preg.length + '. ' + msg + '</div></div>' +
+    '<div class="btns"><button class="btn" id="repetir">Repetir</button></div></div></div>';
+  $("salir").onclick = pintarPreguntas;
+  $("repetir").onclick = () => iniciarQuiz(QZ.filtro);
+  window.scrollTo({top:0});
+}
+
+/* ================= NAVEGACIÓN ================= */
+function irA(v){
+  document.querySelectorAll("nav.tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.v === v));
+  ["est","pra","sim","pre"].forEach(x => $("v-" + x).classList.toggle("oculto", x !== v));
+  if (v === "est") pintarEstudiar();
+  if (v === "pra") pintarPracticar();
+  if (v === "sim") pintarSimulacro();
+  if (v === "pre") pintarPreguntas();
+  window.scrollTo({top:0});
+}
+document.querySelectorAll("nav.tabs button").forEach(b => { b.onclick = () => irA(b.dataset.v); });
+
+irA("est");
+
+</script>
+</body>
+</html>
