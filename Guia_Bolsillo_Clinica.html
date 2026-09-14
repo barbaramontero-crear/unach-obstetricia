@@ -2,6 +2,7 @@
 <html lang="es-CL">
 <head>
 <meta charset="utf-8">
+<meta name="author" content="Bárbara E. Montero Llanca">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -278,7 +279,7 @@ h3.sec{font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;fo
 footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:var(--tinta-3);line-height:1.6}
 </style>
 </head>
-<body data-sec="pue">
+<body data-sec="prp">
 
 <header>
   <div class="head-row">
@@ -286,14 +287,15 @@ footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:
     <span class="sub">Práctica Intermedia · UNACH</span>
   </div>
   <nav class="secs" role="tablist">
-    <button role="tab" aria-selected="true"  data-s="pue">Puerperio y RN</button>
+    <button role="tab" aria-selected="true"  data-s="prp">Preparto y parto</button>
+    <button role="tab" aria-selected="false" data-s="pue">Puerperio y RN</button>
     <button role="tab" aria-selected="false" data-s="aro">Alto Riesgo</button>
     <button role="tab" aria-selected="false" data-s="med">Medicamentos</button>
     <button role="tab" aria-selected="false" data-s="cal">Calculadoras</button>
   </nav>
   <div class="buscar" id="wrap-buscar">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
-    <input id="q" type="search" placeholder="Buscar en Puerperio y Alto Riesgo…" aria-label="Buscar" autocomplete="off">
+    <input id="q" type="search" placeholder="Buscar en las tres unidades…" aria-label="Buscar" autocomplete="off">
     <button class="x" id="limpiar" aria-label="Limpiar búsqueda">&times;</button>
   </div>
 </header>
@@ -879,12 +881,457 @@ footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:
   Contenido basado en la Norma General Técnica para la Atención Integral en el Puerperio (MINSAL, 2015), la Norma General Técnica N.º 0194
   de Atención del Recién Nacido (MINSAL, 2017) y la Guía Clínica Perinatal (MINSAL, 2015). Los percentiles de doppler provienen del anexo 3 de la Guía Perinatal. Material de estudio: no reemplaza la indicación
   del profesional a cargo ni el protocolo local del establecimiento. Ante duda clínica, consulta a la matrona responsable.
+
+  <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--rejilla,#D3D9E4)"><b style="color:var(--tinta,#23385C)">Bárbara E. Montero Llanca</b><br>Matrona · Docente<br>Carrera de Obstetricia y Puericultura · Universidad Adventista de Chile</div>
 </footer>
 
 <script>
 "use strict";
 
 /* ================= CONTENIDO ================= */
+/* ===== PREPARTO, PARTO Y ATENCIÓN INMEDIATA DEL RN ===== */
+const BLOQUES_PRP = [
+
+{ id:"dx-tdp", et:"Ingreso", t:"Diagnóstico de trabajo de parto", html:`
+<p>Definición operacional: <b>dos o más contracciones en 10 minutos</b>, de <b>30 segundos o más</b> a la palpación, mantenidas por al menos <b>una hora</b>, con modificaciones cervicales: borramiento ≥ 50 % y dilatación ≥ 1 cm del orificio cervical interno.</p>
+<p>En la consulta, el cuadro clínico probable es tres contracciones en 10 minutos, dolorosas, de 40 segundos o más, por más de una hora, con cuello centrado, reblandecido, acortado o borrado y 2 a 3 cm de dilatación.</p>
+<div class="ok"><b>Cuándo se ingresa</b>En fase activa: mínimo 3 cm y borramiento 100 %. La excepción es la patología del embarazo o de la unidad fetoplacentaria, que obliga a conducta activa caso a caso.</div>
+<div class="alerta"><b>Regla sin excepciones</b>Ninguna gestante en trabajo de parto se rechaza. Si no hay camas, se coordina traslado al centro más cercano en condiciones de recibirla, con comunicación previa entre profesionales y siempre que la dilatación lo permita.</div>
+<p>Si no hay indicación de hospitalización y no tuvo control prenatal, se entrega interconsulta o carné maternal y se deriva a su centro de salud.</p>`},
+
+{ id:"etapas-parto", et:"Ingreso", t:"Etapas del parto y tiempos esperados", html:`
+<p><b>Fase latente:</b> desde el inicio del trabajo de parto hasta cuello borrado y 3 cm.<br>
+<b>Fase activa:</b> de 3 a 10 cm. Aceleratoria de 3 a 8 cm, donde predomina la dilatación; desaceleratoria de 8 a 10 cm, donde ocurre principalmente el descenso.<br>
+<b>Segunda etapa:</b> desde dilatación completa hasta el nacimiento.<br>
+<b>Tercera etapa:</b> desde el nacimiento hasta la expulsión de la placenta.</p>
+<table><tr><th>Etapa</th><th>Nulípara</th><th>Multípara</th></tr>
+<tr><td>Fase latente</td><td class="n">hasta 20 h</td><td class="n">hasta 14 h</td></tr>
+<tr><td>Dilatación en fase activa</td><td class="n">1,2 cm/h</td><td class="n">1,5 cm/h</td></tr>
+<tr><td>Descenso</td><td class="n">1 cm/h</td><td class="n">2 cm/h</td></tr>
+<tr><td>Segunda etapa</td><td class="n">90 min</td><td class="n">60 min</td></tr>
+<tr><td>Tercera etapa</td><td class="n">45 min</td><td class="n">30 min</td></tr></table>
+<div class="ok"><b>Para qué sirven estas cifras</b>El trabajo de parto es un continuo. Estos valores existen para poder nombrar lo anormal, no para intervenir apenas se cruzan.</div>`},
+
+{ id:"vig-materna", et:"Preparto", t:"Vigilancia de la mujer en preparto", html:`
+<ul class="li">
+<li><b>Signos vitales</b> —temperatura, pulso y presión arterial— cada 4 horas en mujeres sin patología.</li>
+<li><b>Dinámica uterina</b> por control manual cada 60 minutos. Con ocitocina, cada 30 minutos.</li>
+<li>Evaluar hidratación y permitir ingesta de líquidos y comida liviana.</li>
+<li>Observar diuresis y favorecer el vaciamiento oportuno de la vejiga.</li>
+<li>Informar de cada procedimiento y pedir consentimiento.</li>
+<li>Ambiente temperado, luz tenue, privacidad y acompañamiento continuo por quien ella elija.</li>
+</ul>
+<div class="ok"><b>Posición</b>Libertad de posición y movimiento durante todo el parto. Evitar el decúbito supino de rutina.</div>`},
+
+{ id:"vig-fetal", et:"Preparto", t:"Vigilancia fetal: cada cuánto y cómo", html:`
+<table><tr><th>Momento</th><th>Bajo riesgo</th><th>Alto riesgo</th></tr>
+<tr><td>Fase activa</td><td class="n">cada 30 min</td><td class="n">cada 15 min</td></tr>
+<tr><td>Fase desaceleratoria (8–10 cm)</td><td class="n">cada 15 min</td><td class="n">cada 15 min</td></tr>
+<tr><td>Expulsivo</td><td class="n">cada 15 min</td><td class="n">cada 5 min</td></tr></table>
+<p>La auscultación se realiza durante <b>30 segundos después de la contracción</b>. Con Pinard se ausculta antes, durante y después. Se realiza una monitorización electrónica al inicio del trabajo de parto a toda gestante.</p>
+<div class="ok"><b>Auscultación intermitente vs. monitoreo continuo</b>En embarazos de bajo riesgo no se recomienda el monitoreo continuo por sobre la auscultación intermitente para disminuir la mortalidad perinatal (recomendación A). El monitoreo continuo reduce las convulsiones neonatales, pero aumenta significativamente el riesgo de cesárea.</div>`},
+
+{ id:"categorias-monitoreo", et:"Preparto", t:"Categorías del monitoreo electrónico", html:`
+<table><tr><th>Categoría</th><th>Qué significa y qué exige</th></tr>
+<tr><td><b>I</b></td><td>Trazado normal. No requiere medidas específicas</td></tr>
+<tr><td><b>II</b></td><td>Patrón indeterminado. No predice estado ácido-base alterado, pero tampoco permite clasificarlo como normal. Requiere evaluación, monitoreo continuo y reevaluación</td></tr>
+<tr><td><b>III</b></td><td>Trazado anormal, asociado a estado ácido-base fetal alterado. Evaluación inmediata y eventual reanimación fetal intraparto</td></tr></table>
+<div class="alerta"><b>Qué es Categoría III</b>Variabilidad ausente acompañada de desaceleraciones tardías recurrentes, desaceleraciones variables recurrentes o bradicardia; o bien un patrón sinusoidal. Ante cualquiera de estos se avisa de inmediato y no se espera al siguiente control.</div>`},
+
+{ id:"tactos-ram", et:"Preparto", t:"Tactos, RAM y lo que no se hace de rutina", html:`
+<p>Se realiza el mínimo de tactos vaginales, siempre con justificación clínica. No se hacen exámenes de rutina ni divulsión cervical.</p>
+<h3>Indicaciones de rotura artificial de membranas</h3>
+<ul class="li">
+<li>Necesidad de observar las características del líquido amniótico.</li>
+<li>Inicio de una prueba de trabajo de parto.</li>
+<li>Colocación de electrodo cefálico o amnioinfusión.</li>
+<li>Obtener descenso o apoyo cefálico.</li>
+<li>Optimizar la dinámica uterina.</li>
+</ul>
+<div class="ok"><b>Al romperse las membranas</b>Registrar aspecto, color, olor y cantidad del líquido amniótico.</div>`},
+
+{ id:"aceleracion", et:"Preparto", t:"Aceleración ocitócica", html:`
+<h3>Indicaciones</h3>
+<ul class="li">
+<li><b>Hipodinamia:</b> dinámica uterina menor de 3 en 10 minutos en dos controles sucesivos, sin modificaciones del descenso ni de la dilatación.</li>
+<li>Dinámica de baja intensidad en dos controles sucesivos, sin modificaciones.</li>
+<li>Dinámica incoordinada, como bigeminismo o trigeminismo, sin modificaciones.</li>
+</ul>
+<p>La meta es <b>3 a 5 contracciones en 10 minutos</b>, con buen control de los latidos cardíacos fetales. La progresión se logra con 200 unidades Montevideo, es decir frecuencia por intensidad.</p>
+<div class="alerta"><b>Taquisistolía</b>Dinámica uterina ≥ 6 en 10 minutos. Se disminuye o se suspende la dosis de ocitocina.</div>`},
+
+{ id:"analgesia-tdp", et:"Preparto", t:"Analgesia del trabajo de parto", html:`
+<p>Es de indicación médica. Criterios generales:</p>
+<ul class="li">
+<li>Dolor que amerite la indicación.</li>
+<li>Idealmente dilatación mayor de 4 cm.</li>
+<li>Consentimiento de la mujer.</li>
+<li>Ausencia de contraindicaciones para anestésicos locales.</li>
+<li>Buena actividad uterina y apoyo cefálico.</li>
+</ul>
+<p>La analgesia epidural es la recomendada. Con menor dilatación y buena tolerancia puede usarse analgesia inhalatoria con óxido nitroso, o anestesia combinada intratecal y peridural.</p>
+<div class="ok"><b>No todo es farmacológico</b>Masaje, técnicas de relajación, libertad de movimiento y acompañamiento continuo son parte del mismo objetivo.</div>`},
+
+{ id:"partograma", et:"Preparto", t:"Partograma: anormalidades y sus cifras", html:`
+<p>Se usa partograma de dilatación y descenso especialmente cuando la progresión no es la esperada.</p>
+<table><tr><th>Anormalidad</th><th>Nulípara</th><th>Multípara</th></tr>
+<tr><td>Fase latente prolongada</td><td class="n">&gt; 20 h</td><td class="n">&gt; 14 h</td></tr>
+<tr><td>Fase activa retardada</td><td class="n">&lt; 1,2 cm/h</td><td class="n">&lt; 1,5 cm/h</td></tr>
+<tr><td>Cese secundario de la dilatación</td><td class="n">2 h o más</td><td class="n">2 h o más</td></tr>
+<tr><td>Fase desaceleratoria prolongada</td><td class="n">&gt; 3 h</td><td class="n">&gt; 1 h</td></tr>
+<tr><td>Prolongación del descenso</td><td class="n">&lt; 1 cm/h</td><td class="n">&lt; 2 cm/h</td></tr>
+<tr><td>Detención del descenso</td><td class="n">1 h o más</td><td class="n">1 h o más</td></tr>
+<tr><td>Parto precipitado</td><td class="n">&gt; 5 cm/h</td><td class="n">&gt; 10 cm/h</td></tr></table>
+<p>Causas más frecuentes de falla en la progresión de la fase activa: dinámica uterina inadecuada en nulíparas, desproporción cefalopélvica en multíparas, distocia de posición y asinclitismo.</p>`},
+
+{ id:"prueba-tdp", et:"Preparto", t:"Prueba de trabajo de parto", html:`
+<h3>Condiciones para indicarla</h3>
+<ul class="li">
+<li>Rotura de membranas.</li>
+<li>Dinámica uterina optimizada a 3 a 5 en 10 minutos.</li>
+<li>Analgesia epidural.</li>
+<li>Vigilancia fetal intraparto normal.</li>
+<li>Fase activa ya alcanzada.</li>
+</ul>
+<h3>Criterios de fracaso</h3>
+<ul class="li">
+<li>Sin progreso de la dilatación en 3 a 4 horas, con al menos 2 horas de buena dinámica uterina.</li>
+<li>Detención del descenso cefálico en 2 horas, con al menos 1 hora de buena dinámica uterina.</li>
+</ul>
+<p><b>Prueba de Hillis-Müller:</b> en el momento de mayor intensidad de la contracción y ejerciendo presión sobre el fondo uterino, se evalúa por tacto si la cabeza fetal desciende. Si no se desplaza, hay alta probabilidad de desproporción cefalopélvica.</p>
+<div class="ok"><b>Umbral diagnóstico</b>El cuello debe tener al menos 4 cm para diagnosticar falla en la progresión de la fase activa.</div>`},
+
+{ id:"expulsivo", et:"Parto", t:"Dilatación completa y expulsivo", html:`
+<ul class="li">
+<li>Diagnosticar dilatación completa por signos obstétricos y tacto vaginal.</li>
+<li>Trasladar a sala de partos, favoreciendo la continuidad de la atención por la misma matrona.</li>
+<li>No hacer pujar de forma innecesaria ni dirigir pujos sostenidos tipo Valsalva.</li>
+<li>Auscultar latidos cardíacos fetales cada 15 minutos.</li>
+<li>Solicitar evaluación médica ante cualquier alteración.</li>
+</ul>
+<div class="ok"><b>Posición</b>La litotomía de rutina, con o sin estribos, está clasificada por la OMS como práctica que debe eliminarse. La elección es de la mujer.</div>`},
+
+{ id:"oms-practicas", et:"Parto", t:"Prácticas OMS: lo que se hace y lo que no", html:`
+<h3>Categoría A · claramente útiles</h3>
+<ul class="li">
+<li>Acompañamiento elegido por la mujer y toda la información que ella desee.</li>
+<li>Alivio no farmacológico del dolor: masaje, relajación.</li>
+<li>Monitorización fetal con auscultación intermitente.</li>
+<li>Libertad de posición y movimiento; evitar decúbito supino.</li>
+<li>Seguimiento del progreso con partograma.</li>
+<li>Ocitocina profiláctica en el tercer estadio.</li>
+<li>Prevención de hipotermia del recién nacido y contacto piel a piel inmediato.</li>
+<li>Examen sistemático de la placenta y las membranas.</li>
+</ul>
+<h3>Categoría B · deben eliminarse</h3>
+<ul class="li">
+<li>Enema y rasurado púbico de rutina.</li>
+<li>Vía venosa e infusión intravenosa profilácticas de rutina.</li>
+<li>Decúbito supino de rutina en dilatación; litotomía de rutina en el parto.</li>
+<li>Examen rectal y pelvimetrías.</li>
+<li>Pujo sostenido y dirigido (Valsalva) en la segunda fase.</li>
+<li>Masaje y estiramiento del periné en la segunda fase.</li>
+<li>Ergometrina oral o parenteral de rutina en la tercera fase.</li>
+<li>Legrado y revisión manual del útero de rutina tras el alumbramiento.</li>
+</ul>
+<h3>Categoría C · usar con cautela</h3>
+<ul class="li">
+<li>Amniotomía precoz de rutina.</li>
+<li>Presión fúndica durante el parto.</li>
+<li>Maniobras de protección del periné y manejo de la cabeza fetal.</li>
+<li>Ligadura y sección precoz del cordón.</li>
+</ul>`},
+
+{ id:"alumbramiento", et:"Alumbramiento", t:"Manejo activo del alumbramiento", html:`
+<div class="ok"><b>Se hace siempre</b>El manejo activo de la tercera etapa reduce el riesgo de hemorragia posparto (recomendación A). Es superior al manejo expectante en pérdida hemática y complicaciones severas.</div>
+<h3>Los tres componentes</h3>
+<ul class="li">
+<li>Uterotónico.</li>
+<li>Tracción suave y controlada del cordón con contratracción suprapúbica.</li>
+<li>Evaluar el fondo uterino después de la expulsión de la placenta.</li>
+</ul>
+<h3>Uterotónicos para prevención</h3>
+<table><tr><th>Fármaco</th><th>Dosis</th><th>Nota</th></tr>
+<tr><td>Ocitocina</td><td>10 UI IM tras la salida del hombro anterior; o 20–40 UI en 1000 ml a 150 ml/h; o bolo EV 5–10 UI en 1–2 min</td><td>Primera línea</td></tr>
+<tr><td>Carbetocina</td><td class="n">100 mcg EV en bolo &gt; 1 min</td><td>Alternativa a la infusión en cesárea electiva</td></tr>
+<tr><td>Ergonovina</td><td class="n">0,2 mg IM</td><td>Segunda opción. Contraindicada en hipertensión</td></tr>
+<tr><td>Misoprostol</td><td class="n">600–800 mcg oral, sublingual o rectal</td><td>Solo si no hay ocitocina disponible</td></tr></table>
+<div class="alerta"><b>Lo que no se hace</b>Debe evitarse la extracción manual de placenta (recomendación A). El drenaje de cordón no se recomienda de rutina. Revisar siempre placenta y membranas, y registrar el hallazgo.</div>`},
+
+{ id:"hpp-dx", et:"Emergencia", t:"Hemorragia posparto: reconocerla", html:`
+<p><b>Definición no operacional:</b> pérdida mayor de 500 ml tras parto vaginal o mayor a un litro tras cesárea, con reducción de un 10 % del hematocrito.</p>
+<p><b>Definición operacional:</b> sangrado genital excesivo después del parto, con signos y síntomas de hipovolemia e inestabilidad hemodinámica.</p>
+<p>Primaria: dentro de las 24 horas. Secundaria: entre 24 horas y 6 semanas.</p>
+<h3>Las 4 T y su clínica</h3>
+<table><tr><th>Causa</th><th>Lo que encuentro</th></tr>
+<tr><td><b>Tono</b> · inercia uterina</td><td>Útero mal contraído</td></tr>
+<tr><td><b>Trauma</b> · lesiones del tracto</td><td>Útero bien contraído, alumbramiento completo, desgarros o hematomas visibles</td></tr>
+<tr><td><b>Tejido</b> · restos, acretismo</td><td>Tono disminuido, alumbramiento incompleto, restos de membranas a la exploración</td></tr>
+<tr><td><b>Trombina</b> · coagulopatía</td><td>Útero retraído, sin lesiones ni restos, alumbramiento completo; antecedente de coagulopatía, hipermenorrea o gingivorragia</td></tr></table>
+<div class="alerta"><b>No estimar a ojo</b>Para estimar la pérdida se usan marcadores clínicos por sobre la estimación visual. Monitorizar signos vitales y diuresis.</div>
+<h3>Factores de riesgo que obligan a anticiparse</h3>
+<p>Alteraciones de la coagulación, retención placentaria, expulsivo prolongado, acretismo, parto instrumental, macrosomía, síndrome hipertensivo, uso de ocitocina y corioamnionitis clínica.</p>`},
+
+{ id:"hpp-manejo", et:"Emergencia", t:"Hemorragia posparto: secuencia por tiempos", html:`
+<div class="alerta"><b>Regla de oro</b>Salvar la vida, no la fertilidad. Manejo simultáneo, coordinado y multidisciplinario, solo con el personal indispensable y con roles definidos.</div>
+<h3>Tiempo 0</h3>
+<ul class="li">
+<li>Sospechar, diagnosticar y actuar de forma proactiva buscando la etiología (4 T).</li>
+<li>Solicitar ayuda.</li>
+<li>Dos vías venosas de grueso calibre e inicio de cristaloides (Ringer lactato o suero fisiológico).</li>
+<li>ABC materno: oxígeno y monitorización de signos vitales.</li>
+<li>Hematocrito, plaquetas y pruebas de coagulación; grupo, Rh y pruebas cruzadas.</li>
+</ul>
+<h3>0 a 30 minutos</h3>
+<ul class="li">
+<li>Revisión instrumental y extracción manual de placenta si corresponde.</li>
+<li>Compresión manual del útero y masaje uterino externo.</li>
+<li>Reparación de desgarros y laceraciones.</li>
+<li>Ocitocina en bolo 5–10 UI EV y mantención de 20 UI en 500 cc de suero fisiológico a 125 ml/h.</li>
+<li>Metilergonovina 1 ampolla IM.</li>
+<li>Continuar cristaloides: tres veces el volumen de la pérdida estimada.</li>
+</ul>
+<h3>30 a 60 minutos</h3>
+<ul class="li">
+<li>Sonda Foley y medición de diuresis.</li>
+<li>Clindamicina 600 mg cada 8 horas más ceftriaxona 1 g EV.</li>
+<li>Misoprostol 600–800 mcg rectal.</li>
+<li>Masaje uterino bimanual.</li>
+<li>Iniciar reposición de hemoderivados.</li>
+</ul>
+<h3>Hemoderivados</h3>
+<p>Siempre si hemoglobina &lt; 6–8 g/dl (hematocrito 24 %). Proporción <b>4 glóbulos rojos : 2 plasma fresco : 1 plaquetas</b>. Metas: hematocrito &gt; 21 %, plaquetas &gt; 50 mil/mm³, fibrinógeno &gt; 100 mg/dL, INR &lt; 1,5. Presión arterial media entre 60 y 80 mmHg.</p>
+<h3>Después de 60 minutos</h3>
+<p>Agotado el tratamiento médico: ligadura de arterias uterinas o hipogástricas, packing uterino o balón de Bakri, sutura de B-Lynch, histerectomía obstétrica.</p>`},
+
+{ id:"reanim-neo", et:"Emergencia", t:"Reanimación neonatal: algoritmo", html:`
+<div class="alerta"><b>Lo único que hay que recordar si se olvida todo lo demás</b>La acción más importante y efectiva en la reanimación neonatal es la ventilación de los pulmones.</div>
+<h3>Al nacer, tres preguntas</h3>
+<p>¿Gestación de término? ¿Respira o llora? ¿Buen tono? Si las tres son sí: mantener con la madre para pasos iniciales, cuidados de rutina y evaluación continua.</p>
+<h3>Si alguna es no · primer minuto</h3>
+<ul class="li">
+<li>Caliente, seque, estimule, posicione la vía aérea, aspire si es necesario.</li>
+<li>Si hay apnea o gasping, o frecuencia cardíaca &lt; 100 lpm: iniciar ventilación a presión positiva, monitorizar saturación, considerar monitor ECG.</li>
+<li>Si respira pero con dificultad respiratoria o cianosis persistente: posicionar y despejar la vía aérea, monitorizar saturación, oxígeno suplementario si es necesario, considerar CPAP.</li>
+</ul>
+<h3>Si persiste bajo 100 lpm</h3>
+<p>Asegurar una ventilación adecuada. Considerar tubo endotraqueal o máscara laríngea. Monitor cardíaco.</p>
+<h3>Si la frecuencia cardíaca es menor a 60 lpm</h3>
+<ul class="li">
+<li>Tubo endotraqueal o máscara laríngea.</li>
+<li>Compresiones torácicas coordinadas con ventilación, con oxígeno al 100 %.</li>
+<li>Catéter venoso umbilical.</li>
+<li>Si persiste bajo 60 lpm: adrenalina intravenosa cada 3 a 5 minutos. Considerar hipovolemia y neumotórax.</li>
+</ul>
+<table><tr><th>Minuto</th><th>Saturación preductal objetivo</th></tr>
+<tr><td class="n">1</td><td class="n">60–65 %</td></tr>
+<tr><td class="n">2</td><td class="n">65–70 %</td></tr>
+<tr><td class="n">3</td><td class="n">70–75 %</td></tr>
+<tr><td class="n">4</td><td class="n">75–80 %</td></tr>
+<tr><td class="n">5</td><td class="n">80–85 %</td></tr>
+<tr><td class="n">10</td><td class="n">85–95 %</td></tr></table>
+<p><b>Concentración inicial de oxígeno en VPP:</b> 21 % en 35 semanas o más; 21 a 30 % en menores de 35 semanas.</p>
+<p>Considerar interrumpir los esfuerzos después de 20 minutos de reanimación cardiopulmonar con pasos apropiados, individualizando según el paciente y el contexto.</p>`},
+
+{ id:"briefing", et:"Emergencia", t:"Antes de cada parto: briefing y equipo", html:`
+<p>Cuando se prevé la necesidad de reanimación se realiza un briefing entre el equipo neonatal, obstétrico y matronería: se analiza el caso y sus factores de riesgo, se asignan roles, se comprueba el material, se revisan los algoritmos y se establece un plan. Incluye comunicarse con la familia.</p>
+<h3>Verificar antes de cada parto</h3>
+<ul class="li">
+<li>Cuna radiante encendida, tomas de oxígeno, aire y aspiración operativas.</li>
+<li>Bolsa de reanimación autoinflable con válvula de liberación de presión; máscaras de término y prematuro; flujómetro hasta 10 l/min.</li>
+<li>Laringoscopio con hojas rectas n.º 0 y n.º 1, foco y baterías de repuesto; tubos endotraqueales 2.5, 3.0, 3.5 y 4.0; fijación.</li>
+<li>Sondas de aspiración 6F, 8F y 10F; sonda de alimentación 8F; jeringas.</li>
+<li>Adrenalina, suero fisiológico, bicarbonato, glucosa al 10 %.</li>
+<li>Equipo de cateterización umbilical: catéteres 3.5 F y 5.0 F, llaves de tres pasos, instrumental y ropa estéril.</li>
+<li>Reloj, estetoscopio neonatal, monitor cardíaco y saturómetro.</li>
+</ul>`},
+
+{ id:"primeros-segundos", et:"Recién nacido", t:"Los primeros segundos: secuencia", html:`
+<ul class="li">
+<li><b>No aspirar de rutina.</b> Al asomar la cabeza no se aspiran secreciones. La aspiración, incluso con líquido amniótico con meconio, no previene complicaciones ni mejora resultados.</li>
+<li><b>Recibir y secar.</b> Compresa o toalla limpia, idealmente precalentada. Sujetar por la nuca y las extremidades inferiores, en un plano igual o levemente inferior al periné materno.</li>
+<li><b>Piel a piel.</b> Puede colocarse sobre el abdomen materno en posición de Leboyer mientras se seca, si el largo del cordón lo permite, y se envuelve con una compresa nueva y seca.</li>
+<li><b>Esperar el llanto vigoroso</b> antes de pinzar y cortar el cordón.</li>
+</ul>
+<div class="ok"><b>Lo que no se hace</b>No estimular el llanto. No aspirar secreciones orofaríngeas ni gástricas. Evitar estímulos luminosos y acústicos. El recién nacido establece la respiración a su propio ritmo.</div>`},
+
+{ id:"pinzamiento", et:"Recién nacido", t:"Pinzamiento del cordón: cuándo", html:`
+<p>La ligadura debe realizarse después de los <b>30 a 45 segundos</b> y, en general, después de que el neonato logre establecer llanto vigoroso, con el recién nacido en un plano igual o levemente inferior al de la placenta, no más de 10 cm. No debe exprimirse el cordón.</p>
+<div class="ok"><b>Actualización 2025</b>En recién nacidos que respiran y tienen buen tono se recomienda pinzamiento tardío de al menos 60 segundos, independientemente de la edad gestacional. En los que nacen hipotónicos y sin esfuerzo respiratorio, iniciar estimulación táctil durante 30 segundos antes de pinzar. No se recomienda ordeño del cordón bajo 28 semanas.</div>
+<h3>Pinzar antes de los 30 segundos solo si</h3>
+<ul class="li">
+<li>Sufrimiento fetal agudo y recién nacido deprimido, incapaz de llorar tras estimulación, especialmente si está pálido.</li>
+<li>Recién nacido deprimido con líquido amniótico con meconio espeso.</li>
+<li>Madre con anestesia general y recién nacido deprimido.</li>
+<li>Circular de cordón al cuello irreducible pese a maniobras adecuadas.</li>
+<li>Restricción de crecimiento severa o Doppler alterado.</li>
+<li>Desprendimiento de placenta normoinserta o metrorragia severa.</li>
+</ul>
+<p>El pinzamiento inmediato aumenta el riesgo de anemia ferropriva en el segundo semestre de vida, con consecuencias conductuales y cognitivas no reversibles.</p>`},
+
+{ id:"eval-inicial", et:"Recién nacido", t:"Evaluación inicial por observación", html:`
+<p>Se evalúa mirando, sin interrumpir el apego:</p>
+<ul class="li">
+<li>Respira o llora adecuadamente.</li>
+<li>Buen tono muscular.</li>
+<li>Gestación de término o mayor a 35 semanas.</li>
+<li>Frecuencia cardíaca mayor de 100 lpm, por palpación o visualización del cordón.</li>
+<li>Líquido amniótico claro y sin evidencia de infección.</li>
+</ul>
+<div class="alerta"><b>Cuándo pasa a reanimación</b>Si no respira, hace esfuerzos respiratorios débiles o inefectivos, la frecuencia cardíaca es menor de 100 lpm, persiste cianótico o hipotónico, hay meconio, o es prematuro.</div>
+<p>La evaluación es permanente mientras está con su madre: color, respiración, tono muscular y movimientos.</p>`},
+
+{ id:"apgar", et:"Recién nacido", t:"Apgar: cómo se aplica y cómo se registra", html:`
+<p>Se realiza al primer y quinto minuto de vida. Cuando el puntaje a los 5 minutos es menor a 7, se asignan puntajes adicionales <b>cada 5 minutos hasta los 20 minutos</b>, momento en que se define la necesidad de hospitalización.</p>
+<p>No se requiere alterar la dinámica madre-hijo para realizarlo cuando el puntaje es adecuado y el recién nacido está en apego.</p>
+<div class="ok"><b>Cómo se nombra</b>Un puntaje bajo se informa como <b>deprimido</b>, término que no presupone etiología. No se usa «asfixiado»: ese diagnóstico requiere otros criterios asociados.</div>
+<p>Los valores bajos al minuto no indican necesariamente daño ni mal pronóstico. Un Apgar alterado a los 5 minutos sí se correlaciona con morbimortalidad neonatal y evolución neurológica alejada.</p>
+<h3>Qué se anota en la ficha</h3>
+<p>Los puntajes, junto con las medidas de apoyo utilizadas en ese momento —oxígeno, ventilación con bolsa y máscara, intubación, masaje cardíaco, drogas— y una descripción narrativa de las intervenciones con su duración.</p>`},
+
+{ id:"apgar-bajo", et:"Recién nacido", t:"Apgar bajo: conducta según el caso", html:`
+<h3>Hipoxia intrauterina aguda</h3>
+<table><tr><th>Situación</th><th>Conducta</th></tr>
+<tr><td>Apgar 5 min ≥ 7 y asintomático a los 10 min</td><td>Observar alrededor de 2 horas; si la evolución es normal, enviar con su madre. Hemoglucotest a las 2 horas de vida</td></tr>
+<tr><td>Apgar 5 min ≤ 6 y asintomático a los 10 min</td><td>Hospitalizar. Observación en régimen cero por 12 a 24 horas</td></tr>
+<tr><td>Cualquier signo de compromiso asfíctico</td><td>Hospitalizar para manejo preventivo o activo de complicaciones</td></tr></table>
+<p>Con gases de cordón o posnatales precoces, bicarbonato &lt; 13 mEq/l o exceso de base &lt; −19 obliga a considerar hospitalización aunque la condición parezca normal.</p>
+<h3>Depresión neonatal</h3>
+<p>Apgar al minuto ≤ 6, sin elementos para plantear hipoxia intrauterina aguda y con evolución neurológica normal: trastorno adaptativo no asfíctico, a veces farmacológico. Se traslada a puerperio con su madre, con hemoglucotest a las 2 horas y control de frecuencia cardíaca, frecuencia respiratoria y temperatura cada 6 horas el primer día.</p>`},
+
+{ id:"identificacion", et:"Recién nacido", t:"Identificación del recién nacido", html:`
+<p>Después del secado, el personal con esa función asignada identifica al recién nacido en presencia de la madre o el padre, <b>antes de salir de la sala de partos</b>, con brazalete en el <b>brazo izquierdo</b>.</p>
+<h3>Datos del brazalete</h3>
+<ul class="li">
+<li>Nombre de la madre.</li>
+<li>Fecha y hora del nacimiento.</li>
+<li>Sexo.</li>
+</ul>
+<div class="ok"><b>Verificación</b>No se agregan otros datos. Se leen en voz alta a la madre o su acompañante, quien debe confirmar la información y aprobar la identificación.</div>`},
+
+{ id:"apego", et:"Recién nacido", t:"Apego precoz: qué se difiere y por cuánto", html:`
+<div class="ok"><b>La regla de los 60 minutos</b>Los procedimientos de atención inmediata se realizan una vez cumplido el período de apego temprano: deben diferirse al menos 60 minutos para no alterar el apego precoz.</div>
+<ul class="li">
+<li>Entregar de inmediato el recién nacido sano a su madre, piel a piel sobre su abdomen o tórax, cubierto con paño tibio.</li>
+<li>No seccionar precozmente el cordón, no estimular el llanto, no aspirar.</li>
+<li>Asistir al recién nacido en la búsqueda del pecho, favoreciendo el acoplamiento.</li>
+<li>Primera puesta al pecho dentro de la primera hora de vida.</li>
+<li>Incorporar al padre o acompañante; se le ofrece vestir a su hijo.</li>
+<li>Mantener la observación continua durante todo el período.</li>
+</ul>
+<div class="alerta"><b>Cuando la madre toma distancia</b>Algunas madres reaccionan rechazando o no queriendo tocar al recién nacido. Debe estar informada del procedimiento de antemano y el equipo debe conocer sus aprensiones.</div>`},
+
+{ id:"vitamina-k", et:"Recién nacido", t:"Profilaxis de enfermedad hemorrágica", html:`
+<table><tr><th>Peso de nacimiento</th><th>Vitamina K IM</th></tr>
+<tr><td>Mayor a 2.000 g</td><td class="n">1 mg</td></tr>
+<tr><td>Menor a 2.000 g</td><td class="n">0,5 mg</td></tr></table>
+<p>Se administra dentro de las <b>primeras 6 horas</b> después del nacimiento. Si el recién nacido está en proceso de apego y lactancia materna, puede diferirse hasta después de la estabilización y la interacción con su madre.</p>`},
+
+{ id:"profilaxis-ocular", et:"Recién nacido", t:"Profilaxis ocular", html:`
+<p>Se realiza a todo recién nacido después del parto, con solución oftálmica de <b>cloranfenicol al 0,5 %</b> o ungüento de <b>eritromicina al 0,5 %</b>, en cada ojo, por una vez.</p>
+<div class="ok"><b>Compatible con el apego</b>Limpieza ocular con suero fisiológico inmediatamente al nacer, y la profilaxis se administra durante la atención del recién nacido, en las primeras horas de vida. Puede demorarse hasta una hora sin alterar su protección.</div>
+<h3>Técnica</h3>
+<ul class="li">
+<li>Limpiar suavemente cada párpado con algodón estéril.</li>
+<li>Administrar 1 a 2 gotas en el saco conjuntival inferior; si es ungüento, una cantidad similar a un grano de arroz.</li>
+<li>Con los párpados cerrados, masajear suavemente para diseminar.</li>
+<li>Después del minuto pueden limpiarse párpados y piel circundante con algodón estéril.</li>
+</ul>
+<div class="alerta"><b>No irrigar después</b>Irrigar con solución líquida reduce la eficacia y no disminuye la conjuntivitis química. Usar envases únicos desechables para evitar contaminación cruzada.</div>`},
+
+{ id:"cordon-cuidados", et:"Recién nacido", t:"Cuidados del cordón", html:`
+<ul class="li">
+<li>Ligadura de goma látex, clamp o doble ligadura con hilo estéril de algodón grueso, a <b>2 a 3 cm</b> de la piel, seccionando el excedente con tijera estéril.</li>
+<li>No tapar el cordón con el pañal.</li>
+<li>Aseo con alcohol en cada muda.</li>
+<li>No usar agentes yodados: riesgo de absorción e hipotiroidismo.</li>
+</ul>
+<p>Los antisépticos reducen la colonización pero no se correlacionan con las tasas de infección. Favorecer la internación conjunta, que evita la colonización con gérmenes intrahospitalarios.</p>`},
+
+{ id:"aseo-rn", et:"Recién nacido", t:"Aseo del recién nacido", html:`
+<p>No se recomienda como procedimiento de rutina por sus efectos negativos sobre la termorregulación. Está contraindicado en prematuros pequeños y cuando las condiciones clínicas no son adecuadas.</p>
+<div class="alerta"><b>Umbral térmico</b>Diferir el aseo cutáneo si la temperatura axilar es menor a 36,5 °C.</div>
+<p>Se recomienda en VIH y hepatitis B o C, donde un baño cuidadoso que elimine restos de sangre y líquido amniótico disminuye la transmisión vertical. Si se realiza, usar soluciones jabonosas o solución con aceite estéril mineral.</p>`},
+
+{ id:"sondeos", et:"Recién nacido", t:"Sondeos que no se hacen de rutina", html:`
+<ul class="li">
+<li><b>Sonda a estómago</b> para descartar atresia de esófago: no a todos. Puede provocar apneas o bradicardia, lesiones de mucosa e incluso perforaciones. Se reserva ante sospecha de malformación gastrointestinal o salivación abundante.</li>
+<li><b>Sonda nasal</b> para descartar atresia de coanas: solo ante sospecha clínica.</li>
+<li><b>Sonda rectal o termómetro rectal</b> de rutina: puede ser más dañino que beneficioso. Solo si no eliminó meconio en más de 24 horas o hay sospecha de obstrucción.</li>
+</ul>`},
+
+{ id:"antropometria", et:"Recién nacido", t:"Antropometría", html:`
+<ul class="li">
+<li>Durante el peso, cubrir al recién nacido con el pañal para evitar hipotermia.</li>
+<li>Verificar siempre la calibración de la balanza.</li>
+<li>Nunca poner al niño directamente sobre la pesa o el antropómetro: siempre usar pañal.</li>
+<li>Realizar aseo de la balanza entre cada paciente.</li>
+</ul>`},
+
+{ id:"examen-fisico-rn", et:"Recién nacido", t:"Examen físico general y segmentario", html:`
+<p>Cuna calefaccionada en potencia media, niño totalmente desnudo, lavado de manos previo. Primero el examen general, luego el segmentario de céfalo a caudal.</p>
+<h3>General</h3>
+<p>Actitud: flexión activa y simétrica, salvo presentación podálica o de cara. Piel: unto, color, descamación, lanugo, hemangiomas planos, mancha mongólica, eritema tóxico, piel marmorata, arlequín. Ombligo y cordón: hernias, color, número de vasos.</p>
+<h3>Segmentario</h3>
+<ul class="li">
+<li><b>Cráneo:</b> deformaciones plásticas, cefalohematoma, bolsa serosanguínea, fontanelas, suturas y grado de cabalgamiento.</li>
+<li><b>Ojos:</b> hemorragias conjuntivales, pupilas, rojo pupilar, simetría, córnea.</li>
+<li><b>Nariz:</b> estridor, millium, atresia de coanas.</li>
+<li><b>Boca:</b> fisuras labiopalatinas, dientes, frenillos, perlas de Ebstein, micrognatia, paladar ojival o hendido, reflejo de succión.</li>
+<li><b>Orejas:</b> implantación, papilomas, fístulas auriculares, hipotrofia.</li>
+<li><b>Cuello:</b> tortícolis, quiste tirogloso, fístulas branquiales, hematoma del esternocleidomastoideo; palpar clavículas.</li>
+<li><b>Tórax:</b> cilíndrico y blando, retracción, frecuencia respiratoria 40 a 60 por minuto; estertores húmedos la primera hora, tonos cardíacos, soplos, fractura de clavícula, nódulo mamario, pezones supernumerarios.</li>
+<li><b>Abdomen:</b> globoso, diástasis de rectos, hígado palpable, masas; comprobar tres vasos en el cordón.</li>
+<li><b>Genitales:</b> pigmentación y tamaño. Masculinos: escroto y testes, hidrocele, hipospadias, fimosis. Femeninos: vulva e introito, secreción vaginal, pseudomenstruación, hipertrofia del clítoris.</li>
+<li><b>Columna:</b> disrafias y deformaciones. <b>Región anal:</b> esfínter, fisuras, fístulas, foseta sacrococcígea.</li>
+<li><b>Extremidades:</b> simetría, parálisis, polidactilia, sindactilia, clinodactilia, maniobra de Ortolani, deformidades de los pies. Contar dedos de manos y pies y verificar que estén separados.</li>
+</ul>
+<h3>Neurológico</h3>
+<p>Actitud y tono. Reflejos arcaicos: Moro, palmar y plantar, búsqueda y succión, marcha, Babinski.</p>
+<p>Edad gestacional por fecha de última regla, ecografía precoz y valoración física, en semanas cumplidas y no por aproximación matemática.</p>`},
+
+{ id:"muestras-cordon", et:"Recién nacido", t:"Muestras de sangre de cordón", html:`
+<ul class="li">
+<li>Tomar muestra para <b>grupo sanguíneo y Rh</b>.</li>
+<li><b>No</b> tomar RPR ni VDRL de cordón por falsos positivos: ese estudio se realiza a la madre en trabajo de parto o previo a la cesárea.</li>
+<li><b>Gases arteriales</b> ante sufrimiento fetal agudo, monitorización electrónica anormal o recién nacido deprimido.</li>
+</ul>
+<p>Técnica para gases: doble pinzado del cordón, llenar los vasos exprimiendo con pulgar e índice desde una zona pinzada hacia la segunda pinza, volver a pinzar a la menor distancia posible. La vena es única, tortuosa y dilatada; las arterias son dos, más delgadas, de pared firme y paralelas.</p>`},
+
+{ id:"reglas-estudiante", et:"Rol", t:"Reglas para el estudiante en el turno", html:`
+<div class="ok"><b>Lo primero</b>Preguntar es la conducta esperada de un estudiante seguro, no de uno inseguro.</div>
+<ul class="li">
+<li><b>Vigilancia sistemática.</b> Recorrer siempre la misma secuencia de valoración, en el mismo orden, hasta que salga sola.</li>
+<li><b>Registro completo.</b> Lo que no está registrado no ocurrió. Letra legible, con hora y firma.</li>
+<li><b>Aviso oportuno.</b> Ante un signo de alarma se avisa de inmediato y se permanece con la usuaria. Nunca serás responsable por avisar de más.</li>
+<li><b>Nunca un procedimiento por primera vez sin supervisión</b>, aunque lo hayas practicado en simulación y aunque la usuaria te lo pida. «Todavía no lo he hecho, ¿me acompaña?» es siempre la respuesta correcta.</li>
+</ul>
+<h3>Ante sospecha de hemorragia posparto, mientras llega el equipo</h3>
+<p>Masaje uterino externo, control de signos vitales, cuantificación del sangrado y verificación de la vía venosa. Permanecer con la usuaria. El masaje no reemplaza el aviso.</p>`},
+
+{ id:"registros-parto", et:"Rol", t:"Registros que cierran la atención", html:`
+<ul class="li">
+<li>Libro de partos.</li>
+<li>Libro de inscripción del recién nacido en atención inmediata.</li>
+<li>Ficha clínica del recién nacido.</li>
+<li>Ficha clínica materna.</li>
+<li>Comprobante de parto.</li>
+</ul>
+<p>Rendimiento hora matrona según norma: 90 minutos por parto, 60 minutos por atención del recién nacido, 60 minutos por apego.</p>
+<h3>Indicadores que se levantan desde estos registros</h3>
+<p>Porcentaje de recién nacidos con apego mayor a 30 minutos; porcentaje que termorregula en el tiempo estimado; porcentaje que se amamanta durante la primera hora; porcentaje con Apgar al minuto y a los 5 minutos menor a 6; porcentaje de mujeres con acompañamiento en el parto; porcentaje con episiotomía.</p>`},
+
+{ id:"pendientes-unidad", et:"Rol", t:"Verificar con la unidad antes de aplicar", html:`
+<p>Esta sección recoge norma ministerial. Tres cosas dependen del protocolo local y conviene confirmarlas en el primer turno, no en el momento en que se necesitan:</p>
+<ul class="li">
+<li><b>Maniobras de distocia de hombros y prolapso de cordón:</b> secuencia y roles definidos por la unidad. No están normadas en los documentos ministeriales que sustentan esta guía.</li>
+<li><b>Entrega de placenta a la familia:</b> procedimiento, consentimiento y envase se rigen por la norma técnica de entrega de placenta y por el flujo interno del servicio.</li>
+<li><b>Profilaxis ocular:</b> qué producto está disponible en la sala y en qué momento se administra según la rutina del servicio.</li>
+</ul>
+<div class="alerta"><b>Si la norma y el protocolo local difieren</b>Se sigue el protocolo local y se consulta con el profesional a cargo. Esta guía no reemplaza esa indicación.</div>`}
+
+];
+
 const BLOQUES_PUE = [
 { id:"etapas", et:"Puérpera", t:"Etapas del puerperio", html:`
 <p>Período que se extiende desde el alumbramiento hasta los <b>42 días</b> posparto.</p>
@@ -1524,7 +1971,66 @@ Alguien debe hacerse cargo de la madre: no puede quedar sola sin información.</
 <div class="alerta"><b>Después de cada uso</b>El carro se repone y se vuelve a sellar <b>de inmediato</b>, no al final del turno.
 Un carro usado y no repuesto es exactamente el escenario que produce el segundo evento.</div>
 <div class="falta"><b>Lo que no está aquí</b>El algoritmo de reanimación y las dosis por peso requieren formación certificada y deben estar
-en la tabla oficial del carro. Este bloque cubre la vigilancia y la organización, no el manejo.</div>`}
+en la tabla oficial del carro. Este bloque cubre la vigilancia y la organización, no el manejo.</div>`},
+
+{ id:"flebitis", et:"Seguridad", t:"Escala visual de valoración de flebitis", html:`
+<p>Escala institucional del Hospital Clínico Herminda Martín. Se evalúa el sitio de punción en cada control.</p>
+<table><tr><th>Grado</th><th>Hallazgo</th><th>Conducta</th></tr>
+<tr><td class="n">0</td><td>Sin dolor, eritema, hinchazón ni cordón palpable</td><td>No hay signos de flebitis. <b>Observe</b> el punto de inserción</td></tr>
+<tr><td class="n">1</td><td>Dolor sin eritema, hinchazón ni cordón palpable en la zona de punción</td><td>Posible signo de flebitis. <b>Observe</b> el punto de inserción</td></tr>
+<tr><td class="n">2</td><td>Dolor con eritema y/o hinchazón, sin cordón palpable</td><td>Inicio de flebitis. <b>Retire</b> el catéter</td></tr>
+<tr><td class="n">3</td><td>Dolor, eritema, hinchazón, endurecimiento o cordón venoso palpable <b>menor a 6 cm</b> sobre el sitio de inserción</td><td>Etapa media. <b>Retire</b> el catéter y valore tratamiento</td></tr>
+<tr><td class="n">4</td><td>Lo anterior con cordón venoso palpable <b>mayor a 6 cm</b> sobre el sitio de inserción, y/o purulencia</td><td>Estado avanzado. <b>Retire</b> el catéter y valore tratamiento</td></tr>
+<tr><td class="n">5</td><td>Trombosis venosa franca con todos los signos anteriores y dificultad o detención de la perfusión</td><td>Tromboflebitis. <b>Retire</b> el catéter e inicie tratamiento</td></tr></table>
+<div class="alerta"><b>El punto de corte que decide</b>Desde el <b>grado 2</b> se retira el catéter. Los grados 0 y 1 solo requieren observación.
+La diferencia entre grado 3 y 4 es la extensión del cordón venoso: 6 cm sobre el sitio de inserción.</div>
+<div class="ok"><b>Cuándo se evalúa</b>En cada control de la usuaria con vía venosa instalada, y siempre antes de administrar por esa vía.
+El dolor sin otros signos ya es un hallazgo: es el grado 1.</div>`},
+
+{ id:"cesarea-check", et:"Seguridad", t:"Verificación antes de una cesárea", html:`
+<p>Checklist institucional del Hospital Clínico Herminda Martín para el traslado a pabellón.</p>
+<h3>Documentación</h3>
+<ul class="li">
+<li>Cédula de identidad.</li>
+<li><b>Brazalete:</b> nombre, dos apellidos, edad, RUT y alergia si procede. <b>Corroborar con el carnet.</b></li>
+<li>Hoja preoperatoria, registrando aseo lumbar y abdominal, con firma de TENS y matrona.</li>
+<li>Hoja de evaluación anestésica, con fecha y hora de llenado.</li>
+<li>Ficha del recién nacido. <b>Dos si son gemelos.</b></li>
+<li>Consentimiento informado <b>firmado</b>.</li>
+<li>Solicitud de esterilización quirúrgica firmada y en ficha, si corresponde.</li>
+<li>Última ecografía <b>con informe</b>, en la ficha del recién nacido.</li></ul>
+<h3>Preparación de la usuaria</h3>
+<ul class="li">
+<li>Vía venosa periférica permeable, a chorro, idealmente en el espacio intercubital.</li>
+<li>Bajadas rotuladas.</li>
+<li>Antibioprofilaxis según protocolo.</li>
+<li>Reserva de glóbulos rojos si Rh negativo o placenta previa, <b>tramitada antes del pabellón</b>.</li>
+<li>Gorro, mascarilla y MAT.</li>
+<li>Sin accesorios, sin ropa interior, <b>sin esmalte de uñas</b>.</li></ul>
+<div class="alerta"><b>Los dos que más se omiten</b>El esmalte de uñas impide la lectura del saturómetro: no es un requisito estético.
+Y la reserva de glóbulos rojos debe estar <b>tramitada antes</b> del traslado, no solicitada en pabellón.</div>`},
+
+{ id:"residuo-postmic", et:"Valoración", t:"Medición de residuo post miccional", html:`
+<p>Protocolo institucional del Hospital Clínico Herminda Martín, equipo de piso pélvico.
+Para usuaria post operada de incontinencia urinaria.</p>
+<h3>Insumos</h3>
+<p>Suero fisiológico 500 cc · jeringa de 60 ml punta catéter · punzón con doble espiga para transvasije · jeringa de 10 cc.</p>
+<h3>Procedimiento</h3>
+<ul class="li">
+<li>Explicar el procedimiento a la usuaria.</li>
+<li>Preparar la jeringa de 60 ml: extraer el émbolo para usarla como embudo.</li>
+<li>Retirar la gasa vaginal antes del procedimiento.</li>
+<li>Liberar la conexión entre la sonda Foley y la bolsa recolectora, y conectar la jeringa a la sonda.</li>
+<li><b>Llenar la vejiga con 300 cc</b> de suero fisiológico, en medidas de 60 cc: corresponde llenar la jeringa <b>5 veces</b>.</li>
+<li>Para cada llenado: clampear la sonda, llenar la jeringa con 60 ml, y permitir el ingreso por caída libre.</li>
+<li>Durante el paso de los <b>últimos 60 cc</b>, vaciar simultáneamente el balón o cuff de la sonda.</li>
+<li>Completado el ingreso de los 300 cc, retirar la sonda y solicitar micción en recipiente para medir.</li></ul>
+<h3>Interpretación</h3>
+<table><tr><th>Residuo</th><th>Conducta</th></tr>
+<tr><td class="n">Menor a 100 cc</td><td>Normal. Alta</td></tr>
+<tr><td class="n">Igual o mayor a 100 cc</td><td>Repetir una segunda evaluación cuando orine espontáneamente, por sondeo o ecografía</td></tr>
+<tr><td class="n">Persiste sobre 100 cc</td><td>Se considera patológico. Alta con sonda Foley y control en 48 a 72 horas en policlínico de piso pélvico. Informar al ginecólogo que fue primer cirujano y a jefatura de ginecología</td></tr></table>
+<div class="ok"><b>En el control posoperatorio</b>Se mide el residuo post miccional de la misma forma que en la primera evaluación.</div>`}
 ];
 
 const BLOQUES_ARO = [
@@ -2253,7 +2759,140 @@ Por eso su elevación en una preeclampsia es un hallazgo significativo: no se ex
 <tr><td class="n">32–38</td><td>Ultrasonido · repetir hematocrito-hemoglobina</td></tr>
 <tr><td class="n">35–37</td><td>Cultivo perianal de Estreptococo Grupo B, salvo urocultivo positivo al mismo germen</td></tr></table>
 <h3>Síntomas por los que debe consultar de inmediato</h3>
-<p>En los controles de la segunda mitad se buscan dirigidamente: cefalea, fotopsia y tinitus (hipertensión) · disuria, poliaquiuria, pujo y tenesmo vesical (infección urinaria) · contracciones uterinas (amenaza de parto prematuro) · <b>prurito palmo-plantar de predominio nocturno</b> (colestasia intrahepática) · pérdida de líquido por genitales · dolor abdominal · signos de ITS.</p>`}
+<p>En los controles de la segunda mitad se buscan dirigidamente: cefalea, fotopsia y tinitus (hipertensión) · disuria, poliaquiuria, pujo y tenesmo vesical (infección urinaria) · contracciones uterinas (amenaza de parto prematuro) · <b>prurito palmo-plantar de predominio nocturno</b> (colestasia intrahepática) · pérdida de líquido por genitales · dolor abdominal · signos de ITS.</p>`},
+
+{ id:"stock-medic", et:"Referencia", t:"Stock mínimo · sala de cuidados medios", html:`
+<p>Listado institucional del Hospital Clínico Herminda Martín, actualizado a febrero de 2025.
+Sirve para verificar la reposición y para conocer las presentaciones con que se trabaja.</p>
+<table><tr><th>Fármaco</th><th>Presentación</th><th>Cantidad</th></tr>
+<tr><td>Labetalol 100 mg/20 ml</td><td>Ampolla</td><td class="n">2</td></tr>
+<tr><td>Fenoterol 0,5 mg/10 ml</td><td>Ampolla</td><td class="n">4</td></tr>
+<tr><td>Sulfato de magnesio 1,25 %</td><td>Ampolla</td><td class="n">24</td></tr>
+<tr><td>Nifedipino 10 mg</td><td>Comprimido</td><td class="n">12</td></tr>
+<tr><td>Betametasona 4 mg/1 ml</td><td>Ampolla</td><td class="n">6</td></tr>
+<tr><td>Ampicilina 500 mg</td><td>Frasco</td><td class="n">8</td></tr>
+<tr><td>Cefazolina 1 g</td><td>Frasco</td><td class="n">4</td></tr>
+<tr><td>Oxitocina 5 UI</td><td>Ampolla</td><td class="n">4</td></tr>
+<tr><td>Claritromicina 500 mg</td><td>Comprimido</td><td class="n">4</td></tr>
+<tr><td>Metildopa 250 mg</td><td>Comprimido</td><td class="n">4</td></tr>
+<tr><td>Atosiban carga</td><td>Frasco</td><td class="n">2</td></tr>
+<tr><td>Ceftriaxona 1 g</td><td>Frasco</td><td class="n">2</td></tr>
+<tr><td>Metronidazol 500 mg</td><td>Matraz</td><td class="n">2</td></tr>
+<tr><td>Paracetamol 1 g</td><td>Matraz</td><td class="n">2</td></tr>
+<tr><td>Ácido tranexámico 1 g</td><td>Ampolla</td><td class="n">2</td></tr></table>
+<div class="ok"><b>Por qué conviene conocer las presentaciones</b>El cálculo de dosis parte de la concentración por mililitro, que depende de la presentación disponible.
+Saber que la betametasona viene en 4 mg/1 ml y el sulfato en ampollas al 1,25 % evita errores al calcular.</div>
+<div class="falta"><b>Verifica la vigencia</b>Este listado corresponde a febrero de 2025 y puede haberse actualizado. Confirma con tu unidad.</div>`},
+
+{ id:"antianemicos", et:"Referencia", t:"Antianémicos y calcioterapia · concentraciones", html:`
+<p>Presentaciones institucionales del Hospital Clínico Herminda Martín.</p>
+<h3>Antianémicos</h3>
+<table><tr><th>Producto</th><th>Concentración</th><th>Forma</th></tr>
+<tr><td>Ferrovitamínico</td><td>Fumarato ferroso 330 mg · vitamina C 100 mg · ácido fólico 2 mg · vitamina B12 1 mg</td><td>Cápsula</td></tr>
+<tr><td>Sulfato ferroso</td><td>Sulfato ferroso 200 mg</td><td>Comprimido</td></tr></table>
+<h3>Calcioterapia</h3>
+<table><tr><th>Producto</th><th>Concentración</th><th>Forma</th></tr>
+<tr><td>Calcio carbonato</td><td>500 mg</td><td>Comprimido</td></tr>
+<tr><td>Calcio carbonato + vitamina D3</td><td>Calcio 320 mg · vitamina D3 125 UI</td><td>Cápsula</td></tr>
+<tr><td>Calcio carbonato + vitamina D3 forte</td><td>Calcio 450 mg · vitamina D3 175 UI</td><td>Cápsula</td></tr></table>
+<div class="ok"><b>Un detalle que importa</b>El ferrovitamínico y el sulfato ferroso no son intercambiables dosis por dosis: aportan sales distintas
+en concentraciones distintas. Verifica cuál está indicado antes de administrar.</div>`},
+
+{ id:"insulina-refuerzo", et:"Referencia", t:"Esquema de refuerzo con insulina cristalina", html:`
+<div class="alerta"><b>Atención · esquema de NO EMBARAZADA</b>Estas tablas corresponden al esquema de refuerzo en la usuaria <b>no embarazada</b> con diabetes descompensada.
+El manejo de la gestante con diabetes es distinto y tiene sus propias metas. Verifica siempre a qué esquema corresponde
+la indicación antes de administrar.</div>
+<h3>Diabetes tipo 1 descompensada</h3>
+<table><tr><th>HGT preprandial</th><th>Insulina cristalina</th></tr>
+<tr><td class="n">100 – 140</td><td class="n">2 UI</td></tr>
+<tr><td class="n">141 – 180</td><td class="n">3 UI</td></tr>
+<tr><td class="n">181 – 220</td><td class="n">4 UI</td></tr>
+<tr><td class="n">221 – 260</td><td class="n">5 UI</td></tr>
+<tr><td class="n">261 – 300</td><td class="n">6 UI</td></tr>
+<tr><td class="n">Mayor a 300</td><td><b>Avisar residente</b></td></tr></table>
+<h3>Diabetes tipo 2 descompensada</h3>
+<table><tr><th>HGT preprandial</th><th>Insulina cristalina</th></tr>
+<tr><td class="n">Menor a 150</td><td class="n">0 UI</td></tr>
+<tr><td class="n">151 – 200</td><td class="n">4 UI</td></tr>
+<tr><td class="n">201 – 250</td><td class="n">6 UI</td></tr>
+<tr><td class="n">251 – 300</td><td class="n">8 UI</td></tr>
+<tr><td class="n">Mayor a 300</td><td><b>Avisar residente</b></td></tr></table>
+<div class="ok"><b>Lo que tienen en común</b>Ambas tablas se aplican sobre el HGT <b>preprandial</b>, y ambas terminan en la misma conducta:
+sobre 300 mg/dl no se administra según tabla, se avisa al residente.</div>`},
+
+{ id:"perdidas-repro", et:"Referencia", t:"Misoprostol en pérdidas reproductivas", html:`
+<p>Tabla del Protocolo de Manejo Integral de Pérdidas Reproductivas, Hospital Clínico Herminda Martín
+y Hospital Regional Ñuble, cuarta edición, noviembre 2025. Código PR-CROG-MPR.</p>
+<table><tr><th>Semanas</th><th>Mifepristona día 1</th><th>Misoprostol 48 h post</th><th>Vía</th><th>Intervalo</th><th>Repetir</th></tr>
+<tr><td class="n">Menos de 9</td><td class="n">200 mg VO</td><td class="n">800 µg</td><td>B, SL, VV</td><td>Cada 3 h</td><td>Las veces necesarias</td></tr>
+<tr><td class="n">9 a 13</td><td class="n">200 mg VO</td><td class="n">800 µg</td><td>B, SL, VV</td><td>Cada 3 h</td><td>Las veces necesarias</td></tr>
+<tr><td class="n">14 a 18</td><td class="n">200 mg VO</td><td class="n">800 µg, luego 400 µg</td><td>B, SL, VV</td><td>Cada 3 h</td><td>Hasta 2 dosis de 400 µg</td></tr>
+<tr><td class="n">18 a 24</td><td class="n">200 mg VO</td><td class="n">400 µg</td><td>B, SL, VV</td><td>Cada 4 h</td><td>Hasta 2 dosis</td></tr>
+<tr><td class="n">24 a 26</td><td>—</td><td class="n">200 µg</td><td>SL, VV</td><td>Cada 4 h</td><td>Solo si no se genera DU</td></tr>
+<tr><td class="n">26 a 28</td><td>—</td><td class="n">100 µg</td><td>SL, VV</td><td>Cada 4 h</td><td>Solo si no se genera DU</td></tr>
+<tr><td class="n">Más de 28</td><td>—</td><td class="n">50 µg</td><td>SL, VV</td><td>Cada 4 h</td><td>Solo si no se genera DU</td></tr></table>
+<p><b>Vías:</b> B bucal · SL sublingual · VV vaginal · VO oral · DU dinámica uterina.</p>
+<div class="alerta"><b>La regla que ordena la repetición</b>Si ya se inició la actividad contráctil uterina, <b>aunque sea leve</b>, no debe usarse una nueva dosis de misoprostol.
+Para la mantención y progresión del trabajo de parto se recomienda seguir con infusión endovenosa continua de oxitocina.</div>
+<div class="ok"><b>El patrón de la tabla</b>La dosis <b>baja</b> a medida que aumenta la edad gestacional: de 800 µg bajo las 13 semanas a 50 µg sobre las 28.
+El útero de mayor edad gestacional es más sensible al misoprostol.<br><br>
+La mifepristona se usa hasta las 24 semanas; desde las 24 en adelante la tabla usa solo misoprostol.</div>
+<div class="falta"><b>Alcance</b>La indicación y la prescripción corresponden al médico. Este bloque sirve para verificar la dosis
+antes de administrar y para entender la lógica del esquema.</div>`},
+
+{ id:"infusiones-hchm", et:"Referencia", t:"Infusiones · diluciones institucionales", html:`
+<p>Diluciones y equivalencias en uso en el Hospital Clínico Herminda Martín. Verifica siempre contra la indicación médica.</p>
+
+<h3>Fenoterol</h3>
+<div class="ok"><b>Preparación</b>1 mg, equivalente a <b>2 ampollas</b>, en 500 cc de suero fisiológico 0,9 % o suero glucosado al 5 %.</div>
+<table><tr><th>Velocidad</th><th>Equivale a</th></tr>
+<tr><td class="n">15 cc/hora</td><td class="n">0,5 mcg</td></tr>
+<tr><td class="n">30 cc/hora</td><td class="n">1 mcg</td></tr>
+<tr><td class="n">60 cc/hora</td><td class="n">2 mcg</td></tr>
+<tr><td class="n">90 cc/hora</td><td class="n">3 mcg</td></tr></table>
+
+<h3>Sulfato de magnesio</h3>
+<table><tr><th>Fase</th><th>Preparación</th></tr>
+<tr><td><b>Impregnación</b></td><td>5 g EV lento + 230 cc de suero glucosado 5 % o fisiológico 0,9 % · <b>4 ampollas</b></td></tr>
+<tr><td><b>Mantención</b></td><td>10 g + 500 cc de suero glucosado 5 % o fisiológico 0,9 % · <b>8 ampollas</b></td></tr></table>
+<table><tr><th>Velocidad de mantención</th><th>Equivale a</th></tr>
+<tr><td class="n">100 cc/hora</td><td class="n">2 g</td></tr>
+<tr><td class="n">50 cc/hora</td><td class="n">1 g</td></tr></table>
+<div class="alerta"><b>Antes de cada dosis de mantención</b>Reflejo patelar presente · frecuencia respiratoria mayor a 12 por minuto · diuresis mayor a 100 ml en 4 horas.
+Si alguno falla, <b>no se administra</b> y se avisa. Antídoto: gluconato de calcio 10 %, 10 ml en 3 minutos.</div>
+
+<h3>Labetalol</h3>
+<table><tr><th>Presentación</th><th>100 mg / 20 ml · 1 ampolla</th></tr>
+<tr><td><b>Bolo inicial</b></td><td>20 mg: 4 cc diluidos en 16 ml de agua bidestilada. Continuar según indicación médica</td></tr>
+<tr><td><b>Bomba</b></td><td>500 mg + 400 cc de suero glucosado 5 % o fisiológico · <b>5 ampollas</b></td></tr></table>
+<table><tr><th>Dosis</th><th>Velocidad</th></tr>
+<tr><td class="n">0,5 mg/minuto</td><td class="n">30 cc/hora en BIC</td></tr></table>
+
+<div class="falta"><b>Verifica antes de preparar</b>Estas diluciones corresponden al protocolo institucional vigente al momento de recogerlas.
+Confirma la indicación médica y el protocolo actual de tu unidad antes de preparar cualquier infusión.</div>`},
+
+{ id:"frenacion-emergencia", et:"Referencia", t:"Frenación de emergencia · nitroglicerina y fenoterol", html:`
+<p>Preparación institucional del Hospital Clínico Herminda Martín para tocolisis de urgencia en bolo directo.</p>
+
+<h3>Nitroglicerina</h3>
+<p><b>Presentación:</b> 50 mg / 10 ml, equivalente a 5 mg/ml.</p>
+<div class="ok"><b>Paso 1</b>Tomar 5 mg, que es 1 ml, y llevar a 10 ml.<br>
+Queda en <b>0,5 mg/ml</b>, equivalente a 500 mcg/ml.</div>
+<div class="ok"><b>Paso 2</b>De la jeringa anterior, sacar 0,5 mg, que es 1 ml, y llevar a 10 ml.<br>
+Queda en <b>0,05 mg/ml</b>, equivalente a 50 mcg/ml.</div>
+<p><b>Administración:</b> 100 a 200 mcg en bolo directo, según indicación.</p>
+
+<h3>Fenoterol</h3>
+<p><b>Presentación:</b> 0,5 mg / 10 ml, equivalente a 500 mcg/10 ml.</p>
+<div class="ok"><b>Paso único</b>Tomar 50 mcg, que es 1 ml, y llevar a 10 ml.<br>
+Queda en <b>5 mcg/ml</b>.</div>
+<p><b>Administración:</b> 5 a 7 mcg en bolo directo, según indicación.</p>
+
+<div class="alerta"><b>Por qué son dos diluciones sucesivas</b>La nitroglicerina requiere dos pasos porque la presentación está mil veces más concentrada que la dosis a administrar.
+Intentar llegar en un solo paso obligaría a cargar volúmenes imposibles de medir con precisión.
+Saltarse el segundo paso significa administrar <b>diez veces</b> la dosis indicada.</div>
+<div class="falta"><b>Alcance</b>La indicación es médica. Este bloque sirve para preparar correctamente y para verificar el cálculo antes de administrar.
+Ante cualquier duda sobre la dilución, confirma antes de administrar: son fármacos de alto riesgo.</div>`}
 ];
 
 const FARMACOS = [
@@ -2972,23 +3611,34 @@ calcDoppler();
 
 /* ================= UNIDADES ================= */
 const UNI = {
+  prp: { nom:"Preparto y parto", color:"#0F4C4A" },
   pue: { nom:"Puerperio y RN",  color:"#16325C" },
   aro: { nom:"Alto Riesgo",     color:"#3A2A5C" },
   med: { nom:"Medicamentos",    color:"#5C3A0A" }
 };
 
 const ATAJOS = {
+  prp: [["hpp-dx","HPP · reconocer"],["hpp-manejo","HPP · manejo"],["reanim-neo","Reanimación RN"],
+        ["primeros-segundos","Primeros segundos"],["pinzamiento","Pinzamiento cordón"],["apgar","Apgar"],
+        ["apgar-bajo","Apgar bajo"],["apego","Apego"],["vitamina-k","Vitamina K"],["profilaxis-ocular","Profilaxis ocular"],
+        ["examen-fisico-rn","Examen físico RN"],["identificacion","Identificación"],
+        ["dx-tdp","Dx trabajo de parto"],["etapas-parto","Etapas y tiempos"],["vig-fetal","Vigilancia fetal"],
+        ["partograma","Partograma"],["aceleracion","Ocitocina"],["alumbramiento","Alumbramiento"],
+        ["reglas-estudiante","Reglas del turno"],["pendientes-unidad","Verificar con la unidad"]],
   pue: [["alarma-madre","Alarma · puérpera"],["alarma-rn","Alarma · RN"],["valoracion","Valoración"],
         ["escalas","Escalas"],["lactancia","Lactancia"],["exam-fisico","Examen físico RN"],
         ["exam-normal","Normal o consultar"],["reflejos","Reflejos"],["screening-card","Screening cardíaco"],
-        ["bcg-vrs","BCG y VRS"],["pesquisa-neo","Pesquisa neonatal"],["reanim-puerperio","Reanimación"],
+        ["bcg-vrs","BCG y VRS"],["pesquisa-neo","Pesquisa neonatal"],["reanim-puerperio","Reanimación"],["flebitis","Flebitis"],
+        ["cesarea-check","Antes de cesárea"],["residuo-postmic","Residuo post miccional"],
         ["abrev","Abreviaturas"]],
   aro: [["she-clasif","SHE"],["pe-manejo","Manejo PE"],["crisis","Crisis · Eclampsia"],["dm-dx","Diabetes"],
         ["rciu","RCIU"],["colestasia","Colestasia"],["metrorragia","Metrorragia"],["parto-prematuro","Prematurez"],
-        ["rpm","RPM"],["distocia","Distocia"],["examenes","Exámenes"],["derivacion","Derivación"]]
+        ["rpm","RPM"],["distocia","Distocia"],["examenes","Exámenes"],["derivacion","Derivación"],["stock-medic","Stock"],
+        ["insulina-refuerzo","Insulina"],["perdidas-repro","Misoprostol"],["antianemicos","Antianémicos"],
+        ["infusiones-hchm","Infusiones"],["frenacion-emergencia","Frenación"]]
 };
 
-let SECCION = "pue";
+let SECCION = "prp";
 
 /* ================= RENDER DE BLOQUES ================= */
 const cont = document.getElementById("contenido");
@@ -2996,7 +3646,7 @@ const atajosWrap = document.getElementById("atajos-wrap");
 const secMed = document.getElementById("sec-med");
 const sin = document.getElementById("sin");
 
-function bloquesDe(sec){ return sec === "pue" ? BLOQUES_PUE : (sec === "aro" ? BLOQUES_ARO : []); }
+function bloquesDe(sec){ return sec === "prp" ? BLOQUES_PRP : (sec === "pue" ? BLOQUES_PUE : (sec === "aro" ? BLOQUES_ARO : [])); }
 
 function pintarAtajos(sec){
   const lista = ATAJOS[sec];
@@ -3097,6 +3747,7 @@ function buscar(){
   atajosWrap.innerHTML = "";
   const n = norm(t);
   const todos = [
+    ...BLOQUES_PRP.map(b => Object.assign({}, b, { _u: "prp" })),
     ...BLOQUES_PUE.map(b => Object.assign({}, b, { _u: "pue" })),
     ...BLOQUES_ARO.map(b => Object.assign({}, b, { _u: "aro" }))
   ];
@@ -3131,7 +3782,7 @@ q.oninput = () => { clearTimeout(temp); temp = setTimeout(buscar, 180); };
 document.getElementById("limpiar").onclick = () => { q.value = ""; q.focus(); buscar(); };
 
 /* ================= ARRANQUE ================= */
-irA("pue");
+irA("prp");
 
 </script>
 </body>
