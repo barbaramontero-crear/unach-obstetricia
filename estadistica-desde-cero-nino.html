@@ -1,0 +1,922 @@
+<title>Estadística desde cero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --fondo:#EEF3F7;
+  --cuadricula:#DCE6EE;
+  --hoja:#FFFFFF;
+  --tinta:#18293A;
+  --suave:#4D6072;
+  --linea:#C9D6E1;
+  --acento:#D8336B;
+  --acento-suave:#FBE3EC;
+  --verde:#157A6E;
+  --verde-suave:#DDF1EE;
+  --marcador:#FFE58A;
+  --ambar:#9A5B00;
+  --ambar-suave:#FFF1D6;
+  --barra:#2F6FA3;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --texto:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --fondo:#0F1A24;--cuadricula:#16242F;--hoja:#15232F;--tinta:#E6EEF4;--suave:#A3B4C3;--linea:#2A3C4C;
+    --acento:#FF6F9C;--acento-suave:#3A1E2A;--verde:#4FC7B6;--verde-suave:#16302D;--marcador:#6B5A12;
+    --ambar:#F4B657;--ambar-suave:#33280F;--barra:#6FAEE0;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --fondo:#0F1A24;--cuadricula:#16242F;--hoja:#15232F;--tinta:#E6EEF4;--suave:#A3B4C3;--linea:#2A3C4C;
+  --acento:#FF6F9C;--acento-suave:#3A1E2A;--verde:#4FC7B6;--verde-suave:#16302D;--marcador:#6B5A12;
+  --ambar:#F4B657;--ambar-suave:#33280F;--barra:#6FAEE0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background-color:var(--fondo);color:var(--tinta);
+  background-image:linear-gradient(var(--cuadricula) 1px,transparent 1px),linear-gradient(90deg,var(--cuadricula) 1px,transparent 1px);
+  background-size:28px 28px;
+  font-family:var(--texto);font-size:18px;line-height:1.6;
+  padding-inline:16px;
+}
+.envoltorio{max-width:780px;margin:0 auto;padding-block:0 96px}
+
+/* portada */
+header.portada{padding-block:48px 28px}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acento);font-weight:600}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.3rem,7vw,3.8rem);line-height:1.02;letter-spacing:-.02em;margin:.3em 0 .35em;text-wrap:balance}
+h1 .resalta{background:linear-gradient(transparent 58%,var(--marcador) 58%);padding:0 .08em}
+.bajada{font-size:1.1rem;color:var(--suave);max-width:60ch;margin:0}
+.como-usar{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.92rem;color:var(--suave)}
+.como-usar b{color:var(--tinta)}
+
+/* índice */
+nav.indice{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--fondo);border-bottom:1px solid var(--linea);margin-inline:-16px;padding:10px 16px}
+nav.indice ol{list-style:none;margin:0;padding:0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin}
+nav.indice a{display:block;white-space:nowrap;text-decoration:none;color:var(--tinta);font-size:.85rem;padding:5px 11px;border:1px solid var(--linea);border-radius:999px;background:var(--hoja)}
+nav.indice a:hover,nav.indice a:focus-visible{border-color:var(--acento);color:var(--acento);outline:none}
+nav.indice a span{font-family:var(--mono);color:var(--acento);margin-right:4px}
+
+/* niveles */
+section.nivel{background:var(--hoja);border:1px solid var(--linea);border-radius:6px;padding:28px 26px 30px;margin-top:28px;scroll-margin-top:70px}
+.num{font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--acento);letter-spacing:.06em}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(1.55rem,4.2vw,2.05rem);line-height:1.12;margin:.15em 0 .5em;letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:var(--display);font-weight:600;font-size:1.2rem;margin:1.6em 0 .4em;text-wrap:balance}
+p{margin:0 0 .9em;max-width:66ch}
+ul,ol{padding-left:1.3em;margin:0 0 1em}
+li{margin-bottom:.35em}
+.idea{font-size:1.12rem;border-left:5px solid var(--acento);padding:4px 0 4px 16px;margin:0 0 1.1em}
+mark,.m{background:var(--marcador);color:inherit;padding:0 .15em;border-radius:2px}
+.term{font-weight:700;color:var(--acento)}
+.mono{font-family:var(--mono);font-size:.92em}
+
+.caja{border-radius:6px;padding:14px 18px;margin:18px 0}
+.caja p:last-child,.caja ul:last-child{margin-bottom:0}
+.caja .rot{font-family:var(--mono);font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+.caja.verde{background:var(--verde-suave)}.caja.verde .rot{color:var(--verde)}
+.caja.ojo{background:var(--ambar-suave)}.caja.ojo .rot{color:var(--ambar)}
+.caja.rosa{background:var(--acento-suave)}.caja.rosa .rot{color:var(--acento)}
+
+.tabla{overflow-x:auto;margin:14px 0 6px}
+table{border-collapse:collapse;font-size:.92rem;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--linea);vertical-align:top}
+th{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--suave);border-bottom:2px solid var(--tinta)}
+td.n,th.n{text-align:right;font-family:var(--mono)}
+tr.total td{font-weight:700;border-top:2px solid var(--tinta)}
+.pie{font-size:.84rem;color:var(--suave);margin-bottom:1em}
+
+.calc{font-family:var(--mono);font-size:.86rem;background:var(--fondo);border:1px solid var(--linea);border-radius:6px;padding:12px 14px;overflow-x:auto;line-height:1.85;white-space:pre;margin:12px 0}
+.calc b{color:var(--acento)}
+.formula{font-family:var(--mono);font-size:1.05rem;text-align:center;padding:14px 8px;border-block:1px dashed var(--linea);margin:16px 0}
+.formula small{display:block;font-family:var(--texto);font-size:.82rem;color:var(--suave);margin-top:4px}
+
+/* tipos de variable */
+.arbolito{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.rama{border:1px solid var(--linea);border-radius:6px;padding:12px 14px}
+.rama h4{font-family:var(--display);margin:0 0 6px;font-size:1.05rem}
+.rama.cuali h4{color:var(--acento)}.rama.cuanti h4{color:var(--barra)}
+.rama dl{margin:0}.rama dt{font-weight:700;margin-top:6px}.rama dd{margin:0;font-size:.92rem;color:var(--suave)}
+
+/* juego clasificar */
+.juego{display:grid;gap:8px;margin:12px 0}
+.fila-juego{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--linea);border-radius:6px}
+.fila-juego .var{font-family:var(--mono);font-size:.88rem;min-width:9.5em;font-weight:600}
+.fila-juego .ej{font-size:.82rem;color:var(--suave);flex:1 1 12em}
+.botones{display:flex;gap:6px;flex-wrap:wrap}
+button,select{font:inherit;font-size:.86rem;color:var(--tinta);background:var(--hoja);border:1px solid var(--linea);border-radius:5px;padding:5px 10px;cursor:pointer}
+button:hover{border-color:var(--acento)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--acento);outline-offset:2px}
+button.primario{background:var(--acento);color:#fff;border-color:var(--acento);font-weight:700}
+:root[data-theme="dark"] button.primario{color:#1a0b12}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.primario{color:#1a0b12}}
+button.ok{background:var(--verde-suave);border-color:var(--verde);color:var(--verde);font-weight:700}
+button.mal{background:var(--ambar-suave);border-color:var(--ambar);color:var(--ambar)}
+.fb{font-size:.84rem;width:100%}
+
+/* barras de frecuencia */
+.barras{display:grid;gap:8px;margin:14px 0}
+.barra-f{display:grid;grid-template-columns:7.5em 1fr 3.4em;align-items:center;gap:10px;font-size:.9rem}
+.barra-f .riel{background:var(--fondo);border-radius:3px;height:22px;overflow:hidden}
+.barra-f .relleno{height:100%;background:var(--barra);border-radius:3px}
+.barra-f .v{font-family:var(--mono);text-align:right}
+
+/* campana */
+svg text{font-family:var(--texto);fill:var(--suave)}
+.figura{margin:14px 0;overflow-x:auto}
+.figura svg{display:block;max-width:100%;height:auto}
+
+/* monedas */
+.lab{border:2px solid var(--tinta);border-radius:6px;padding:16px;margin:18px 0}
+.lab .rot{font-family:var(--mono);font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;font-weight:600;color:var(--acento);margin-bottom:6px}
+.monedas{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.moneda{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:.85rem;border:2px solid var(--tinta)}
+.moneda.c{background:var(--marcador)}
+.hist{display:flex;align-items:flex-end;gap:4px;height:130px;margin-top:12px;border-bottom:1px solid var(--tinta)}
+.hist div{flex:1;background:var(--barra);position:relative;min-height:1px}
+.hist div.extremo{background:var(--acento)}
+.hist-ejes{display:flex;gap:4px;font-family:var(--mono);font-size:.72rem;color:var(--suave)}
+.hist-ejes span{flex:1;text-align:center}
+.resultado{font-size:.95rem;margin-top:8px}
+
+/* asistente */
+.asistente{display:grid;gap:12px}
+.paso-a{display:grid;gap:6px}
+.paso-a label.p{font-weight:700;font-size:.95rem}
+.opciones{display:flex;flex-wrap:wrap;gap:6px}
+.opciones label{display:flex;align-items:center;gap:6px;border:1px solid var(--linea);border-radius:5px;padding:5px 10px;font-size:.88rem;cursor:pointer}
+.opciones input{accent-color:var(--acento)}
+.veredicto{border-radius:6px;background:var(--verde-suave);padding:12px 16px}
+.veredicto b.prueba{font-family:var(--display);font-size:1.35rem;color:var(--verde);display:block}
+
+/* laboratorio chi */
+.selectores{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.selectores label{font-size:.88rem;color:var(--suave);display:flex;flex-direction:column;gap:3px}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.stat{border:1px solid var(--linea);border-radius:5px;padding:6px 12px;min-width:6.5em}
+.stat small{display:block;font-size:.72rem;color:var(--suave);text-transform:uppercase;letter-spacing:.05em}
+.stat b{font-family:var(--mono);font-size:1.05rem}
+td .esp{display:block;white-space:nowrap;font-size:.74rem;color:var(--suave)}
+td.bajo .esp{color:var(--ambar);font-weight:700}
+
+/* correlación */
+.dispersion{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:14px 0}
+.dispersion figure{margin:0;text-align:center;font-size:.8rem;color:var(--suave)}
+.dispersion svg{width:100%;height:auto;border:1px solid var(--linea);border-radius:4px;background:var(--fondo)}
+
+/* quiz */
+.pregunta{border-top:1px solid var(--linea);padding-top:14px;margin-top:14px}
+.pregunta p.q{font-weight:700}
+.alts{display:grid;gap:6px}
+.alts button{text-align:left}
+.explica{font-size:.9rem;margin-top:8px}
+.marcador-quiz{font-family:var(--mono);font-size:.9rem;margin-top:14px}
+
+details{border:1px solid var(--linea);border-radius:5px;padding:9px 13px;margin-bottom:7px}
+summary{cursor:pointer;font-weight:700}
+details p{margin:.5em 0 0;font-size:.95rem}
+
+footer{margin-top:36px;font-size:.84rem;color:var(--suave)}
+
+@media (max-width:560px){
+  body{font-size:16.5px}
+  section.nivel{padding:22px 16px 24px}
+  .arbolito{grid-template-columns:1fr}
+  .barra-f{grid-template-columns:6.3em 1fr 3em}
+  .fila-juego .var{min-width:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="envoltorio">
+
+<header class="portada">
+  <div class="eyebrow">Guía de estudio · Metodología de la investigación</div>
+  <h1>Estadística <span class="resalta">desde cero</span></h1>
+  <p class="bajada">Todo lo que viene en tus apuntes (chi cuadrado, t de Student, ANOVA, correlación) explicado con palabras simples, en orden, sin saltarse pasos. Los ejemplos salen de tu base de datos de salud de Chile y de las tablas de la ayudamemoria.</p>
+  <div class="como-usar">
+    <span><b>Cómo usarla:</b> léela en orden, un nivel a la vez.</span>
+    <span><b>Los recuadros con borde grueso</b> son para tocar y probar.</span>
+    <span><b>Al final</b> hay un quiz para ver cuánto quedó.</span>
+  </div>
+</header>
+
+<nav class="indice" aria-label="Niveles">
+  <ol>
+    <li><a href="#n1"><span>1</span>Qué es</a></li>
+    <li><a href="#n2"><span>2</span>Variables</a></li>
+    <li><a href="#n3"><span>3</span>Contar</a></li>
+    <li><a href="#n4"><span>4</span>Promedios</a></li>
+    <li><a href="#n5"><span>5</span>La campana</a></li>
+    <li><a href="#n6"><span>6</span>Valor p</a></li>
+    <li><a href="#n7"><span>7</span>Elegir prueba</a></li>
+    <li><a href="#n8"><span>8</span>Chi²</a></li>
+    <li><a href="#n9"><span>9</span>t de Student</a></li>
+    <li><a href="#n10"><span>10</span>ANOVA</a></li>
+    <li><a href="#n11"><span>11</span>Correlación</a></li>
+    <li><a href="#n12"><span>12</span>Redactar</a></li>
+    <li><a href="#n13"><span>13</span>Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="nivel" id="n1">
+  <div class="num">NIVEL 1</div>
+  <h2>¿Qué es la estadística?</h2>
+  <p class="idea">La estadística es la forma ordenada de <b>contar cosas</b> y de <b>sacar conclusiones</b> sin tener que preguntarle a todo el mundo.</p>
+
+  <h3>Población y muestra: la cucharada de sopa</h3>
+  <p>Imagina que cocinas una olla gigante de sopa y quieres saber si está salada. No te tomas la olla entera: revuelves bien y pruebas <b>una cucharada</b>. Si la cucharada está salada, concluyes que la olla también.</p>
+  <ul>
+    <li>La <span class="term">población</span> es la olla completa: todas las personas sobre las que quieres decir algo. Por ejemplo, todos los estudiantes universitarios de Chillán.</li>
+    <li>La <span class="term">muestra</span> es la cucharada: el grupo que de verdad estudias. Por ejemplo, los 100 estudiantes que respondieron tu encuesta.</li>
+  </ul>
+  <p>Tu apunte de metodología lo dice así: la población es sobre quien quieres que recaigan las conclusiones, y la muestra es la parte que observas directamente. Para que la cucharada sirva, la sopa tiene que estar bien revuelta. Eso es que la muestra sea <span class="term">representativa</span>: que se parezca a la población.</p>
+
+  <h3>Las dos mitades de la estadística</h3>
+  <div class="arbolito">
+    <div class="rama cuali"><h4>Descriptiva: contar lo que pasó</h4><p style="margin:0;font-size:.95rem">Ordena y resume los datos de tu muestra: tablas, porcentajes, promedios, gráficos. «El 53 % tiene glucemia normal.» Solo habla de la cucharada.</p></div>
+    <div class="rama cuanti"><h4>Inferencial: atreverse a adivinar</h4><p style="margin:0;font-size:.95rem">Usa la muestra para decir algo sobre la población entera, con un margen de error conocido. Aquí viven las pruebas: chi², t de Student, ANOVA, correlación.</p></div>
+  </div>
+  <p>Esta guía sigue ese orden: primero aprendes a describir (niveles 2 a 5) y después a inferir (niveles 6 a 11).</p>
+</section>
+
+<!-- 2 -->
+<section class="nivel" id="n2">
+  <div class="num">NIVEL 2</div>
+  <h2>Variables: las preguntas de tu encuesta</h2>
+  <p class="idea">Una <b>variable</b> es cualquier cosa que puede cambiar de una persona a otra.</p>
+  <p>Tu estatura es una variable: tú mides una cosa y tu compañero otra. Tu ciudad también. En una planilla, cada <b>columna</b> es una variable y cada <b>fila</b> es una persona. Tu base de datos tiene 10 columnas y 100 filas: 10 variables medidas en 100 personas.</p>
+
+  <h3>Las dos familias</h3>
+  <div class="arbolito">
+    <div class="rama cuali">
+      <h4>Cualitativas (categorías)</h4>
+      <p style="font-size:.92rem;margin:0 0 4px">Ponen a la persona en una cajita. No se miden con regla: se cuentan.</p>
+      <dl>
+        <dt>Nominal: cajitas sin orden</dt><dd>Ciudad, sexo, fuma sí/no. Santiago no es «más» que Antofagasta.</dd>
+        <dt>Ordinal: cajitas con orden</dt><dd>Nivel socioeconómico bajo, medio, alto. Hay escalones, pero no sabes cuánto mide cada escalón.</dd>
+      </dl>
+    </div>
+    <div class="rama cuanti">
+      <h4>Cuantitativas (números)</h4>
+      <p style="font-size:.92rem;margin:0 0 4px">Se miden y tienen unidad: kilos, años, minutos. Restarlas tiene sentido.</p>
+      <dl>
+        <dt>Discreta: se cuentan de a uno</dt><dd>Número de hijos, cigarros al día. No existen 2,5 hijos.</dd>
+        <dt>Continua: aceptan decimales</dt><dd>Peso (64,3 kg), estatura, circunferencia de cintura.</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="caja verde"><div class="rot">El truco del promedio</div>
+  <p>Pregúntate: <b>¿tiene sentido sacarle el promedio?</b> «Peso promedio: 68 kg» tiene sentido, entonces es cuantitativa. «Ciudad promedio: 2,4» no significa nada, entonces es cualitativa. Aunque en la planilla la ciudad esté escrita como 1, 2, 3, ese número es solo una etiqueta.</p></div>
+
+  <h3>Independiente y dependiente: la causa y el efecto que sospechas</h3>
+  <p>Cuando estudias si una cosa se relaciona con otra, a una le llamas <span class="term">independiente</span> (la que sospechas que influye) y a la otra <span class="term">dependiente</span> (la que podría cambiar por culpa de la primera). En «¿fumar se relaciona con infarto?», fumar es la independiente y el infarto la dependiente.</p>
+
+  <div class="lab">
+    <div class="rot">Pruébalo · clasifica tu base de datos</div>
+    <p style="font-size:.95rem">Estas son las 10 columnas de <span class="mono">base_datos_salud_chile.xlsx</span>. Elige el tipo de cada una.</p>
+    <div class="juego" id="juego"></div>
+    <p class="resultado" id="juego-total"></p>
+  </div>
+  <div class="caja rosa"><div class="rot">Lo que descubriste</div>
+  <p>Las 10 variables de tu base son <b>cualitativas</b>. Por eso, con esa base, la prueba que corresponde casi siempre es <b>chi cuadrado</b> (nivel 8). Para usar t de Student o ANOVA necesitarías una columna con números de verdad, como el peso o la edad.</p></div>
+</section>
+
+<!-- 3 -->
+<section class="nivel" id="n3">
+  <div class="num">NIVEL 3</div>
+  <h2>Contar bien: la tabla de frecuencias</h2>
+  <p class="idea">Lo primero que se hace con una variable cualitativa es <b>contar cuántas personas caen en cada cajita</b>.</p>
+  <p>Contemos la glucemia de las 100 personas de tu base:</p>
+  <div class="tabla"><table>
+    <thead><tr><th>Glucemia</th><th class="n">Frecuencia absoluta (fi)</th><th class="n">Frecuencia relativa (hi)</th><th class="n">Porcentaje</th></tr></thead>
+    <tbody>
+      <tr><td>Normal</td><td class="n">53</td><td class="n">0,53</td><td class="n">53 %</td></tr>
+      <tr><td>Prediabetes</td><td class="n">29</td><td class="n">0,29</td><td class="n">29 %</td></tr>
+      <tr><td>Diabetes</td><td class="n">18</td><td class="n">0,18</td><td class="n">18 %</td></tr>
+      <tr class="total"><td>Total</td><td class="n">100</td><td class="n">1,00</td><td class="n">100 %</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>Frecuencia absoluta:</b> cuántas personas hay. Simplemente contar.</li>
+    <li><b>Frecuencia relativa:</b> la absoluta dividida por el total. 53 ÷ 100 = 0,53.</li>
+    <li><b>Porcentaje:</b> la relativa por 100. Sirve para comparar grupos de distinto tamaño.</li>
+  </ul>
+  <div class="barras" aria-label="Gráfico de barras de glucemia">
+    <div class="barra-f"><span>Normal</span><div class="riel"><div class="relleno" style="width:53%"></div></div><span class="v">53</span></div>
+    <div class="barra-f"><span>Prediabetes</span><div class="riel"><div class="relleno" style="width:29%"></div></div><span class="v">29</span></div>
+    <div class="barra-f"><span>Diabetes</span><div class="riel"><div class="relleno" style="width:18%"></div></div><span class="v">18</span></div>
+  </div>
+  <p class="pie">Escala: la barra completa equivale a 100 personas.</p>
+
+  <h3>Cruzar dos variables: la tabla de contingencia</h3>
+  <p>Si cuentas dos variables al mismo tiempo, armas una tabla de doble entrada. Cada casilla dice cuántas personas tienen <b>esa combinación</b>. Así se ve fumar contra infarto (IAM) en tu base:</p>
+  <div class="tabla"><table>
+    <thead><tr><th></th><th class="n">IAM: No</th><th class="n">IAM: Sí</th><th class="n">Total</th></tr></thead>
+    <tbody>
+      <tr><td>No fuma</td><td class="n">44</td><td class="n">11</td><td class="n">55</td></tr>
+      <tr><td>Fuma</td><td class="n">33</td><td class="n">12</td><td class="n">45</td></tr>
+      <tr class="total"><td>Total</td><td class="n">77</td><td class="n">23</td><td class="n">100</td></tr>
+    </tbody>
+  </table></div>
+  <p>Hay 12 personas que fuman <b>y</b> tuvieron infarto. La última columna y la última fila son los <span class="term">totales marginales</span>: la ayudamemoria los marca en rojo porque son los que vas a usar para calcular chi cuadrado.</p>
+</section>
+
+<!-- 4 -->
+<section class="nivel" id="n4">
+  <div class="num">NIVEL 4</div>
+  <h2>Promedios y compañía</h2>
+  <p class="idea">Con variables numéricas no basta con contar: queremos un número que diga <b>dónde está el centro</b> y otro que diga <b>qué tan desparramados</b> están los datos.</p>
+  <p>Ejemplo: siete compañeros sacaron estas notas en una prueba.</p>
+  <div class="calc">4,0   5,0   5,0   5,5   6,0   6,5   7,0</div>
+
+  <h3>Las tres medidas del centro</h3>
+  <ul>
+    <li><span class="term">Media (promedio)</span>: sumas todo y divides por cuántos son. (4 + 5 + 5 + 5,5 + 6 + 6,5 + 7) ÷ 7 = 39 ÷ 7 = <b>5,57</b>.</li>
+    <li><span class="term">Mediana</span>: ordenas de menor a mayor y tomas el del medio. De 7 notas, el del medio es el cuarto: <b>5,5</b>.</li>
+    <li><span class="term">Moda</span>: el que más se repite. El 5,0 aparece dos veces: <b>5,0</b>.</li>
+  </ul>
+  <div class="caja ojo"><div class="rot">¿Por qué existe la mediana?</div>
+  <p>Si en un curso de 7 personas uno gana 10 millones y los demás 500 mil, el promedio dice que «en promedio» ganan casi 2 millones. Mentira para casi todos. La mediana (500 mil) no se deja engañar por el valor extremo. Por eso, cuando los datos no forman una campana (nivel 5), se prefiere la mediana.</p></div>
+
+  <h3>Qué tan desparramados están</h3>
+  <ul>
+    <li><span class="term">Rango</span>: el mayor menos el menor. 7,0 − 4,0 = <b>3,0</b>.</li>
+    <li><span class="term">Desviación estándar (DE)</span>: cuánto se alejan, en promedio, los datos de la media. Una DE chica significa que todos sacaron notas parecidas; una grande, que hubo de todo. En este curso la DE es <b>1,02</b>.</li>
+  </ul>
+  <p>En una tesis se reporta así: <span class="m">«La nota media fue 5,6 (DE 1,0)»</span>. Media y desviación estándar siempre van juntas, como zapato izquierdo y derecho.</p>
+  <div class="caja verde"><div class="rot">Resumen del nivel</div>
+  <p>Cualitativa → cuentas y das <b>porcentajes</b>. Cuantitativa → das <b>media y DE</b> (o mediana si los datos están chuecos).</p></div>
+</section>
+
+<!-- 5 -->
+<section class="nivel" id="n5">
+  <div class="num">NIVEL 5</div>
+  <h2>La campana y la prueba de normalidad</h2>
+  <p class="idea">Muchas cosas del cuerpo se reparten con forma de <b>campana</b>: casi todos cerca del promedio, pocos en los extremos.</p>
+  <p>Piensa en la estatura de los adultos de tu ciudad. La mayoría mide cerca de lo típico. Muy pocos son gigantes y muy pocos son muy bajitos. Si dibujas cuántas personas hay de cada estatura, sale esto:</p>
+  <div class="figura">
+    <svg viewBox="0 0 520 190" role="img" aria-label="Curva normal con el 68 % de los datos entre una desviación estándar bajo y sobre la media">
+      <path id="campana-area" fill="var(--verde-suave)" stroke="none" d=""/>
+      <path id="campana" fill="none" stroke="var(--barra)" stroke-width="3" d=""/>
+      <line x1="20" y1="160" x2="500" y2="160" stroke="var(--suave)" stroke-width="1"/>
+      <line x1="260" y1="160" x2="260" y2="22" stroke="var(--acento)" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <text x="260" y="178" text-anchor="middle" font-size="12">media</text>
+      <text x="180" y="178" text-anchor="middle" font-size="12">−1 DE</text>
+      <text x="340" y="178" text-anchor="middle" font-size="12">+1 DE</text>
+      <text x="100" y="178" text-anchor="middle" font-size="12">−2 DE</text>
+      <text x="420" y="178" text-anchor="middle" font-size="12">+2 DE</text>
+      <text x="260" y="120" text-anchor="middle" font-size="14" style="fill:var(--verde);font-weight:700">68 %</text>
+      <text x="260" y="16" text-anchor="middle" font-size="12">la mayoría está aquí</text>
+    </svg>
+  </div>
+  <p>Esa forma se llama <span class="term">distribución normal</span>. Es simétrica: la media, la mediana y la moda caen en el mismo punto.</p>
+
+  <h3>¿Por qué importa?</h3>
+  <p>Hay dos familias de pruebas, y la campana decide cuál usas:</p>
+  <ul>
+    <li><b>Pruebas paramétricas</b> (t de Student, ANOVA, Pearson): trabajan con promedios y <b>necesitan</b> que los datos tengan forma de campana.</li>
+    <li><b>Pruebas no paramétricas</b> (Mann-Whitney, Wilcoxon, Kruskal-Wallis, Spearman): ordenan los datos del 1 al último y trabajan con esos puestos. No les importa la forma. Son el plan B.</li>
+  </ul>
+
+  <h3>¿Cómo sé si tengo campana?</h3>
+  <p>Con una prueba de normalidad: <b>Shapiro-Wilk</b> (la habitual si tienes menos de 50 personas) o <b>Kolmogorov-Smirnov</b> (para muestras grandes). Tu apunte de t de Student lo dice claro: si la prueba de normalidad da <b>0,05 o más</b>, puedes usar la paramétrica.</p>
+  <div class="caja ojo"><div class="rot">Aquí todo el mundo se confunde</div>
+  <p>En Shapiro-Wilk, un p <b>grande</b> es la buena noticia. p ≥ 0,05 → <b>sí</b> es normal → paramétrica. p &lt; 0,05 → <b>no</b> es normal → no paramétrica. Es al revés de lo que vas a aprender en el nivel 6, y el nivel 6 te explica por qué.</p></div>
+  <p>Las variables cualitativas no se prueban para normalidad. No tiene sentido preguntar si «ciudad» tiene forma de campana.</p>
+</section>
+
+<!-- 6 -->
+<section class="nivel" id="n6">
+  <div class="num">NIVEL 6</div>
+  <h2>Hipótesis y valor p: el detector de casualidades</h2>
+  <p class="idea">Toda prueba estadística responde una sola pregunta: <b>«lo que veo, ¿puede ser pura suerte?»</b></p>
+
+  <h3>El problema</h3>
+  <p>En tu base, 27 % de los fumadores tuvo infarto y 20 % de los no fumadores también. Hay una diferencia. Pero, ¿es real o te tocó una muestra con suerte? Si lanzas una moneda normal 10 veces, esperas 5 caras, y a veces salen 7. No es que la moneda esté trucada: el azar hace ruido.</p>
+
+  <div class="lab">
+    <div class="rot">Pruébalo · ¿cuánto hace ruido el azar?</div>
+    <p style="font-size:.95rem">Lanza 10 monedas normales. Después lánzalas 1000 veces seguidas y mira cuántas veces salen 7 caras o más solo por suerte.</p>
+    <div class="botones"><button class="primario" id="b-10" type="button">Lanzar 10 monedas</button><button id="b-1000" type="button">Repetir 1000 veces</button></div>
+    <div class="monedas" id="monedas" aria-live="polite"></div>
+    <div class="hist" id="hist" aria-hidden="true"></div>
+    <div class="hist-ejes" id="hist-ejes" aria-hidden="true"></div>
+    <p class="resultado" id="res-monedas">Aún no has lanzado.</p>
+  </div>
+
+  <h3>Las dos hipótesis: un juicio</h3>
+  <p>Una <span class="term">hipótesis</span> es una afirmación que vas a poner a prueba. Siempre hay dos, opuestas:</p>
+  <ul>
+    <li><span class="term">Hipótesis nula (H₀)</span>: «aquí no pasa nada». No hay diferencia ni relación; lo que ves es suerte.</li>
+    <li><span class="term">Hipótesis alternativa (H₁ o Hₐ)</span>: «sí pasa algo». Normalmente es lo que tú sospechas.</li>
+  </ul>
+  <p>Funciona como un juicio. La H₀ es el acusado y se presume inocente. La prueba junta evidencia. Si la evidencia es fuerte, se condena (se rechaza H₀). Si no alcanza, sale libre. Pero salir libre no demuestra que sea inocente: solo que no hubo pruebas suficientes.</p>
+
+  <h3>El valor p</h3>
+  <div class="formula">Si la H₀ fuera verdad (si fuera pura suerte),<br>¿qué tan probable sería ver algo como lo mío?<small>Eso, y solo eso, es el valor p. Va de 0 a 1.</small></div>
+  <p>La regla acordada usa la frontera <b>0,05</b> (5 %, que es como 1 de cada 20):</p>
+  <div class="tabla"><table>
+    <thead><tr><th>Si p es…</th><th>Significa</th><th>Decisión</th><th>Se dice</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">p &lt; 0,05</td><td>Muy raro que sea suerte</td><td>Se <b>rechaza</b> H₀</td><td>«Estadísticamente significativo»</td></tr>
+      <tr><td class="mono">p ≥ 0,05</td><td>Podría ser suerte</td><td><b>No</b> se rechaza H₀</td><td>«No significativo»</td></tr>
+    </tbody>
+  </table></div>
+  <p class="pie">Adaptado de la tabla de interpretación de hipótesis de la presentación de chi cuadrado.</p>
+  <p>Con las monedas: sacar 7 o más caras de 10 pasa alrededor del 17 % de las veces. Eso es p ≈ 0,17, mayor que 0,05. Conclusión: no hay evidencia de que la moneda esté trucada. Sacar 10 caras de 10 pasa 1 de cada 1024 veces (p ≈ 0,001). Ahí sí sospecharías de la moneda.</p>
+  <p>Y ahora se entiende Shapiro-Wilk: su H₀ es «los datos son normales». Si p ≥ 0,05, no se rechaza, así que te quedas con que son normales.</p>
+
+  <div class="caja ojo"><div class="rot">Cuatro cosas que el valor p NO dice</div>
+  <ul>
+    <li>No dice qué tan <b>grande</b> es la diferencia. Para eso está el tamaño del efecto.</li>
+    <li>No dice que una cosa <b>cause</b> la otra.</li>
+    <li>No es la probabilidad de que tu hipótesis sea verdad.</li>
+    <li>p = 0,08 no significa «son iguales». Significa «no alcanzó la evidencia».</li>
+  </ul></div>
+
+  <h3>Los dos errores posibles</h3>
+  <p>Piensa en una alarma de incendio. <b>Error tipo I</b>: suena la alarma y no hay fuego (dices que hay diferencia y no la hay). <b>Error tipo II</b>: hay fuego y la alarma no suena (la diferencia existe y no la detectaste, casi siempre por tener muy pocas personas en la muestra).</p>
+</section>
+
+<!-- 7 -->
+<section class="nivel" id="n7">
+  <div class="num">NIVEL 7</div>
+  <h2>¿Qué prueba uso? Cuatro preguntas</h2>
+  <p class="idea">La prueba no se elige por costumbre. Se elige respondiendo <b>siempre las mismas preguntas, en el mismo orden</b>.</p>
+  <ol>
+    <li><b>¿Qué tipo es la variable que quiero explicar?</b> ¿Cualitativa o cuantitativa? (nivel 2)</li>
+    <li><b>¿Cuántos grupos comparo?</b> Dos, o tres o más. ¿O quiero ver si dos números suben juntos?</li>
+    <li><b>¿Son personas distintas o las mismas medidas dos veces?</b> Distintas = <span class="term">independientes</span>. Las mismas, antes y después = <span class="term">pareadas o apareadas</span>.</li>
+    <li><b>¿Tienen forma de campana?</b> Sí → paramétrica. No → no paramétrica. (nivel 5)</li>
+  </ol>
+
+  <div class="lab">
+    <div class="rot">Pruébalo · el asistente</div>
+    <div class="asistente">
+      <div class="paso-a"><label class="p">1. La variable que quiero explicar es…</label>
+        <div class="opciones">
+          <label><input type="radio" name="q1" value="cuali" id="q1a"> Cualitativa (categorías)</label>
+          <label><input type="radio" name="q1" value="cuanti" id="q1b" checked> Cuantitativa (números)</label>
+        </div></div>
+      <div class="paso-a" id="w-grupos"><label class="p">2. Quiero…</label>
+        <div class="opciones">
+          <label><input type="radio" name="q2" value="2" id="q2a" checked> Comparar 2 grupos</label>
+          <label><input type="radio" name="q2" value="3" id="q2b"> Comparar 3 o más grupos</label>
+          <label><input type="radio" name="q2" value="rel" id="q2c"> Ver si dos números van juntos</label>
+        </div></div>
+      <div class="paso-a" id="w-pareado"><label class="p">3. Los grupos son…</label>
+        <div class="opciones">
+          <label><input type="radio" name="q3" value="ind" id="q3a" checked> Personas distintas</label>
+          <label><input type="radio" name="q3" value="par" id="q3b"> Las mismas personas, antes y después</label>
+        </div></div>
+      <div class="paso-a" id="w-normal"><label class="p">4. ¿Pasan la prueba de normalidad (p ≥ 0,05)?</label>
+        <div class="opciones">
+          <label><input type="radio" name="q4" value="si" id="q4a" checked> Sí, tienen campana</label>
+          <label><input type="radio" name="q4" value="no" id="q4b"> No</label>
+        </div></div>
+      <div class="veredicto" id="veredicto" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <h3>La tabla completa</h3>
+  <div class="tabla"><table>
+    <thead><tr><th>Situación</th><th>Con campana (paramétrica)</th><th>Sin campana (no paramétrica)</th></tr></thead>
+    <tbody>
+      <tr><td>Dos variables cualitativas</td><td colspan="2"><b>Chi cuadrado</b> (si algún esperado &lt; 5 en tabla 2×2: Fisher)</td></tr>
+      <tr><td>Número en 2 grupos distintos</td><td><b>t de Student independiente</b></td><td><b>U de Mann-Whitney</b></td></tr>
+      <tr><td>Número en las mismas personas, antes y después</td><td><b>t de Student pareada</b></td><td><b>Rangos de Wilcoxon</b></td></tr>
+      <tr><td>Número en 3 o más grupos</td><td><b>ANOVA de un factor</b></td><td><b>Kruskal-Wallis</b></td></tr>
+      <tr><td>Dos números que suben o bajan juntos</td><td><b>Correlación de Pearson</b></td><td><b>Rho de Spearman</b></td></tr>
+    </tbody>
+  </table></div>
+  <p class="pie">Cada prueba paramétrica tiene su «gemela» no paramétrica, tal como aparece en la portada de cada sección de la ayudamemoria.</p>
+</section>
+
+<!-- 8 -->
+<section class="nivel" id="n8">
+  <div class="num">NIVEL 8</div>
+  <h2>Chi cuadrado (χ²), paso a paso</h2>
+  <p class="idea">Chi cuadrado compara <b>lo que pasó</b> con <b>lo que habría pasado si las dos variables no tuvieran nada que ver</b>. Si la distancia es grande, están asociadas.</p>
+  <p>Se escribe χ² (la χ es una letra griega que se lee «ji» o «chi»). Se usa con <b>dos variables cualitativas</b>. Vamos con un ejemplo real de tu base.</p>
+
+  <h3>La pregunta</h3>
+  <p>¿El nivel socioeconómico se relaciona con si la persona se previene de las infecciones de transmisión sexual (ITS)?</p>
+  <ul>
+    <li><b>H₀:</b> no existe asociación entre el nivel socioeconómico y la prevención de ITS.</li>
+    <li><b>H₁:</b> existe asociación entre el nivel socioeconómico y la prevención de ITS.</li>
+  </ul>
+
+  <h3>Paso 1 · Lo que observé (O)</h3>
+  <div class="tabla"><table>
+    <thead><tr><th>Nivel socioeconómico</th><th class="n">Previene: No</th><th class="n">Previene: Sí</th><th class="n">Total</th></tr></thead>
+    <tbody>
+      <tr><td>Alto</td><td class="n">5</td><td class="n">23</td><td class="n">28</td></tr>
+      <tr><td>Bajo</td><td class="n">25</td><td class="n">11</td><td class="n">36</td></tr>
+      <tr><td>Medio</td><td class="n">10</td><td class="n">26</td><td class="n">36</td></tr>
+      <tr class="total"><td>Total</td><td class="n">40</td><td class="n">60</td><td class="n">100</td></tr>
+    </tbody>
+  </table></div>
+  <p>A simple vista: en el nivel alto casi todos se previenen (23 de 28) y en el bajo, pocos (11 de 36). Falta saber si eso puede ser suerte.</p>
+
+  <h3>Paso 2 · Lo que esperaría si no hubiera relación (E)</h3>
+  <p>En total, 60 de 100 personas se previenen: el 60 %. Si el nivel socioeconómico diera lo mismo, <b>cada grupo</b> tendría 60 % que se previene. En el grupo alto (28 personas), el 60 % es 16,8. Eso es un <span class="term">esperado</span>.</p>
+  <div class="formula">E = (total de la fila × total de la columna) ÷ total general</div>
+  <div class="calc">Alto  · No  = 28 × 40 ÷ 100 = <b>11,2</b>     Alto  · Sí  = 28 × 60 ÷ 100 = <b>16,8</b>
+Bajo  · No  = 36 × 40 ÷ 100 = <b>14,4</b>     Bajo  · Sí  = 36 × 60 ÷ 100 = <b>21,6</b>
+Medio · No  = 36 × 40 ÷ 100 = <b>14,4</b>     Medio · Sí  = 36 × 60 ÷ 100 = <b>21,6</b></div>
+
+  <h3>Paso 3 · Medir la distancia en cada casilla</h3>
+  <div class="formula">χ² = Σ (O − E)² ÷ E<small>Σ significa «súmalo todo». Se eleva al cuadrado para que las diferencias negativas no se borren con las positivas, y se divide por E porque errar por 10 es mucho si esperabas 12 y poco si esperabas 1000.</small></div>
+  <div class="calc">Alto  · No   (5 − 11,2)²  ÷ 11,2 = 38,44  ÷ 11,2 = <b>3,43</b>
+Alto  · Sí   (23 − 16,8)² ÷ 16,8 = 38,44  ÷ 16,8 = <b>2,29</b>
+Bajo  · No   (25 − 14,4)² ÷ 14,4 = 112,36 ÷ 14,4 = <b>7,80</b>
+Bajo  · Sí   (11 − 21,6)² ÷ 21,6 = 112,36 ÷ 21,6 = <b>5,20</b>
+Medio · No   (10 − 14,4)² ÷ 14,4 = 19,36  ÷ 14,4 = <b>1,34</b>
+Medio · Sí   (26 − 21,6)² ÷ 21,6 = 19,36  ÷ 21,6 = <b>0,90</b>
+─────────────────────────────────────────────────────
+                                         χ² = <b>20,97</b></div>
+
+  <h3>Paso 4 · Grados de libertad (gl)</h3>
+  <div class="formula">gl = (filas − 1) × (columnas − 1) = (3 − 1) × (2 − 1) = 2</div>
+  <p>Son cuántas casillas puedes llenar «libremente» antes de que los totales te obliguen el resto. Es como un sudoku: con los totales fijos, apenas pones 2 números, los demás salen solos.</p>
+
+  <h3>Paso 5 · Decidir</h3>
+  <p>Cada gl tiene un <b>valor crítico</b>: la frontera a partir de la cual ya no es suerte. Con gl = 2 la frontera es 5,99.</p>
+  <div class="calc">χ² = 20,97   es mayor que   5,99   →   <b>se rechaza H₀</b>   (p &lt; 0,001)</div>
+  <p class="pie">Valores críticos al 95 %: gl 1 → 3,84 · gl 2 → 5,99 · gl 3 → 7,81 · gl 4 → 9,49 · gl 9 → 16,92. El programa (jamovi, SPSS) te da el p directo.</p>
+
+  <h3>Paso 6 · ¿Qué tan fuerte? (tamaño del efecto)</h3>
+  <p>El p dice que no es suerte, pero no dice si la relación es grande. Para eso se usa la <b>V de Cramer</b> (o <b>phi</b> en tablas 2×2). Va de 0 a 1.</p>
+  <div class="calc">V = √( χ² ÷ (N × (el menor entre filas y columnas − 1)) ) = √( 20,97 ÷ (100 × 1) ) = <b>0,46</b></div>
+  <p>Alrededor de 0,1 es débil, 0,3 moderado, 0,5 fuerte. Un 0,46 es una asociación moderada a fuerte.</p>
+
+  <h3>Paso 7 · Escribirlo</h3>
+  <div class="caja verde"><div class="rot">Así se redacta</div>
+  <p>«Se encontró una asociación estadísticamente significativa entre el nivel socioeconómico y la prevención de ITS (χ²(2, N = 100) = 20,97; p &lt; 0,001; V de Cramer = 0,46). La prevención fue mayor en el nivel alto (82,1 %) y medio (72,2 %) que en el bajo (30,6 %).»</p></div>
+
+  <h3>El contraejemplo: cuando NO hay asociación</h3>
+  <p>Con fumar e infarto (la tabla del nivel 3) el resultado es χ² = 0,62, gl = 1, p = 0,43. Como 0,62 es menor que 3,84, <b>no se rechaza H₀</b>: en esta muestra no hay evidencia de asociación. No quiere decir que fumar sea inofensivo; quiere decir que estos 100 datos no alcanzan para demostrarlo.</p>
+
+  <div class="caja ojo"><div class="rot">Reglas de chi cuadrado</div>
+  <ul>
+    <li>En la tabla van <b>números de personas</b>, nunca porcentajes.</li>
+    <li>Cada persona cae en <b>una sola casilla</b>.</li>
+    <li>Los <b>esperados</b> deben ser 5 o más. En tablas grandes se tolera hasta un 20 % de casillas bajo 5. En una 2×2 con un esperado bajo 5, se usa la prueba exacta de <b>Fisher</b>.</li>
+    <li>Chi cuadrado encuentra <b>asociación</b>, nunca causa.</li>
+  </ul></div>
+
+  <h3>Cómo se lee la salida de jamovi</h3>
+  <p>En la ayudamemoria, el ejemplo de IMC y estado civil (150 personas, tabla de 4 × 4) da: <span class="mono">χ² = 25,6 · gl = 9 · p = 0,002</span>. Lectura: gl = (4 − 1) × (4 − 1) = 9. Como p = 0,002 es menor que 0,05, hay asociación entre estado civil e IMC.</p>
+
+  <div class="lab">
+    <div class="rot">Laboratorio · tu base de datos</div>
+    <p style="font-size:.95rem">Elige dos columnas de <span class="mono">base_datos_salud_chile.xlsx</span>. La página arma la tabla, calcula los esperados (en gris bajo cada número) y te da χ², gl y p.</p>
+    <div class="selectores">
+      <label for="v1">Filas<select id="v1"></select></label>
+      <label for="v2">Columnas<select id="v2"></select></label>
+    </div>
+    <div class="tabla" id="lab-tabla"></div>
+    <div class="stats" id="lab-stats"></div>
+    <p class="resultado" id="lab-texto"></p>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="nivel" id="n9">
+  <div class="num">NIVEL 9</div>
+  <h2>t de Student: comparar dos promedios</h2>
+  <p class="idea">La t de Student responde: <b>¿el promedio de un grupo es distinto al del otro, o es pura suerte?</b></p>
+  <p>Necesitas una variable <b>cuantitativa</b> (peso, cintura, puntaje) y dos grupos. Hay dos versiones, y la diferencia está en quiénes son los grupos.</p>
+
+  <div class="arbolito">
+    <div class="rama cuali"><h4>Independientes</h4><p style="margin:0;font-size:.93rem">Dos grupos de <b>personas distintas</b>. Ej.: peso de quienes duermen mal contra quienes duermen bien. Gemela sin campana: <b>U de Mann-Whitney</b>.</p></div>
+    <div class="rama cuanti"><h4>Pareadas (apareadas)</h4><p style="margin:0;font-size:.93rem">Las <b>mismas personas</b> medidas dos veces. Ej.: cintura antes y después de un taller de alimentación. Gemela sin campana: <b>rangos de Wilcoxon</b>.</p></div>
+  </div>
+
+  <h3>Qué pide cada una (supuestos)</h3>
+  <div class="tabla"><table>
+    <thead><tr><th>Supuesto</th><th>Independientes</th><th>Pareadas</th></tr></thead>
+    <tbody>
+      <tr><td>Personas distintas en cada grupo</td><td>Sí</td><td>No, son las mismas</td></tr>
+      <tr><td>Forma de campana</td><td>En cada grupo</td><td>En las <b>diferencias</b> (después − antes)</td></tr>
+      <tr><td>Varianzas parecidas (Levene)</td><td>Idealmente sí</td><td>No se requiere</td></tr>
+      <tr><td>Variable numérica continua</td><td>Sí</td><td>Sí</td></tr>
+    </tbody>
+  </table></div>
+  <p class="pie">Tomado de tu apunte «Prueba t de Student».</p>
+
+  <h3>Ejemplo 1 · independientes (ayudamemoria)</h3>
+  <p>Adultos mayores de un ELEAM de Santiago. ¿Pesan distinto los que tienen el sueño alterado?</p>
+  <ul>
+    <li><b>H₀:</b> no hay diferencia de peso entre sueño alterado y no alterado (μ alterada = μ no alterada).</li>
+    <li><b>H₁:</b> sí hay diferencia (μ alterada ≠ μ no alterada).</li>
+  </ul>
+  <p>La letra <b>μ</b> se lee «mu» y significa «el promedio de toda la población». El símbolo ≠ significa «distinto de».</p>
+  <div class="calc">Peso (kg) · t de Student · estadístico = 10,1 · gl = 98 · p &lt; 0,001</div>
+  <p>Lectura: p es menor que 0,05, así que se rechaza H₀. Los dos grupos tienen peso promedio distinto. Los gl = 98 salen de 100 personas menos 2 grupos.</p>
+
+  <h3>Ejemplo 2 · pareadas (ayudamemoria)</h3>
+  <p>Circunferencia de cintura (CC) antes y después de una intervención educativa sobre alimentación.</p>
+  <ul>
+    <li><b>H₀:</b> no hay diferencia entre antes y después (μ₁ − μ₂ = 0).</li>
+    <li><b>H₁:</b> sí hay diferencia (μ₁ − μ₂ ≠ 0).</li>
+  </ul>
+  <div class="calc">CC pre vs CC post · p &lt; 0,001 · tamaño del efecto = 1,00</div>
+  <p>Lectura: la cintura cambió de verdad después del taller, y el efecto es muy grande. En salud, un tamaño de efecto de 0,5 ya se considera grande.</p>
+  <div class="caja ojo"><div class="rot">Detalle fino en la ayudamemoria</div>
+  <p>Esa tabla dice «T de Student», pero el estadístico (11325) y la «correlación biseriada de rangos» son los que entrega la prueba de <b>Wilcoxon</b>, la gemela no paramétrica. Si te toca un análisis así, fíjate qué prueba marcaste en jamovi y reporta el nombre correcto.</p></div>
+</section>
+
+<!-- 10 -->
+<section class="nivel" id="n10">
+  <div class="num">NIVEL 10</div>
+  <h2>ANOVA: tres o más grupos</h2>
+  <p class="idea">ANOVA es la t de Student para cuando tienes <b>tres grupos o más</b>.</p>
+  <p>¿Por qué no hacer varias t de a pares? Porque cada prueba tiene un 5 % de riesgo de «falsa alarma». Si haces seis, las falsas alarmas se acumulan. ANOVA mira todos los grupos de una vez.</p>
+
+  <h3>Ejemplo de la ayudamemoria</h3>
+  <p>Puntaje en un test de funciones ejecutivas según cuatro grupos de edad: 20-29, 30-39, 40-49 y 50-60 años.</p>
+  <ul>
+    <li><b>H₀:</b> los cuatro grupos tienen el mismo promedio (μ₁ = μ₂ = μ₃ = μ₄).</li>
+    <li><b>H₁:</b> al menos un grupo es distinto.</li>
+  </ul>
+
+  <h3>Se lee en tres pasos</h3>
+  <ol>
+    <li><b>Levene</b> (¿los grupos están igual de desparramados?): F = 2,35; p = 0,075. Como p ≥ 0,05, sí: se cumple la «homogeneidad de varianzas».</li>
+    <li><b>ANOVA</b>: F = 10,4; p &lt; 0,001. Hay diferencia en algún lado. Pero ANOVA no dice <b>dónde</b>.</li>
+    <li><b>Post hoc de Tukey</b>: compara los grupos de a pares para encontrar cuáles difieren.</li>
+  </ol>
+  <div class="tabla"><table>
+    <thead><tr><th>Comparación</th><th class="n">Diferencia de medias</th><th class="n">p</th><th>¿Diferentes?</th></tr></thead>
+    <tbody>
+      <tr><td>20-29 vs 30-39</td><td class="n">1,78</td><td class="n">0,075</td><td>No</td></tr>
+      <tr><td>20-29 vs 40-49</td><td class="n">2,28</td><td class="n">0,004</td><td><b>Sí</b></td></tr>
+      <tr><td>20-29 vs 50-60</td><td class="n">3,73</td><td class="n">&lt; 0,001</td><td><b>Sí</b></td></tr>
+      <tr><td>30-39 vs 40-49</td><td class="n">0,50</td><td class="n">0,892</td><td>No</td></tr>
+      <tr><td>30-39 vs 50-60</td><td class="n">1,95</td><td class="n">0,042</td><td><b>Sí</b></td></tr>
+      <tr><td>40-49 vs 50-60</td><td class="n">1,45</td><td class="n">0,136</td><td>No</td></tr>
+    </tbody>
+  </table></div>
+  <p class="pie">Valores de la tabla de Tukey de la ayudamemoria. Una lámina menciona p = 0,009 para 30-39 vs 50-60; la tabla dice 0,042. Ambos son significativos.</p>
+  <p>Conclusión: los más jóvenes (20-29) puntúan distinto que los de 40 en adelante, y los de 30-39 distinto que los de 50-60.</p>
+  <p>Sin campana, la gemela de ANOVA es <b>Kruskal-Wallis</b>. En la tabla de jamovi aparece «Welch»: es una versión de ANOVA que no exige que las varianzas sean iguales.</p>
+</section>
+
+<!-- 11 -->
+<section class="nivel" id="n11">
+  <div class="num">NIVEL 11</div>
+  <h2>Correlación: ¿suben o bajan juntos?</h2>
+  <p class="idea">La correlación no compara grupos: mira si <b>dos números</b> se mueven juntos en las mismas personas.</p>
+  <p>Ejemplo: mientras más horas estudias, ¿mejor nota? Eso se mide con <b>r de Pearson</b> (con campana) o <b>rho de Spearman</b> (sin campana o con ordinales). El número r va de −1 a +1.</p>
+  <div class="dispersion" id="dispersion"></div>
+  <ul>
+    <li><b>r positivo</b>: cuando uno sube, el otro sube.</li>
+    <li><b>r negativo</b>: cuando uno sube, el otro baja.</li>
+    <li><b>r cerca de 0</b>: no tienen nada que ver.</li>
+  </ul>
+  <div class="tabla"><table>
+    <thead><tr><th>Valor de r (sin fijarse en el signo)</th><th>Correlación</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">1</td><td>Perfecta</td></tr>
+      <tr><td class="mono">0,8 a 1</td><td>Muy alta</td></tr>
+      <tr><td class="mono">0,6 a 0,8</td><td>Alta</td></tr>
+      <tr><td class="mono">0,4 a 0,6</td><td>Moderada</td></tr>
+      <tr><td class="mono">0,2 a 0,4</td><td>Baja</td></tr>
+      <tr><td class="mono">0 a 0,2</td><td>Muy baja</td></tr>
+      <tr><td class="mono">0</td><td>Nula</td></tr>
+    </tbody>
+  </table></div>
+  <p class="pie">Escala de la ayudamemoria. Algunos textos llaman «moderada» a −0,388; en tu escala cae en «baja», cerca del límite con moderada.</p>
+
+  <h3>Ejemplo de la ayudamemoria (150 adultos de Chillán)</h3>
+  <ul>
+    <li><b>Edad y funciones ejecutivas:</b> r = −0,388; p &lt; 0,001. Negativa y significativa: a mayor edad, menor puntaje.</li>
+    <li><b>Alcohol por día y funciones ejecutivas:</b> r = −0,184; p = 0,025. Negativa, débil pero significativa.</li>
+    <li><b>Cigarros y edad:</b> r = 0,065; p = 0,429. No significativa: no hay relación.</li>
+  </ul>
+  <div class="caja rosa"><div class="rot">La regla de oro</div>
+  <p><b>Correlación no es causa.</b> En verano se venden más helados y también hay más ahogados en la playa. Los helados no ahogan a nadie: los dos suben por el calor. Siempre busca la tercera variable escondida.</p></div>
+</section>
+
+<!-- 12 -->
+<section class="nivel" id="n12">
+  <div class="num">NIVEL 12</div>
+  <h2>Escribirlo en tu tesis</h2>
+  <p class="idea">Los resultados se escriben siempre con la <b>misma receta</b>: qué prueba, entre qué variables, el número, el p y qué significa.</p>
+
+  <h3>Plantilla de hipótesis</h3>
+  <div class="calc">H₁: Existe una asociación / diferencia / relación estadísticamente significativa
+    entre [variable 1] y [variable 2] en [población, lugar].
+H₀: No existe una asociación / diferencia / relación estadísticamente significativa
+    entre [variable 1] y [variable 2] en [población, lugar].</div>
+  <p>Usa «asociación» para chi², «diferencia» para t y ANOVA, y «relación» para correlación.</p>
+
+  <h3>Plantilla de resultado</h3>
+  <div class="calc">Se realizó una prueba de [nombre] para [comparar / analizar la asociación entre]
+[variable] en [N] personas. Se encontró [asociación / diferencia] estadísticamente
+significativa ([estadístico] = [valor]; gl = [valor]; p = [valor]).
+[Dato descriptivo: porcentajes o medias por grupo]. [Tamaño del efecto].</div>
+
+  <h3>Lo que miran las rúbricas del TFP</h3>
+  <p>Las rúbricas de tu trabajo final piden que los resultados muestren que <b>los objetivos se cumplieron</b>, con <b>tablas y gráficos legibles</b>, y una discusión que <b>interprete críticamente</b> los hallazgos, reconozca <b>limitaciones</b> y se apoye en bibliografía. En estadística eso se traduce en:</p>
+  <ul>
+    <li>Una tabla por cada objetivo específico, con N y porcentajes (o media y DE).</li>
+    <li>El nombre de la prueba y por qué la elegiste (las cuatro preguntas del nivel 7).</li>
+    <li>El p <b>y</b> el tamaño del efecto.</li>
+    <li>En la discusión: no hablar de causa si el diseño es transversal, y mencionar el tamaño de la muestra como limitación.</li>
+  </ul>
+
+  <div class="caja ojo"><div class="rot">Errores que más se ven</div>
+  <ul>
+    <li>Poner porcentajes dentro de la tabla de chi².</li>
+    <li>Decir «son iguales» porque p &gt; 0,05.</li>
+    <li>Decir «X causa Y» con un chi² o una correlación.</li>
+    <li>Usar t de Student con datos que no pasaron la prueba de normalidad.</li>
+    <li>Hacer muchas pruebas t en vez de un ANOVA.</li>
+    <li>Reportar solo el p, sin porcentajes ni medias.</li>
+  </ul></div>
+</section>
+
+<!-- 13 -->
+<section class="nivel" id="n13">
+  <div class="num">NIVEL 13</div>
+  <h2>Quiz final</h2>
+  <p>Diez preguntas. Toca la alternativa que creas correcta y te explico por qué.</p>
+  <div id="quiz"></div>
+  <p class="marcador-quiz" id="quiz-total" aria-live="polite"></p>
+
+  <h3>Glosario rápido</h3>
+  <details><summary>Muestra</summary><p>El grupo que estudias de verdad; la cucharada de la sopa.</p></details>
+  <details><summary>Variable cualitativa / cuantitativa</summary><p>Cualitativa: categorías que se cuentan. Cuantitativa: números que se miden y se pueden promediar.</p></details>
+  <details><summary>Media, mediana, moda</summary><p>Promedio; el valor del medio al ordenar; el que más se repite.</p></details>
+  <details><summary>Desviación estándar (DE)</summary><p>Qué tan desparramados están los datos alrededor de la media.</p></details>
+  <details><summary>Distribución normal</summary><p>Datos con forma de campana simétrica. Se comprueba con Shapiro-Wilk o Kolmogorov-Smirnov.</p></details>
+  <details><summary>H₀ y H₁</summary><p>Nula: «no pasa nada». Alternativa: «sí pasa algo».</p></details>
+  <details><summary>Valor p</summary><p>Qué tan probable sería ver tu resultado si todo fuera suerte. Menor que 0,05: significativo.</p></details>
+  <details><summary>Grados de libertad (gl)</summary><p>Cuántos datos pueden variar libremente. En chi²: (filas − 1) × (columnas − 1).</p></details>
+  <details><summary>Esperado (E)</summary><p>En chi², lo que habría en cada casilla si las variables no tuvieran relación.</p></details>
+  <details><summary>Tamaño del efecto</summary><p>Qué tan grande es la diferencia o relación. Phi y V de Cramer en chi²; d de Cohen en t; r en correlación.</p></details>
+  <details><summary>Post hoc (Tukey)</summary><p>Comparaciones de a pares que se hacen después de un ANOVA significativo para saber qué grupos difieren.</p></details>
+  <details><summary>Levene</summary><p>Prueba que revisa si los grupos están igual de desparramados. p ≥ 0,05: se cumple.</p></details>
+</section>
+
+<footer>Guía de estudio construida con: ayudamemoria de estadística inferencial, apunte de t de Student, guía de chi cuadrado y selección de pruebas, apunte de metodología (población y muestra), base de datos de salud de Chile (100 registros) y rúbricas del TFP III.</footer>
+</div>
+
+<script>
+const DATA = [["Normal","Sí","Hipotensión","Normal","Valparaíso","No","Sí","No","Alto","Sí"],["Diabetes","No","Elevada","Sobrepeso","Santiago","No","No","Sí","Alto","No"],["Prediabetes","Sí","Normal","Obesidad","Antofagasta","No","No","Sí","Bajo","Sí"],["Prediabetes","Sí","Elevada","Normal","Antofagasta","Sí","No","No","Bajo","No"],["Normal","No","Hipotensión","Normal","La Serena","No","No","No","Alto","Sí"],["Normal","Sí","Normal","Normal","Valparaíso","Sí","No","No","Medio","Sí"],["Normal","No","Elevada","Obesidad","Santiago","No","No","No","Alto","No"],["Diabetes","No","Crisis hipertensiva","Obesidad","La Serena","No","No","No","Bajo","No"],["Prediabetes","No","Elevada","Sobrepeso","Concepción","No","Sí","No","Medio","Sí"],["Prediabetes","Sí","Hipotensión","Normal","La Serena","Sí","Sí","Sí","Medio","No"],["Normal","Sí","Normal","Normal","La Serena","Sí","No","No","Bajo","No"],["Diabetes","Sí","Hipotensión","Obesidad","Valparaíso","Sí","No","No","Bajo","Sí"],["Diabetes","Sí","Hipotensión","Normal","Concepción","No","No","No","Medio","Sí"],["Normal","Sí","Normal","Normal","La Serena","Sí","No","No","Medio","Sí"],["Normal","Sí","Normal","Sobrepeso","Santiago","Sí","No","No","Medio","Sí"],["Normal","Sí","Elevada","Sobrepeso","Santiago","Sí","No","Sí","Medio","Sí"],["Normal","No","Normal","Normal","Antofagasta","No","No","No","Medio","Sí"],["Prediabetes","Sí","Normal","Sobrepeso","Concepción","Sí","No","No","Bajo","No"],["Normal","No","Normal","Normal","Concepción","No","No","No","Medio","Sí"],["Normal","Sí","Normal","Normal","Antofagasta","No","No","No","Bajo","No"],["Prediabetes","Sí","Hipotensión","Obesidad","La Serena","Sí","Sí","No","Medio","No"],["Normal","Sí","Normal","Sobrepeso","Concepción","Sí","No","Sí","Bajo","Sí"],["Normal","No","Normal","Sobrepeso","Santiago","No","No","No","Medio","No"],["Normal","No","Normal","Obesidad","Santiago","No","No","Sí","Alto","Sí"],["Normal","No","Elevada","Normal","Valparaíso","No","No","No","Medio","No"],["Prediabetes","No","Normal","Sobrepeso","Concepción","No","No","Sí","Bajo","Sí"],["Normal","Sí","Elevada","Sobrepeso","La Serena","No","No","No","Alto","Sí"],["Prediabetes","No","Elevada","Sobrepeso","Antofagasta","No","Sí","No","Bajo","Sí"],["Prediabetes","Sí","Crisis hipertensiva","Sobrepeso","Antofagasta","No","No","No","Bajo","No"],["Normal","Sí","Normal","Sobrepeso","La Serena","Sí","No","No","Alto","Sí"],["Prediabetes","No","Elevada","Obesidad","Valparaíso","Sí","No","No","Medio","Sí"],["Normal","No","Normal","Normal","Antofagasta","No","No","No","Bajo","Sí"],["Normal","No","Hipotensión","Normal","Concepción","No","No","No","Alto","No"],["Diabetes","No","Crisis hipertensiva","Normal","Valparaíso","No","No","No","Medio","Sí"],["Diabetes","No","Elevada","Obesidad","Concepción","No","No","No","Bajo","No"],["Diabetes","No","Hipotensión","Bajo peso","Santiago","Sí","No","No","Bajo","Sí"],["Normal","No","Elevada","Normal","Valparaíso","No","No","No","Alto","Sí"],["Normal","No","Normal","Normal","Antofagasta","Sí","No","No","Medio","Sí"],["Prediabetes","Sí","Elevada","Normal","Valparaíso","Sí","Sí","No","Medio","Sí"],["Normal","No","Normal","Normal","Valparaíso","Sí","No","No","Alto","Sí"],["Normal","No","Normal","Bajo peso","Valparaíso","Sí","No","No","Alto","Sí"],["Normal","Sí","Elevada","Bajo peso","Valparaíso","Sí","No","No","Bajo","No"],["Normal","No","Hipotensión","Sobrepeso","Concepción","No","Sí","No","Bajo","No"],["Diabetes","Sí","Hipotensión","Sobrepeso","Santiago","No","Sí","No","Medio","Sí"],["Normal","Sí","Normal","Normal","La Serena","Sí","Sí","No","Alto","Sí"],["Prediabetes","No","Elevada","Sobrepeso","Valparaíso","No","No","Sí","Bajo","No"],["Normal","Sí","Elevada","Sobrepeso","Antofagasta","Sí","No","Sí","Bajo","No"],["Prediabetes","Sí","Hipotensión","Normal","Valparaíso","Sí","No","No","Alto","Sí"],["Prediabetes","Sí","Hipotensión","Sobrepeso","Antofagasta","No","No","Sí","Medio","Sí"],["Normal","Sí","Elevada","Bajo peso","Concepción","Sí","No","No","Bajo","No"],["Diabetes","No","Hipotensión","Normal","Antofagasta","No","No","No","Medio","No"],["Prediabetes","Sí","Normal","Sobrepeso","La Serena","Sí","No","Sí","Bajo","No"],["Diabetes","No","Elevada","Obesidad","Santiago","No","No","No","Alto","Sí"],["Diabetes","Sí","Crisis hipertensiva","Obesidad","Antofagasta","Sí","No","Sí","Bajo","No"],["Prediabetes","Sí","Hipotensión","Sobrepeso","Antofagasta","No","No","No","Bajo","No"],["Diabetes","Sí","Normal","Obesidad","Santiago","Sí","No","No","Alto","Sí"],["Normal","Sí","Normal","Normal","La Serena","No","No","No","Bajo","Sí"],["Normal","No","Elevada","Normal","Valparaíso","Sí","Sí","No","Medio","No"],["Normal","No","Normal","Sobrepeso","Antofagasta","No","No","No","Medio","No"],["Normal","Sí","Normal","Normal","Santiago","No","No","No","Alto","Sí"],["Normal","Sí","Normal","Normal","Concepción","Sí","No","No","Medio","Sí"],["Normal","No","Elevada","Bajo peso","Santiago","No","No","No","Medio","Sí"],["Diabetes","Sí","Hipotensión","Bajo peso","Concepción","Sí","No","No","Bajo","No"],["Normal","Sí","Normal","Obesidad","La Serena","Sí","No","Sí","Medio","Sí"],["Normal","Sí","Elevada","Sobrepeso","Valparaíso","Sí","No","No","Medio","Sí"],["Prediabetes","No","Elevada","Sobrepeso","Santiago","No","No","No","Bajo","No"],["Normal","No","Normal","Normal","Antofagasta","No","No","No","Alto","Sí"],["Diabetes","No","Crisis hipertensiva","Normal","La Serena","Sí","Sí","No","Medio","No"],["Normal","Sí","Elevada","Normal","Santiago","Sí","Sí","No","Medio","Sí"],["Diabetes","Sí","Crisis hipertensiva","Sobrepeso","Antofagasta","No","Sí","No","Bajo","Sí"],["Prediabetes","No","Hipotensión","Sobrepeso","Santiago","No","Sí","Sí","Alto","Sí"],["Normal","No","Normal","Sobrepeso","Concepción","No","No","No","Bajo","No"],["Normal","No","Normal","Normal","Santiago","No","No","No","Medio","No"],["Diabetes","No","Elevada","Sobrepeso","Santiago","Sí","Sí","No","Medio","No"],["Prediabetes","Sí","Elevada","Obesidad","Santiago","Sí","No","Sí","Medio","Sí"],["Prediabetes","No","Elevada","Sobrepeso","La Serena","No","No","Sí","Bajo","No"],["Prediabetes","Sí","Crisis hipertensiva","Sobrepeso","Santiago","Sí","No","No","Alto","Sí"],["Normal","No","Normal","Normal","Antofagasta","No","No","No","Alto","Sí"],["Normal","Sí","Elevada","Normal","Concepción","Sí","Sí","No","Bajo","No"],["Normal","No","Elevada","Normal","Concepción","No","Sí","No","Medio","Sí"],["Diabetes","No","Crisis hipertensiva","Sobrepeso","Santiago","No","Sí","No","Alto","Sí"],["Prediabetes","No","Elevada","Obesidad","La Serena","No","Sí","No","Alto","Sí"],["Normal","No","Normal","Bajo peso","La Serena","No","No","No","Bajo","Sí"],["Normal","Sí","Normal","Normal","Antofagasta","Sí","No","No","Bajo","Sí"],["Normal","No","Normal","Bajo peso","Santiago","No","No","No","Medio","Sí"],["Normal","Sí","Elevada","Bajo peso","Concepción","Sí","Sí","No","Bajo","No"],["Prediabetes","Sí","Elevada","Obesidad","La Serena","Sí","No","No","Alto","No"],["Prediabetes","Sí","Normal","Sobrepeso","Santiago","No","No","No","Alto","No"],["Diabetes","Sí","Hipotensión","Sobrepeso","La Serena","No","No","No","Alto","Sí"],["Normal","No","Normal","Bajo peso","La Serena","No","No","No","Medio","Sí"],["Normal","Sí","Hipotensión","Normal","Concepción","No","No","No","Bajo","No"],["Prediabetes","Sí","Crisis hipertensiva","Sobrepeso","Valparaíso","Sí","Sí","No","Alto","Sí"],["Prediabetes","Sí","Crisis hipertensiva","Normal","Antofagasta","Sí","No","No","Medio","Sí"],["Prediabetes","No","Elevada","Sobrepeso","Antofagasta","No","No","No","Bajo","No"],["Prediabetes","No","Normal","Sobrepeso","Concepción","No","No","No","Alto","Sí"],["Normal","No","Hipotensión","Normal","La Serena","Sí","No","No","Alto","Sí"],["Prediabetes","No","Elevada","Sobrepeso","Santiago","Sí","No","No","Medio","Sí"],["Normal","Sí","Hipotensión","Bajo peso","La Serena","Sí","Sí","No","Medio","Sí"],["Normal","Sí","Hipotensión","Normal","Concepción","No","Sí","No","Bajo","No"],["Normal","No","Elevada","Normal","Antofagasta","No","No","No","Bajo","No"]];
+const COLS = ["glucemia","alcohol","presion_arterial","IMC","ciudad","cigarro","IAM","ACV","socioeconomico","ITS_prevencion"];
+const NOMBRES = {glucemia:"Glucemia",alcohol:"Alcohol",presion_arterial:"Presión arterial",IMC:"IMC",ciudad:"Ciudad",cigarro:"Cigarro",IAM:"Infarto (IAM)",ACV:"ACV",socioeconomico:"Nivel socioeconómico",ITS_prevencion:"Prevención de ITS"};
+const fmt = (x,d=2)=>x.toLocaleString("es-CL",{minimumFractionDigits:d,maximumFractionDigits:d});
+
+/* ---------- juego de variables ---------- */
+(function(){
+  const items=[
+    ["glucemia","Normal, Prediabetes, Diabetes","ordinal","Tiene orden: normal < prediabetes < diabetes."],
+    ["alcohol","Sí / No","nominal","Dos cajitas sin orden (se llama dicotómica)."],
+    ["presion_arterial","Hipotensión, Normal, Elevada, Crisis","ordinal","Van de menor a mayor presión."],
+    ["IMC","Bajo peso, Normal, Sobrepeso, Obesidad","ordinal","El IMC es un número, pero aquí viene agrupado en categorías con orden."],
+    ["ciudad","Santiago, Antofagasta, La Serena…","nominal","Ninguna ciudad es «más» que otra."],
+    ["cigarro","Sí / No","nominal","Dicotómica, sin orden."],
+    ["IAM","Sí / No","nominal","Dicotómica, sin orden."],
+    ["ACV","Sí / No","nominal","Dicotómica, sin orden."],
+    ["socioeconomico","Bajo, Medio, Alto","ordinal","Tiene escalones con orden."],
+    ["ITS_prevencion","Sí / No","nominal","Dicotómica, sin orden."]
+  ];
+  const tipos=[["nominal","Nominal"],["ordinal","Ordinal"],["discreta","Discreta"],["continua","Continua"]];
+  const cont=document.getElementById("juego"); const tot=document.getElementById("juego-total");
+  const bien=new Set();
+  items.forEach(([v,ej,ok,exp],i)=>{
+    const f=document.createElement("div");f.className="fila-juego";
+    f.innerHTML=`<span class="var">${v}</span><span class="ej">${ej}</span><div class="botones"></div><div class="fb"></div>`;
+    const bx=f.querySelector(".botones"),fb=f.querySelector(".fb");
+    tipos.forEach(([t,l])=>{const b=document.createElement("button");b.type="button";b.textContent=l;b.id=`j${i}-${t}`;
+      b.onclick=()=>{bx.querySelectorAll("button").forEach(x=>x.className="");
+        if(t===ok){b.className="ok";fb.textContent="Correcto. "+exp;bien.add(i);}
+        else{b.className="mal";fb.textContent=(t==="discreta"||t==="continua")?"No es un número que se mida: son categorías. Prueba otra.":"Casi. Pregúntate si las cajitas tienen orden.";bien.delete(i);}
+        tot.textContent=`Llevas ${bien.size} de 10 correctas.`;};
+      bx.appendChild(b);});
+    cont.appendChild(f);
+  });
+  tot.textContent="Llevas 0 de 10 correctas.";
+})();
+
+/* ---------- campana ---------- */
+(function(){
+  const pdf=z=>Math.exp(-z*z/2);
+  let d="",a="M180,160 ";
+  for(let x=20;x<=500;x+=4){const z=(x-260)/80;const y=160-135*pdf(z);d+=(x===20?"M":"L")+x+","+y.toFixed(1)+" ";if(x>=180&&x<=340)a+="L"+x+","+y.toFixed(1)+" ";}
+  a+="L340,160 Z";
+  document.getElementById("campana").setAttribute("d",d);
+  document.getElementById("campana-area").setAttribute("d",a);
+})();
+
+/* ---------- monedas ---------- */
+(function(){
+  const mon=document.getElementById("monedas"),res=document.getElementById("res-monedas"),hist=document.getElementById("hist"),ejes=document.getElementById("hist-ejes");
+  const tirar=()=>Array.from({length:10},()=>Math.random()<.5);
+  for(let k=0;k<=10;k++){const s=document.createElement("span");s.textContent=k;ejes.appendChild(s);}
+  function dibujar(conteo,n){hist.innerHTML="";const max=Math.max(...conteo,1);
+    conteo.forEach((c,k)=>{const b=document.createElement("div");b.style.height=(c/max*100)+"%";if(k>=7)b.className="extremo";b.title=`${k} caras: ${c} veces`;hist.appendChild(b);});}
+  dibujar(new Array(11).fill(0));
+  document.getElementById("b-10").onclick=()=>{const t=tirar();mon.innerHTML=t.map(c=>`<span class="moneda ${c?"c":""}">${c?"C":"S"}</span>`).join("");
+    const c=t.filter(Boolean).length;res.textContent=`Salieron ${c} caras de 10. ${c>=7||c<=3?"Parece raro, pero una moneda normal hace esto seguido.":"Cerca de lo esperado (5)."} `;};
+  document.getElementById("b-1000").onclick=()=>{const conteo=new Array(11).fill(0);let ext=0;
+    for(let i=0;i<1000;i++){const c=tirar().filter(Boolean).length;conteo[c]++;if(c>=7)ext++;}
+    dibujar(conteo,1000);res.innerHTML=`De 1000 rondas de 10 lanzamientos, <b>${ext}</b> dieron 7 caras o más (barras rosadas): cerca del ${Math.round(ext/10)} %. Eso es como un p ≈ ${fmt(ext/1000,2)}: mayor que 0,05, así que 7 caras no prueba que la moneda esté trucada.`;};
+})();
+
+/* ---------- asistente ---------- */
+(function(){
+  const get=n=>document.querySelector(`input[name="${n}"]:checked`).value;
+  const g=document.getElementById("w-grupos"),p=document.getElementById("w-pareado"),nm=document.getElementById("w-normal"),v=document.getElementById("veredicto");
+  function act(){
+    const a=get("q1"),b=get("q2"),c=get("q3"),d=get("q4");
+    g.hidden=a==="cuali";p.hidden=a==="cuali"||b==="rel";nm.hidden=a==="cuali";
+    let prueba,por;
+    if(a==="cuali"){prueba="Chi cuadrado";por="Dos variables de categorías: cuentas personas en una tabla. Si es 2×2 y algún esperado es menor a 5, usa Fisher. Si son las mismas personas antes y después, McNemar.";}
+    else if(b==="rel"){prueba=d==="si"?"Correlación de Pearson":"Rho de Spearman";por="Quieres saber si dos números se mueven juntos en las mismas personas.";}
+    else if(b==="2"){prueba=c==="ind"?(d==="si"?"t de Student para muestras independientes":"U de Mann-Whitney"):(d==="si"?"t de Student para muestras pareadas":"Rangos de Wilcoxon");por=c==="ind"?"Un número, dos grupos de personas distintas.":"Un número medido dos veces en las mismas personas.";}
+    else{prueba=c==="ind"?(d==="si"?"ANOVA de un factor":"Kruskal-Wallis"):(d==="si"?"ANOVA de medidas repetidas":"Friedman");por="Tres grupos o más. Si sale significativo, sigue con un post hoc (Tukey) para saber cuáles difieren.";}
+    v.innerHTML=`<span style="font-size:.8rem;color:var(--suave)">Te corresponde:</span><b class="prueba">${prueba}</b>${por}`;
+  }
+  document.querySelectorAll(".asistente input").forEach(i=>i.addEventListener("change",act));act();
+})();
+
+/* ---------- chi cuadrado ---------- */
+function gammaln(x){const c=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,0.1208650973866179e-2,-0.5395239384953e-5];let y=x,t=x+5.5;t-=(x+.5)*Math.log(t);let s=1.000000000190015;for(const k of c)s+=k/++y;return -t+Math.log(2.5066282746310005*s/x);}
+function gammq(a,x){if(x<=0)return 1;if(x<a+1){let sum=1/a,del=sum,ap=a;for(let n=0;n<200;n++){ap++;del*=x/ap;sum+=del;if(Math.abs(del)<Math.abs(sum)*1e-12)break;}return 1-sum*Math.exp(-x+a*Math.log(x)-gammaln(a));}
+  let b=x+1-a,c=1e300,d=1/b,h=d;for(let i=1;i<200;i++){const an=-i*(i-a);b+=2;d=an*d+b;if(Math.abs(d)<1e-300)d=1e-300;c=b+an/c;if(Math.abs(c)<1e-300)c=1e-300;d=1/d;const del=d*c;h*=del;if(Math.abs(del-1)<1e-12)break;}return Math.exp(-x+a*Math.log(x)-gammaln(a))*h;}
+(function(){
+  const s1=document.getElementById("v1"),s2=document.getElementById("v2");
+  COLS.forEach(c=>{s1.add(new Option(NOMBRES[c],c));s2.add(new Option(NOMBRES[c],c));});
+  s1.value="socioeconomico";s2.value="ITS_prevencion";
+  const orden={glucemia:["Normal","Prediabetes","Diabetes"],presion_arterial:["Hipotensión","Normal","Elevada","Crisis hipertensiva"],IMC:["Bajo peso","Normal","Sobrepeso","Obesidad"],socioeconomico:["Bajo","Medio","Alto"],alcohol:["No","Sí"],cigarro:["No","Sí"],IAM:["No","Sí"],ACV:["No","Sí"],ITS_prevencion:["No","Sí"]};
+  function niveles(c){const i=COLS.indexOf(c);const u=[...new Set(DATA.map(r=>r[i]))];return orden[c]?orden[c].filter(x=>u.includes(x)):u.sort();}
+  function calc(){
+    const a=s1.value,b=s2.value,T=document.getElementById("lab-tabla"),S=document.getElementById("lab-stats"),X=document.getElementById("lab-texto");
+    if(a===b){T.innerHTML="";S.innerHTML="";X.textContent="Elige dos columnas distintas.";return;}
+    const ia=COLS.indexOf(a),ib=COLS.indexOf(b),fa=niveles(a),fb=niveles(b);
+    const O=fa.map(()=>fb.map(()=>0));DATA.forEach(r=>{O[fa.indexOf(r[ia])][fb.indexOf(r[ib])]++;});
+    const N=DATA.length,rt=O.map(r=>r.reduce((x,y)=>x+y,0)),ct=fb.map((_,j)=>O.reduce((x,r)=>x+r[j],0));
+    let chi=0,bajos=0,celdas=fa.length*fb.length;
+    let h=`<table><thead><tr><th>${NOMBRES[a]}</th>${fb.map(x=>`<th class="n">${x}</th>`).join("")}<th class="n">Total</th></tr></thead><tbody>`;
+    O.forEach((r,i)=>{h+=`<tr><td>${fa[i]}</td>`;r.forEach((o,j)=>{const e=rt[i]*ct[j]/N;chi+=(o-e)**2/e;if(e<5)bajos++;h+=`<td class="n${e<5?" bajo":""}">${o}<span class="esp">E ${fmt(e,1)}</span></td>`;});h+=`<td class="n">${rt[i]}</td></tr>`;});
+    h+=`<tr class="total"><td>Total</td>${ct.map(x=>`<td class="n">${x}</td>`).join("")}<td class="n">${N}</td></tr></tbody></table>`;
+    T.innerHTML=h;
+    const gl=(fa.length-1)*(fb.length-1),p=gammq(gl/2,chi/2),V=Math.sqrt(chi/(N*(Math.min(fa.length,fb.length)-1)));
+    const ps=p<0.001?"< 0,001":fmt(p,3);
+    S.innerHTML=`<div class="stat"><small>χ²</small><b>${fmt(chi,2)}</b></div><div class="stat"><small>gl</small><b>${gl}</b></div><div class="stat"><small>p</small><b>${ps}</b></div><div class="stat"><small>${gl===1?"Phi":"V de Cramer"}</small><b>${fmt(V,2)}</b></div>`;
+    const sig=p<0.05;let t=sig?`<b>Significativo.</b> p es menor que 0,05: se rechaza H₀. ${NOMBRES[a]} y ${NOMBRES[b]} están asociadas en esta muestra.`:`<b>No significativo.</b> p es 0,05 o más: no se rechaza H₀. No hay evidencia de asociación entre ${NOMBRES[a]} y ${NOMBRES[b]}.`;
+    const pct=Math.round(bajos/celdas*100);
+    if(bajos>0)t+=` <span style="color:var(--ambar)">Ojo: ${bajos} de ${celdas} casillas (${pct} %) tienen esperado menor a 5 (en ámbar). ${celdas===4?"En una tabla 2×2 corresponde usar Fisher.":pct>20?"Pasa del 20 %: conviene juntar categorías o usar Fisher.":"Está bajo el 20 %, se tolera."}</span>`;
+    X.innerHTML=t;
+  }
+  s1.onchange=calc;s2.onchange=calc;calc();
+})();
+
+/* ---------- dispersión ---------- */
+(function(){
+  const c=document.getElementById("dispersion");
+  const casos=[[0.95,"r ≈ +0,9 · alta positiva"],[0,"r ≈ 0 · nula"],[-0.4,"r ≈ −0,4 · como edad y funciones ejecutivas"],[-0.95,"r ≈ −0,9 · alta negativa"]];
+  let seed=7;const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
+  const gauss=()=>{let u=rnd()||1e-9,v=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);};
+  casos.forEach(([r,l])=>{let pts="";for(let i=0;i<30;i++){const x=gauss(),y=r*x+Math.sqrt(1-r*r)*gauss();const px=60+x*16,py=60-y*16;if(px>6&&px<114&&py>6&&py<114)pts+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="3" fill="var(--barra)"/>`;}
+    c.insertAdjacentHTML("beforeend",`<figure><svg viewBox="0 0 120 120" role="img" aria-label="${l}"><line x1="6" y1="114" x2="114" y2="114" stroke="var(--suave)"/><line x1="6" y1="6" x2="6" y2="114" stroke="var(--suave)"/>${pts}</svg><figcaption>${l}</figcaption></figure>`);});
+})();
+
+/* ---------- quiz ---------- */
+(function(){
+  const Q=[
+    ["Encuestas a 100 estudiantes para saber algo de todos los universitarios de Chillán. Los 100 son…",["La población","La muestra","La variable"],1,"La muestra es la cucharada que pruebas; la población es la olla."],
+    ["«Nivel educacional: básica, media, superior» es una variable…",["Cualitativa nominal","Cualitativa ordinal","Cuantitativa continua"],1,"Son categorías con orden, pero sin una distancia fija entre ellas."],
+    ["Notas: 3, 5, 5, 6, 7. ¿Cuál es la mediana?",["5","5,2","6"],0,"Ordenadas, la del medio es la tercera: 5. La media sería 26 ÷ 5 = 5,2."],
+    ["Shapiro-Wilk da p = 0,30. ¿Qué haces?",["Uso una prueba no paramétrica","Uso una prueba paramétrica","Repito la encuesta"],1,"p ≥ 0,05 en normalidad significa que no se rechaza «son normales»: puedes usar la paramétrica."],
+    ["Una prueba da p = 0,03. ¿Qué concluyes?",["Se rechaza H₀: es significativo","No se rechaza H₀","Las variables son iguales"],0,"0,03 es menor que 0,05: muy raro que sea suerte."],
+    ["Quieres saber si fumar (sí/no) se asocia con tener infarto (sí/no).",["t de Student","Chi cuadrado","Pearson"],1,"Dos variables cualitativas: chi cuadrado."],
+    ["Mides la cintura de 30 personas antes y después de un taller. Los datos tienen campana.",["t de Student independiente","t de Student pareada","ANOVA"],1,"Las mismas personas medidas dos veces: pareada."],
+    ["En una tabla de 3 filas y 2 columnas, ¿cuántos grados de libertad hay?",["2","5","6"],0,"(3 − 1) × (2 − 1) = 2."],
+    ["Un ANOVA da p < 0,001. ¿Ya sabes qué grupos son distintos?",["Sí","No: falta el post hoc (Tukey)","No: falta Levene"],1,"ANOVA solo dice que al menos uno difiere. Tukey dice cuáles."],
+    ["r = −0,388 entre edad y funciones ejecutivas (p < 0,001). ¿Qué significa?",["La edad causa el deterioro","A más edad, menor puntaje, y no parece suerte","No hay relación"],1,"Negativa y significativa. Pero correlación no demuestra causa."]
+  ];
+  const cont=document.getElementById("quiz"),tot=document.getElementById("quiz-total");let ok=0,resp=0;
+  Q.forEach(([q,alts,c,exp],i)=>{const d=document.createElement("div");d.className="pregunta";
+    d.innerHTML=`<p class="q">${i+1}. ${q}</p><div class="alts"></div><p class="explica" hidden></p>`;
+    const A=d.querySelector(".alts"),E=d.querySelector(".explica");
+    alts.forEach((t,j)=>{const b=document.createElement("button");b.type="button";b.id=`q${i}-${j}`;b.textContent=t;
+      b.onclick=()=>{if(d.dataset.r)return;d.dataset.r=1;resp++;if(j===c)ok++;
+        A.querySelectorAll("button").forEach((x,k)=>{x.disabled=true;if(k===c)x.className="ok";else if(k===j)x.className="mal";});
+        E.hidden=false;E.innerHTML=(j===c?"<b>¡Bien!</b> ":"<b>No era esa.</b> ")+exp;
+        tot.textContent=`Puntaje: ${ok} de ${resp} respondidas${resp===Q.length?(ok>=8?" · ¡Dominas lo esencial!":" · Repasa los niveles donde fallaste."):""}`;};
+      A.appendChild(b);});
+    cont.appendChild(d);});
+  tot.textContent="Puntaje: 0 de 0 respondidas";
+})();
+</script>
