@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="Bárbara E. Montero Llanca">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Procedimientos RN">
+<title>Procedimientos del recién nacido · horarios y requisitos</title>
+<style>
+:root{
+  --papel:#F4F5F7; --hoja:#FFFFFF;
+  --tinta:#16325C; --tinta-2:#54718F; --tinta-3:#8CA0B4;
+  --acento:#C3252B; --acento-cl:#FBEDED;
+  --verde:#1B6B52; --verde-cl:#EDF5F2;
+  --ambar:#8A6410; --ambar-cl:#FBF4E4;
+  --rejilla:#D8DDE4; --rejilla-2:#EBEEF2;
+  --label:"Avenir Next Condensed","Helvetica Neue Condensed","Arial Narrow",sans-serif;
+  --texto:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --dato:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;overflow-x:hidden}
+body{
+  background:var(--papel);
+  background-image:linear-gradient(var(--rejilla-2) 1px,transparent 1px);
+  background-size:100% 28px;
+  color:var(--tinta);font:16px/1.5 var(--texto);
+  -webkit-text-size-adjust:100%;padding-bottom:60px;
+}
+header{
+  position:sticky;top:0;z-index:40;background:var(--hoja);
+  border-bottom:2px solid var(--tinta);
+  padding:calc(env(safe-area-inset-top) + 11px) 16px 0;
+}
+header h1{font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:15px;font-weight:700;margin:0}
+header .sub{font-size:10.5px;color:var(--tinta-3);letter-spacing:.05em;margin-top:2px}
+nav.tabs{display:flex;margin:11px -16px 0;padding:0 16px;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{
+  flex:0 0 auto;background:none;border:none;padding:11px 0;margin-right:22px;cursor:pointer;
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:12px;
+  color:var(--tinta-3);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;
+}
+nav.tabs button[aria-selected="true"]{color:var(--tinta);border-bottom-color:var(--acento)}
+nav.tabs button:focus-visible{outline:2px solid var(--acento);outline-offset:2px}
+
+main{max-width:880px;margin:0 auto;padding:16px;overflow-x:hidden}
+section[hidden]{display:none}
+
+.card{background:var(--hoja);border:1px solid var(--rejilla);margin-bottom:14px}
+.card > h2{
+  margin:0;padding:13px 15px;display:flex;align-items:center;gap:10px;justify-content:space-between;
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:13px;font-weight:700;
+  border-bottom:1px dashed var(--rejilla);
+}
+.card > h2 .nota{font:11px var(--texto);color:var(--tinta-3);letter-spacing:0;text-transform:none;font-weight:400}
+.card .cuerpo{padding:14px 15px}
+
+.campo{margin-bottom:11px}
+.campo label{display:block;font-size:12px;color:var(--tinta-2);margin-bottom:4px;font-weight:600}
+.campo input,.campo select{
+  width:100%;min-width:0;border:1px solid var(--rejilla);background:#FCFCFD;
+  padding:10px 11px;font:16px var(--dato);color:var(--tinta);border-radius:0;
+}
+.campo input:focus,.campo select:focus{outline:none;border-color:var(--tinta)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 10px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0 10px}
+@media(max-width:560px){.grid3,.grid4{grid-template-columns:1fr 1fr}}
+
+button.btn{
+  background:var(--tinta);color:#fff;border:none;padding:12px 18px;cursor:pointer;
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:12px;font-weight:700;
+}
+button.btn.sec{background:var(--hoja);color:var(--tinta);border:1px solid var(--tinta)}
+button.btn:focus-visible{outline:2px solid var(--acento);outline-offset:2px}
+.acciones{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px}
+
+/* ---- veredicto BCG ---- */
+.veredicto{border-left:4px solid var(--rejilla);background:#FBFBFC;padding:14px 16px;margin-bottom:0}
+.veredicto .k{font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:10.5px;color:var(--tinta-3)}
+.veredicto .v{font:22px var(--label);text-transform:uppercase;letter-spacing:.05em;font-weight:700;line-height:1.15;margin-top:3px}
+.veredicto .por{font-size:14px;margin-top:7px;line-height:1.5}
+.veredicto.si{border-left-color:var(--verde);background:var(--verde-cl)}
+.veredicto.si .v{color:var(--verde)} .veredicto.si .por{color:#14503E} .veredicto.si .k{color:var(--verde)}
+.veredicto.no{border-left-color:var(--acento);background:var(--acento-cl)}
+.veredicto.no .v{color:var(--acento)} .veredicto.no .por{color:#8A1B20} .veredicto.no .k{color:var(--acento)}
+.veredicto.esp{border-left-color:var(--ambar);background:var(--ambar-cl)}
+.veredicto.esp .v{color:var(--ambar)} .veredicto.esp .por{color:#6B4E0C} .veredicto.esp .k{color:var(--ambar)}
+ul.faltan{list-style:none;margin:9px 0 0;padding:0}
+ul.faltan li{position:relative;padding-left:16px;font-size:14px;margin-bottom:4px;line-height:1.45}
+ul.faltan li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;background:currentColor;opacity:.55}
+
+/* ---- línea de tiempo ---- */
+ul.pend{list-style:none;margin:0;padding:0}
+ul.pend li{
+  display:flex;gap:12px;align-items:flex-start;padding:11px 13px;margin-bottom:6px;
+  border-left:3px solid var(--rejilla);background:#FBFBFC;font-size:14.5px;line-height:1.45;
+}
+ul.pend li .t{flex:0 0 112px;font:12px var(--dato);color:var(--tinta-3);padding-top:2px;line-height:1.35}
+ul.pend li .n{flex:1;min-width:0}
+ul.pend li .n b{display:block}
+ul.pend li .n .hr{font:13px var(--dato);color:var(--tinta);margin-top:3px;display:block}
+ul.pend li .n small{display:block;color:var(--tinta-2);font-size:12.5px;margin-top:3px;line-height:1.45}
+li.vencido{border-left-color:var(--acento);background:var(--acento-cl)}
+li.vencido .t{color:var(--acento);font-weight:700}
+li.ventana{border-left-color:var(--verde);background:var(--verde-cl)}
+li.ventana .t{color:var(--verde);font-weight:700}
+li.proximo{border-left-color:var(--ambar);background:var(--ambar-cl)}
+li.proximo .t{color:var(--ambar);font-weight:700}
+li.espera{opacity:.75}
+li.bloq{border-left-color:var(--acento);background:var(--acento-cl);border-left-style:double;border-left-width:5px}
+li.bloq .t{color:var(--acento);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+li.bloq .n b{color:var(--acento)}
+
+.horas{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-top:1px solid var(--rejilla);padding-top:12px;margin-top:2px}
+.horas .b{text-align:left}
+.horas .k{font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;font-size:10px;color:var(--tinta-3)}
+.horas .v{font:30px var(--dato);font-weight:700;line-height:1}
+.horas .b.sec .v{font-size:19px;color:var(--tinta-2)}
+
+table{width:100%;border-collapse:collapse;margin:0 0 12px;font-size:13.5px}
+th,td{border:1px solid var(--rejilla);padding:8px 9px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+th{background:#F7F8FA;font-family:var(--label);text-transform:uppercase;letter-spacing:.06em;
+  font-size:10.5px;color:var(--tinta-2);font-weight:600}
+td .n{font-family:var(--dato);font-weight:600}
+
+.alerta-box{background:var(--acento-cl);border-left:3px solid var(--acento);padding:11px 13px;margin:0 0 14px;font-size:14px;color:#8A1B20;line-height:1.5}
+.ok-box{background:var(--verde-cl);border-left:3px solid var(--verde);padding:11px 13px;margin:0 0 14px;font-size:14px;color:#14503E;line-height:1.5}
+.aviso-box{background:var(--ambar-cl);border-left:3px solid var(--ambar);padding:11px 13px;margin:0 0 14px;font-size:13.5px;color:#6B4E0C;line-height:1.5}
+.alerta-box > b:first-child,.ok-box > b:first-child,.aviso-box > b:first-child{
+  display:block;font-family:var(--label);text-transform:uppercase;letter-spacing:.07em;font-size:11px;margin-bottom:4px}
+
+h3.sec{font-family:var(--label);text-transform:uppercase;letter-spacing:.09em;font-size:11px;
+  color:var(--tinta-3);margin:22px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--rejilla)}
+h3.sec:first-child{margin-top:0}
+ul.li{list-style:none;margin:0 0 12px;padding:0}
+ul.li li{position:relative;padding-left:15px;font-size:14.5px;margin-bottom:6px;line-height:1.5}
+ul.li li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--tinta-3)}
+
+.resumen{width:100%;height:78px;border:1px solid var(--rejilla);background:#FCFCFD;
+  font:12.5px/1.6 var(--dato);color:var(--tinta-2);padding:10px;resize:vertical}
+.resumen:focus{outline:none;border-color:var(--tinta)}
+.pie{font-size:11px;color:var(--tinta-3);text-align:center;margin-top:26px;line-height:1.6}
+
+@media print{
+  @page{size:A4 portrait;margin:14mm}
+  body{background:#fff;background-image:none;padding:0}
+  header nav.tabs,.acciones,#s-ref,.no-print{display:none !important}
+  header{position:static;border-bottom:1.5pt solid #000}
+  .card{border:1px solid #999;break-inside:avoid}
+  main{max-width:none;padding:0}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Procedimientos del recién nacido · horarios y requisitos</h1>
+  <div class="sub">Herramienta docente · Obstetricia y Puericultura · UNACH</div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="t-calc" aria-controls="s-calc" aria-selected="true">Calculadora</button>
+    <button role="tab" id="t-ref" aria-controls="s-ref" aria-selected="false">Referencia</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ================= CALCULADORA ================= -->
+<section id="s-calc" role="tabpanel" aria-labelledby="t-calc">
+
+  <div class="aviso-box no-print">
+    <b>Antes de usarla</b>
+    No escribas nombre, iniciales, RUT ni número de ficha. La herramienta no guarda nada y se borra al cerrar la pestaña;
+    lo que corresponde al registro clínico va en la ficha. Calcula horarios y verifica requisitos: no reemplaza la indicación médica ni el protocolo del establecimiento.
+  </div>
+
+  <div class="card">
+    <h2>Datos del recién nacido</h2>
+    <div class="cuerpo">
+      <div class="campo">
+        <label for="nac">Fecha y hora del nacimiento</label>
+        <input type="datetime-local" id="nac">
+      </div>
+      <div class="grid3">
+        <div class="campo"><label for="eg">Edad gestacional (sem)</label><input id="eg" inputmode="decimal" placeholder="38"></div>
+        <div class="campo"><label for="pnac">Peso de nacimiento (g)</label><input id="pnac" inputmode="numeric" placeholder="3250"></div>
+        <div class="campo"><label for="pact">Peso actual (g)</label><input id="pact" inputmode="numeric" placeholder="3250"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Serología materna para VIH <span class="nota">requisito de la BCG</span></h2>
+    <div class="cuerpo">
+      <div class="grid4">
+        <div class="campo">
+          <label for="vih1">VIH I · primer control</label>
+          <select id="vih1">
+            <option value="s">Sin dato</option>
+            <option value="nr">No reactivo</option>
+            <option value="r">Reactivo</option>
+            <option value="p">Pendiente</option>
+          </select>
+        </div>
+        <div class="campo"><label for="f1">Fecha VIH I</label><input type="date" id="f1"></div>
+        <div class="campo">
+          <label for="vih2">VIH II · 32–34 sem</label>
+          <select id="vih2">
+            <option value="s">Sin dato</option>
+            <option value="nr">No reactivo</option>
+            <option value="r">Reactivo</option>
+            <option value="p">Pendiente</option>
+            <option value="na">No correspondía</option>
+          </select>
+        </div>
+        <div class="campo"><label for="f2">Fecha VIH II</label><input type="date" id="f2"></div>
+      </div>
+
+      <h3 class="sec">Otras contraindicaciones de la BCG</h3>
+      <div class="grid2">
+        <div class="campo" style="margin-bottom:6px">
+          <label style="display:flex;align-items:center;gap:8px;font-weight:400;font-size:14px;cursor:pointer">
+            <input type="checkbox" id="tbc" style="width:auto"> Madre con TBC activa
+          </label>
+        </div>
+        <div class="campo" style="margin-bottom:6px">
+          <label style="display:flex;align-items:center;gap:8px;font-weight:400;font-size:14px;cursor:pointer">
+            <input type="checkbox" id="piel" style="width:auto"> Lesiones de piel en el sitio de punción
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="salida"></div>
+
+  <div class="acciones no-print" style="margin-top:4px">
+    <button class="btn" id="imprimir">Imprimir esta pantalla</button>
+    <button class="btn sec" id="limpiar">Limpiar</button>
+  </div>
+</section>
+
+<!-- ================= REFERENCIA ================= -->
+<section id="s-ref" role="tabpanel" aria-labelledby="t-ref" hidden>
+
+  <div class="card">
+    <h2>Los cinco procedimientos y su hora</h2>
+    <div class="cuerpo">
+      <table>
+        <tr><th style="width:24%">Procedimiento</th><th style="width:20%">Ventana</th><th>Por qué esa hora</th></tr>
+        <tr><td>BCG</td><td class="n">Primer día de vida</td><td>Se coloca el primer día al recién nacido de más de 2.000 g. Bajo ese peso se espera a alcanzarlo, cualquiera sea la edad gestacional. Brazo izquierdo, aguja 27G.</td></tr>
+        <tr><td>Screening cardíaco</td><td class="n">24 a 48 h</td><td>Antes de las 24 h la transición circulatoria produce falsos positivos. El ductus se cierra entre las 24 y 96 h, así que después de las 48 h se pierde la oportunidad de pesquisar antes de que el niño se descompense en casa.</td></tr>
+        <tr><td>Screening auditivo</td><td class="n">Desde 36 h</td><td>La Norma 194 lo permite desde las 36 horas de vida. Sin factores de riesgo se inicia con emisiones otoacústicas; con factores de riesgo se hace directamente el potencial evocado automatizado.</td></tr>
+        <tr><td>Pesquisa neonatal</td><td class="n">Desde 40 h</td><td>Antes de las 40 h el resultado no es confiable. Idealmente desde las 48 h y con al menos 24 h de alimentación oral. Lo más cercano posible al alta y antes del 7.º día.</td></tr>
+        <tr><td>Nirsevimab</td><td class="n">Antes del alta</td><td>No tiene hora fija: se administra antes del alta, en dosis única intramuscular. No es una vacuna sino un anticuerpo monoclonal, es decir inmunización pasiva.</td></tr>
+      </table>
+
+      <h3 class="sec">Dosis del nirsevimab</h3>
+      <table>
+        <tr><th>Peso</th><th>Dosis</th></tr>
+        <tr><td>5 kg o menos</td><td class="n">50 mg IM, dosis única</td></tr>
+        <tr><td>Más de 5 kg</td><td class="n">100 mg IM, dosis única</td></tr>
+        <tr><td>Prematuro extremo</td><td>Al alcanzar 1.000 g con estabilidad clínica definida por el médico</td></tr>
+      </table>
+      <div class="aviso-box">
+        <b>Es voluntario</b>
+        Se informa a la madre o cuidador y se registra su conformidad. Contraindicación: reacción alérgica grave a algún componente. La campaña y los grupos objetivo se actualizan cada año: confirma los lineamientos de la temporada vigente.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Por qué los dos VIH son requisito de la BCG</h2>
+    <div class="cuerpo">
+      <p style="font-size:14.5px;margin:0 0 12px">La BCG es una vacuna de bacilo vivo atenuado. En un recién nacido con inmunodeficiencia puede producir enfermedad diseminada, y por eso el estado serológico materno tiene que estar resuelto antes de administrarla.</p>
+      <table>
+        <tr><th style="width:30%">Situación</th><th>Conducta</th></tr>
+        <tr><td>Ambos VIH no reactivos</td><td>Requisito cumplido. Se vacuna si el peso es mayor a 2.000 g y no hay otra contraindicación.</td></tr>
+        <tr><td>Alguno reactivo o positivo</td><td><b>No se administra BCG</b> hasta contar con la autorización de Infectología. La Norma de Puerperio lo condiciona además al resultado del recuento de linfocitos CD4.</td></tr>
+        <tr><td>Alguno pendiente o sin dato</td><td>El requisito no está cumplido: no se vacuna hasta resolverlo. Si la mujer llega en trabajo de parto con serología desconocida, corresponde test de VIH urgente.</td></tr>
+      </table>
+
+      <h3 class="sec">Cuándo se toma cada uno</h3>
+      <ul class="li">
+        <li><b>VIH I:</b> en el primer control prenatal, con acceso universal a toda gestante sin diagnóstico conocido.</li>
+        <li><b>VIH II:</b> entre las 32 y 34 semanas. La Guía Perinatal lo indica <b>en mujeres con mayor riesgo de adquirir VIH</b>: consumo de alcohol o drogas, parejas nuevas o múltiples durante la gestación, portación propia o de la pareja de hepatitis B o C, tuberculosis, sífilis u otra ITS, y serodiscordancia conocida.</li>
+        <li><b>En trabajo de parto con serología desconocida:</b> test de VIH urgente. Si resulta reactivo se aplica de inmediato el protocolo de prevención de transmisión vertical, incluida la suspensión de la lactancia hasta la confirmación del ISP.</li>
+      </ul>
+      <div class="aviso-box">
+        <b>Verifica esto con tu servicio</b>
+        La Guía Perinatal exige el segundo VIH solo en gestantes con mayor riesgo, no a toda mujer. Si en el Herminda Martín se exigen los dos a todas para autorizar la BCG, eso es protocolo local y conviene tenerlo por escrito antes de enseñarlo como norma nacional. La herramienta permite marcar «no correspondía» en el VIH II para ese caso.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Otras contraindicaciones y dónde se registra</h2>
+    <div class="cuerpo">
+      <h3 class="sec">No se vacuna con BCG</h3>
+      <ul class="li">
+        <li>Hijo de madre con tuberculosis activa.</li>
+        <li>Hijo de madre VIH positivo, hasta tener autorización de Infectología.</li>
+        <li>Lesiones de piel en el sitio de punción: infección, epidermólisis bullosa, dermatosis y otras.</li>
+        <li>Peso menor a 2.000 g: se espera a que alcance ese peso, cualquiera sea la edad gestacional.</li>
+      </ul>
+
+      <h3 class="sec">Dónde se registra la BCG</h3>
+      <p style="font-size:14.5px;margin:0 0 8px">Inmediatamente después de administrarla, con fecha, número de lote y responsable, en los cinco lugares:</p>
+      <ul class="li">
+        <li>Ficha del recién nacido.</li>
+        <li>Epicrisis neonatal.</li>
+        <li>Carné de alta.</li>
+        <li>Planilla de recién nacido inmediato.</li>
+        <li>Registro Nacional de Inmunizaciones, en línea.</li>
+      </ul>
+      <div class="ok-box">
+        <b>Detalles que se preguntan</b>
+        La vacuna reconstituida dura 4 horas manteniendo cadena de frío entre 2 y 8 °C. No se agita vigorosamente, para no destruir los bacilos. El diluyente no se reemplaza. Se saca del termo recién en el momento de vacunar, porque debe mantenerse protegida de la luz. No produce fiebre.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Lo que hay que verificar antes de usarla en el campo clínico</h2>
+    <div class="cuerpo">
+      <div class="alerta-box">
+        <b>Panel de pesquisa neonatal</b>
+        La Norma Técnica de Pesquisa Neonatal 2025 amplió el panel de 2 a 26 patologías, con implementación progresiva. Hay servicios con el panel completo y otros aún con PKU-TSH. Confirma cuál rige en el establecimiento.
+      </div>
+      <ul class="li">
+        <li><b>Edad gestacional para diferir la pesquisa.</b> La Norma 194 se contradice: una parte indica tomar al 7.º día en menores de 38 semanas, y otra distingue entre 35 semanas o menos (7.º día y repetir a los 15) y de 36 a 37 semanas (7.º día). La herramienta usa el corte de 38 semanas, que es el más conservador. Confirma cuál aplica el servicio.</li>
+        <li><b>Valores de corte del screening cardíaco.</b> El algoritmo con los puntos de corte de saturación y la diferencia entre extremidades lo define el protocolo local.</li>
+        <li><b>Temporada de nirsevimab</b> y grupos objetivo vigentes.</li>
+        <li><b>Segundo VIH:</b> si se exige a toda gestante o solo a las de mayor riesgo, según protocolo local.</li>
+      </ul>
+      <div class="ok-box">
+        <b>Fuentes</b>
+        Norma General Técnica N.º 0194, Atención Integral del Recién Nacido en la Unidad de Puerperio, MINSAL.
+        Norma General Técnica para la Atención Integral en el Puerperio, MINSAL 2015.
+        Guía Perinatal MINSAL 2015, capítulo de VIH y embarazo.
+        Norma Conjunta de Prevención de la Transmisión Vertical del VIH y la Sífilis, MINSAL 2012.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pie">
+  Bárbara E. Montero Llanca · Matrona · Docente<br>
+  Carrera de Obstetricia y Puericultura · Universidad Adventista de Chile<br>
+  Material docente de apoyo. No sustituye la ficha clínica ni el protocolo del establecimiento.
+</div>
+
+</main>
+
+<script>
+"use strict";
+
+/* ---------------- Definición de los procedimientos ---------------- */
+
+var PROCS = [
+  {id:"bcg", n:"BCG", ini:0, fin:24, gate:true,
+   nota:"Brazo izquierdo, aguja 27G. Solo sobre 2.000 g. Requiere serología materna de VIH resuelta."},
+  {id:"card", n:"Screening cardíaco por oximetría", ini:24, fin:48,
+   nota:"Mano derecha y cualquiera de los dos pies, con el mismo oxímetro. No antes de las 24 h. Los valores de corte los define el servicio."},
+  {id:"aud", n:"Screening auditivo", ini:36, fin:null,
+   nota:"Desde las 36 horas de vida. Sin factores de riesgo se inicia con emisiones otoacústicas; con factores de riesgo, potencial evocado automatizado."},
+  {id:"pesq", n:"Pesquisa neonatal", ini:40, fin:null,
+   nota:"Desde las 40 h cumplidas, idealmente desde las 48, con mínimo 24 h de alimentación oral. Lo más cercano al alta y antes del 7.º día."},
+  {id:"vrs", n:"Nirsevimab contra VRS", ini:null, fin:null,
+   nota:"Antes del alta, dosis única intramuscular. Es voluntario: se informa y se registra la conformidad."}
+];
+
+var TXT_VIH = {nr:"no reactivo", r:"reactivo", p:"pendiente", s:"sin dato", na:"no correspondía"};
+
+/* ---------------- Utilidades ---------------- */
+
+function hhmm(h){
+  if(h===null||isNaN(h)) return "—";
+  var neg=h<0, a=Math.abs(h), ent=Math.floor(a), min=Math.round((a-ent)*60);
+  if(min===60){ent++;min=0;}
+  return (neg?"-":"")+ent+" h "+(min<10?"0":"")+min;
+}
+function reloj(base,horas){
+  var d=new Date(base.getTime()+horas*3600000);
+  var p=function(n){return String(n).padStart(2,"0");};
+  return p(d.getHours())+":"+p(d.getMinutes())+" del "+p(d.getDate())+"/"+p(d.getMonth()+1);
+}
+function esc(s){
+  return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
+         .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function val(id){ return (document.getElementById(id).value||"").trim(); }
+function fechaCorta(f){
+  if(!f) return "";
+  var p=f.split("-");
+  return p.length===3 ? p[2]+"/"+p[1]+"/"+p[0] : f;
+}
+
+/* ---------------- Veredicto de la BCG ---------------- */
+
+function evaluarBCG(peso, eg){
+  var v1=val("vih1"), v2=val("vih2");
+  var tbc=document.getElementById("tbc").checked;
+  var piel=document.getElementById("piel").checked;
+  var faltan=[], bloqueo=null;
+
+  if(tbc) bloqueo = bloqueo || {e:"no", t:"No se administra BCG",
+    p:"Hijo de madre con tuberculosis activa. La Norma 194 lo excluye de la vacunación."};
+
+  if(v1==="r" || v2==="r") bloqueo = bloqueo || {e:"no", t:"No se administra BCG",
+    p:"Serología materna de VIH reactiva. No se vacuna hasta contar con la autorización de Infectología; la Norma de Puerperio lo condiciona además al recuento de linfocitos CD4."};
+
+  if(piel) bloqueo = bloqueo || {e:"esp", t:"Se difiere",
+    p:"Lesiones de piel en el sitio de punción. Se difiere hasta su resolución."};
+
+  if(peso>0 && peso<2000) bloqueo = bloqueo || {e:"esp", t:"Se difiere",
+    p:"Peso bajo 2.000 g. Se espera a que alcance los 2.000 g, cualquiera sea la edad gestacional."};
+
+  if(v1==="p") faltan.push("VIH I pendiente: no se vacuna hasta conocer el resultado.");
+  if(v1==="s") faltan.push("VIH I sin registrar. Si la madre llegó en trabajo de parto con serología desconocida, corresponde test de VIH urgente.");
+  if(v2==="p") faltan.push("VIH II pendiente: no se vacuna hasta conocer el resultado.");
+  if(v2==="s") faltan.push("VIH II sin registrar. Si no correspondía tomarlo, márcalo como «no correspondía» para dejarlo documentado.");
+  if(!(peso>0)) faltan.push("Falta el peso: la BCG solo se administra sobre 2.000 g.");
+
+  if(bloqueo) return {e:bloqueo.e, t:bloqueo.t, p:bloqueo.p, faltan:faltan, ok:false};
+  if(faltan.length) return {e:"esp", t:"Requisitos incompletos",
+    p:"No se administra la BCG mientras falte alguno de estos datos:", faltan:faltan, ok:false};
+  return {e:"si", t:"Requisitos cumplidos", faltan:[], ok:true,
+    p:"Ambos VIH resueltos, peso sobre 2.000 g y sin otras contraindicaciones. Corresponde administrar en el primer día de vida."};
+}
+
+/* ---------------- Render ---------------- */
+
+function estado(c, h, ini, fin){
+  if(ini===null) return {e:"espera", t:"antes del alta", o:4};
+  if(h < ini){
+    var falta = ini-h;
+    return falta<=2 ? {e:"proximo", t:"en "+hhmm(falta), o:2} : {e:"espera", t:"en "+hhmm(falta), o:3};
+  }
+  if(fin===null || h<=fin)
+    return {e:"ventana", t:(fin===null?"ya procede":"quedan "+hhmm(fin-h)), o:1};
+  return {e:"vencido", t:"venció hace "+hhmm(h-fin), o:0};
+}
+
+function pintar(){
+  var cont=document.getElementById("salida");
+  var nacRaw=val("nac");
+  var base = nacRaw ? new Date(nacRaw) : null;
+  if(base && isNaN(base.getTime())) base=null;
+
+  if(!base){
+    cont.innerHTML='<div class="card"><div class="cuerpo"><div class="aviso-box" style="margin:0">'+
+      '<b>Falta la hora de nacimiento</b>Sin la hora 0 no se puede calcular ninguna ventana. '+
+      'Los requisitos de la BCG sí se pueden ir registrando.</div></div></div>';
+    return;
+  }
+
+  var h=(Date.now()-base.getTime())/3600000;
+  var peso=parseFloat(val("pact")) || parseFloat(val("pnac")) || 0;
+  var eg=parseFloat(val("eg")) || 0;
+  var bcg=evaluarBCG(peso, eg);
+
+  /* --- encabezado con horas de vida --- */
+  var html='<div class="card"><h2>Estado actual</h2><div class="cuerpo">'+
+    '<div class="horas">'+
+      '<div class="b"><div class="k">Horas de vida</div><div class="v">'+hhmm(h)+'</div></div>'+
+      '<div class="b sec"><div class="k">Nació</div><div class="v">'+reloj(base,0)+'</div></div>'+
+      (peso>0?'<div class="b sec"><div class="k">Peso usado</div><div class="v">'+peso+' g</div></div>':'')+
+    '</div></div></div>';
+
+  /* --- veredicto BCG --- */
+  html+='<div class="card"><h2>Requisitos de la BCG</h2>'+
+    '<div class="veredicto '+bcg.e+'">'+
+      '<div class="k">Veredicto</div><div class="v">'+esc(bcg.t)+'</div>'+
+      '<div class="por">'+bcg.p+
+      (bcg.faltan.length?'<ul class="faltan">'+bcg.faltan.map(function(f){return '<li>'+esc(f)+'</li>';}).join('')+'</ul>':'')+
+      '</div></div>'+
+    '<div class="cuerpo" style="padding:13px 15px 4px">'+
+      '<table style="margin-bottom:6px"><tr><th style="width:34%">Serología</th><th style="width:33%">Resultado</th><th>Fecha</th></tr>'+
+      '<tr><td>VIH I · primer control</td><td class="n">'+TXT_VIH[val("vih1")]+'</td><td class="n">'+(fechaCorta(val("f1"))||"—")+'</td></tr>'+
+      '<tr><td>VIH II · 32–34 sem</td><td class="n">'+TXT_VIH[val("vih2")]+'</td><td class="n">'+(fechaCorta(val("f2"))||"—")+'</td></tr>'+
+      '</table></div></div>';
+
+  /* --- línea de tiempo --- */
+  var items=[];
+  PROCS.forEach(function(p){
+    var ini=p.ini, fin=p.fin, nota=p.nota, extra="";
+
+    if(p.id==="pesq" && eg>0 && eg<38){
+      ini=24*7; fin=null;
+      extra="Edad gestacional bajo 38 semanas: la muestra se toma al 7.º día de vida y se repite a los 15 días.";
+    }
+    if(p.id==="vrs" && peso>0){
+      extra = peso<=5000 ? "Dosis que corresponde por peso: 50 mg IM." : "Dosis que corresponde por peso: 100 mg IM.";
+    }
+
+    var s=estado(p, h, ini, fin);
+    var horas="";
+    if(ini!==null){
+      horas = "Abre a las "+ini+" h de vida · "+reloj(base,ini);
+      if(fin!==null) horas += " &nbsp;|&nbsp; Vence a las "+fin+" h · "+reloj(base,fin);
+    } else {
+      horas = "Sin hora fija: antes del alta";
+    }
+
+    /* la BCG hereda el bloqueo de requisitos */
+    if(p.gate && !bcg.ok){
+      s={e:"bloq", t:"bloqueada", o:-1};
+      extra = (extra?extra+" ":"") + "No se administra mientras los requisitos no estén cumplidos.";
+    }
+
+    items.push({o:s.o, html:'<li class="'+s.e+'">'+
+      '<span class="t">'+s.t+'</span>'+
+      '<span class="n"><b>'+esc(p.n)+'</b>'+
+      '<span class="hr">'+horas+'</span>'+
+      '<small>'+esc(nota)+(extra?' <b>'+esc(extra)+'</b>':'')+'</small></span></li>'});
+  });
+  items.sort(function(a,b){ return a.o-b.o; });
+
+  html+='<div class="card"><h2>Cuándo corresponde cada procedimiento</h2><div class="cuerpo">'+
+        '<ul class="pend">'+items.map(function(i){return i.html;}).join('')+'</ul></div></div>';
+
+  /* --- resumen copiable --- */
+  var res="Hora 0: "+reloj(base,0)+" · "+hhmm(h)+" de vida"+
+    (eg>0?" · EG "+eg+" sem":"")+(peso>0?" · "+peso+" g":"")+"\n"+
+    "VIH I: "+TXT_VIH[val("vih1")]+(val("f1")?" ("+fechaCorta(val("f1"))+")":"")+
+    " · VIH II: "+TXT_VIH[val("vih2")]+(val("f2")?" ("+fechaCorta(val("f2"))+")":"")+"\n"+
+    "BCG: "+bcg.t+"\n"+
+    PROCS.filter(function(p){return p.ini!==null;}).map(function(p){
+      var ini=(p.id==="pesq"&&eg>0&&eg<38)?24*7:p.ini;
+      return p.n+": desde "+reloj(base,ini);
+    }).join("\n");
+
+  html+='<div class="card no-print"><h2>Resumen del cálculo</h2><div class="cuerpo">'+
+    '<textarea class="resumen" id="res" readonly></textarea>'+
+    '<div style="font-size:11.5px;color:var(--tinta-3);margin-top:4px">'+
+    'Sin datos que identifiquen al paciente. Lo que corresponde al registro clínico va en la ficha, no aquí.</div>'+
+    '<div class="acciones" style="margin:12px 0 0"><button class="btn sec" id="copiar">Copiar</button></div>'+
+    '</div></div>';
+
+  cont.innerHTML=html;
+  document.getElementById("res").value=res;
+  document.getElementById("copiar").addEventListener("click",function(){
+    var ta=document.getElementById("res");
+    navigator.clipboard.writeText(ta.value).then(function(){
+      this.textContent="Copiado";
+    }.bind(this)).catch(function(){ ta.removeAttribute("readonly"); ta.select(); });
+  });
+}
+
+/* ---------------- Eventos ---------------- */
+
+var tabs=document.querySelectorAll("nav.tabs button");
+tabs.forEach(function(b){
+  b.addEventListener("click",function(){
+    tabs.forEach(function(x){
+      x.setAttribute("aria-selected", x===b?"true":"false");
+      document.getElementById(x.getAttribute("aria-controls")).hidden = (x!==b);
+    });
+    window.scrollTo(0,0);
+  });
+});
+
+["nac","eg","pnac","pact","vih1","f1","vih2","f2","tbc","piel"].forEach(function(id){
+  var el=document.getElementById(id);
+  el.addEventListener("input", pintar);
+  el.addEventListener("change", pintar);
+});
+
+document.getElementById("imprimir").addEventListener("click", function(){ window.print(); });
+document.getElementById("limpiar").addEventListener("click", function(){
+  ["nac","eg","pnac","pact","f1","f2"].forEach(function(id){ document.getElementById(id).value=""; });
+  document.getElementById("vih1").value="s";
+  document.getElementById("vih2").value="s";
+  document.getElementById("tbc").checked=false;
+  document.getElementById("piel").checked=false;
+  pintar();
+});
+
+setInterval(pintar, 60000);
+pintar();
+</script>
+</body>
+</html>
