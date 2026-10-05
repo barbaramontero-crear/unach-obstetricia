@@ -11,18 +11,24 @@
 const CACHE = "guia-bolsillo";
 
 const ARCHIVOS = [
-  "Guía_Bolsillo_Clínica.html",
+  "guia.html",
   "manifest.webmanifest",
   "icono-180.png",
   "icono-192.png",
   "icono-512.png"
 ];
 
+function igual(a, b) {
+  try { return a.normalize("NFC") === b.normalize("NFC"); }
+  catch (e) { return a === b; }
+}
+
 function esNuestro(url) {
   let ruta;
   try { ruta = decodeURIComponent(new URL(url).pathname); }
   catch (e) { ruta = new URL(url).pathname; }
-  return ARCHIVOS.indexOf(ruta.split("/").pop()) !== -1;
+  const nombre = ruta.split("/").pop();
+  return ARCHIVOS.some(a => igual(a, nombre));
 }
 
 self.addEventListener("install", () => self.skipWaiting());

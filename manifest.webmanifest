@@ -3,7 +3,7 @@
   "short_name": "Guía clínica",
   "description": "Consulta rápida para la práctica clínica hospitalaria. Funciona sin conexión.",
   "lang": "es-CL",
-  "start_url": "./Gu%C3%ADa_Bolsillo_Cl%C3%ADnica.html",
+  "start_url": "./guia.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
