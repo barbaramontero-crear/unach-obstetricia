@@ -316,7 +316,7 @@ footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:
   </nav>
   <div class="buscar" id="wrap-buscar">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
-    <input id="q" type="search" placeholder="Buscar en las tres unidades…" aria-label="Buscar" autocomplete="off">
+    <input id="q" type="search" placeholder="Buscar en toda la guía…" aria-label="Buscar" autocomplete="off">
     <button class="x" id="limpiar" aria-label="Limpiar búsqueda">&times;</button>
   </div>
 </header>
@@ -331,6 +331,7 @@ footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:
     <div class="sub-tabs" role="tablist">
       <button role="tab" aria-selected="true"  data-m="calc">Calcular</button>
       <button role="tab" aria-selected="false" data-m="farm">Fármacos</button>
+      <button role="tab" aria-selected="false" data-m="esq">Esquemas</button>
       <button role="tab" aria-selected="false" data-m="ref">Referencia</button>
     </div>
 
@@ -460,6 +461,13 @@ footer{max-width:880px;margin:24px auto 0;padding:0 16px;font-size:11.5px;color:
         no una norma escrita: si la ampolla o el protocolo no coinciden, manda el protocolo.
       </div>
       <div class="lista-farm" id="lista-farm"></div>
+    </div>
+    <div id="m-esq" class="oculto">
+      <div class="falta">
+        <b>No reemplazan la indicación</b>
+        Antes de preparar, verifica que la indicación de la ficha coincida. Si el protocolo de tu servicio difiere, manda el protocolo.
+      </div>
+      <div id="lista-esq"></div>
     </div>
     <div id="m-ref" class="oculto">
 <h3 class="sec-r">Equivalencias</h3>
@@ -2771,12 +2779,12 @@ En general no se usan antes de las 24 ni después de las 34 semanas.</div>
 <li>En parto inminente está indicada una dosis única. Recomendación C.</li></ul>
 <h3>Sulfato de magnesio como neuroprotector</h3>
 <div class="cifra">
-<div><div class="k">Dosis de carga</div><div class="v">4 <small>g</small></div></div>
+<div><div class="k">Dosis de carga</div><div class="v">5 <small>g</small></div></div>
 <div><div class="k">Mantención</div><div class="v">2 <small>g/hora</small></div></div>
 <div><div class="k">Duración mínima</div><div class="v">24 <small>horas</small></div></div>
-<div><div class="k">Antes de las</div><div class="v">34 <small>semanas</small></div></div>
+<div><div class="k">Antes de las</div><div class="v">32 <small>semanas</small></div></div>
 </div>
-<p>Administrado al menos 24 horas antes de un parto prematuro menor de 34 semanas, reduce significativamente el riesgo y la severidad de la <b>parálisis cerebral</b> en los prematuros que sobreviven. Recomendación A.</p>
+<p>Administrado al menos 24 horas antes de un parto prematuro menor de 32 semanas, reduce significativamente el riesgo y la severidad de la <b>parálisis cerebral</b> en los prematuros que sobreviven. Recomendación A.</p>
 <h3>Antibióticos y amniocentesis</h3>
 <div class="alerta"><b>Antibióticos: NO en membranas íntegras</b>No están indicados en amenaza de parto prematuro con membranas íntegras. Recomendación A.
 Reducen el riesgo de infección materna pero <b>no prolongan la gestación</b>, y hubo una tendencia al aumento de mortalidad neonatal en el grupo tratado.
@@ -3368,6 +3376,218 @@ function calc4(){
   } else {
     pasos(el, lista, "Concentración", fmt(mgml) + " mg/ml", "Ingresa un volumen para saber cuánto fármaco contiene.");
   }
+}
+
+
+/* ================= ESQUEMAS DE ADMINISTRACIÓN ================= */
+const ESQUEMAS = [
+
+{ id:"esq-crisis", et:"Urgencia", t:"Crisis hipertensiva",
+  fuente:"Guía Perinatal MINSAL 2015", html:`
+<div class="alerta"><b>Cuándo</b>Cifras sobre <b>160/110 mmHg</b>. Se emplean hipotensores de preferencia por vía parenteral.
+El <b>labetalol endovenoso es el fármaco de primera línea</b>.</div>
+
+<p><b>Objetivo:</b> llevar la presión a <b>140–155 / 90–105 mmHg</b>. No se busca normalizar: un descenso brusco compromete la perfusión placentaria.</p>
+
+<h3>Labetalol · primera línea</h3>
+<table><tr><th>Paso</th><th>Dosis</th></tr>
+<tr><td>Primer bolo</td><td class="n">20 mg EV</td></tr>
+<tr><td>Si no responde</td><td class="n">40 mg, repetible cada 20–30 min</td></tr>
+<tr><td>Luego</td><td class="n">80 mg, hasta 3 veces</td></tr>
+<tr><td>Dosis máxima total</td><td class="n">300 mg</td></tr></table>
+<p>Alternativa en infusión: <b>0,5 mg/min</b> inicial, incrementable hasta <b>4 mg/min</b>.</p>
+
+<h3>Nifedipino · alternativa oral</h3>
+<p><b>10 mg</b> en cápsula, sublingual u oral, repetible cada <b>20 a 30 minutos</b>.</p>
+<div class="alerta"><b>Dos advertencias</b>
+No administrar junto con sulfato de magnesio.
+Evitar en mujeres con alto riesgo coronario: mayores de 45 años o diabetes mellitus tipo 1.</div>
+
+<h3>Hidralazina</h3>
+<p><b>5 mg EV</b> cada vez que la diastólica supere 110 mmHg, elevable a <b>10 mg EV</b>, repetible cada 20 minutos.<br>
+En infusión: 20 a 40 mg diluidos en 500 ml de suero glucosado al 5 %, a goteo que permita bajar la diastólica de 110 mmHg.</p>
+
+<h3>Qué haces tú mientras tanto</h3>
+<ul class="li">
+<li>Avisa de inmediato. La crisis hipertensiva no se maneja sola.</li>
+<li>Vía venosa permeable. Posición decúbito lateral izquierdo.</li>
+<li>Control frecuente de presión arterial hasta estabilizar, según indicación.</li>
+<li>Pregunta dirigidamente por síntomas premonitorios: cefalea intensa, escotomas, tinitus, epigastralgia.</li>
+<li>Control de latidos fetales.</li>
+<li>Registra cada toma con hora, y cada dosis administrada.</li>
+</ul>
+<div class="ok"><b>Si además hay edema pulmonar agudo</b>Furosemida 20 mg EV en dosis única, elevable progresivamente. Es la única situación en que se usan diuréticos.</div>`},
+
+{ id:"esq-sulfato", et:"Urgencia", t:"Sulfato de magnesio · carga y mantención",
+  fuente:"Guía Perinatal MINSAL 2015 · Norma Técnica del Puerperio 2015", html:`
+<p><b>Indicaciones:</b> preeclampsia severa con síntomas premonitorios; preeclampsia moderada y severa durante el trabajo de parto, para prevenir eclampsia; y eclampsia, para tratar la convulsión y prevenir una nueva.</p>
+
+<h3>Dosis de carga</h3>
+<table><tr><th>Situación</th><th>Esquema</th></tr>
+<tr><td>Prevenir convulsiones</td><td class="n">5 g en 250 ml de SG 5 %, en 10 a 20 min</td></tr>
+<tr><td>Tratar la convulsión</td><td class="n">5 g en 15 a 30 min</td></tr></table>
+<p>Con ampollas de 1,25 g, los 5 g son <b>4 ampollas</b>.</p>
+
+<h3>Mantención</h3>
+<p>De <b>1 a 2 g por hora</b> en infusión continua, hasta completar un mínimo de <b>24 horas posparto</b>.</p>
+<div class="ok"><b>Preparación habitual</b>
+10 g de sulfato de magnesio en 500 ml de suero glucosado al 5 %.
+A esa concentración, 100 ml/hora equivalen a 2 g/hora, y 50 ml/hora a 1 g/hora.</div>
+<p>El diluyente es <b>suero glucosado al 5 %</b>, no fisiológico.</p>
+
+<h3>Antes de cada dosis de mantención</h3>
+<div class="alerta"><b>Los tres parámetros</b>
+Reflejo patelar presente · frecuencia respiratoria mayor a 12 por minuto · diuresis mayor a 100 ml en 4 horas.
+Si falla uno solo de los tres, <b>no se administra y se avisa de inmediato</b>.</div>
+<p>El reflejo patelar es el signo más precoz: su abolición precede a la depresión respiratoria. Vigilando estos tres signos no se requiere medir niveles plasmáticos.</p>
+<table><tr><th>Magnesemia</th><th>Valor</th></tr>
+<tr><td>Rango terapéutico</td><td class="n">5 a 8 mEq/L</td></tr>
+<tr><td>Pérdida del reflejo</td><td class="n">10 mEq/L</td></tr>
+<tr><td>Falla respiratoria</td><td class="n">12 mEq/L</td></tr></table>
+
+<h3>Si hay intoxicación</h3>
+<div class="alerta"><b>Tres acciones</b>
+Suspende la infusión · avisa · administra el antídoto.
+<b>Gluconato de calcio al 10 %: 10 ml, que equivalen a 1 gramo, en 3 minutos.</b>
+Son 10 mililitros de la solución, no 10 gramos.</div>
+<p>Una vez desaparecidos los síntomas, la infusión puede reiniciarse a la hora, <b>sin repetir la dosis de carga</b>.</p>
+<div class="ok"><b>Paquete para eclampsia</b>Conviene que la unidad mantenga un paquete armado: jeringas, agujas, sulfato de magnesio, gluconato de calcio, el diagrama de administración y la cartilla de signos de toxicidad.</div>`}
+,
+
+{ id:"esq-egb", et:"Profilaxis", t:"Profilaxis intraparto de estreptococo grupo B",
+  fuente:"Guía Perinatal MINSAL 2015 · Manual de Procedimientos NT2 · dilución según ficha del fármaco", html:`
+<div class="falta"><b>No confundir con el esquema de RPM de pretérmino</b>
+Esto es profilaxis <b>durante el trabajo de parto</b>, para prevenir sepsis neonatal. El esquema de latencia en membranas rotas de pretérmino es otro, dura días y usa otros fármacos.</div>
+
+<h3>A quién se le administra</h3>
+<p>Uno o más de estos factores:</p>
+<ul class="li">
+<li>Recién nacido previo con sepsis por estreptococo grupo B.</li>
+<li>Bacteriuria por estreptococo en el embarazo actual.</li>
+<li>Cultivo vaginal positivo en este embarazo, tratado o no.</li>
+<li>Trabajo de parto de pretérmino, menos de 37 semanas.</li>
+<li>Rotura de membranas de más de 18 horas.</li>
+<li>Temperatura de 38 °C o más durante el trabajo de parto, aun sin otros signos de infección.</li>
+</ul>
+
+<h3>Esquema</h3>
+<table><tr><th>Fármaco</th><th>Carga</th><th>Mantención</th></tr>
+<tr><td><b>Ampicilina</b><br><span style="font-size:12px">esquema del servicio</span></td><td class="n">2 g EV</td><td class="n">1 g EV cada 4 h<br>hasta el parto</td></tr>
+<tr><td><b>Penicilina G sódica</b><br><span style="font-size:12px">alternativa de la norma</span></td><td class="n">5 millones EV</td><td class="n">2,5 millones cada 4 h<br>hasta el parto</td></tr>
+<tr><td><b>Clindamicina</b><br><span style="font-size:12px">alergia a penicilina</span></td><td>—</td><td class="n">600 mg cada 4 h<br>hasta el parto</td></tr></table>
+<p>La penicilina se dosifica en <b>millones de unidades</b> y la ampicilina en <b>gramos</b>: no son intercambiables al leer una indicación apurada.</p>
+<p>La clindamicina nunca se administra endovenosa directa: diluida en 50 ml o más, a pasar en 20 a 30 minutos como mínimo.</p>
+<div class="falta"><b>Si encuentras otras dosis</b>
+La Guía Perinatal trae dos versiones de este esquema. Esta ficha sigue la del capítulo de trabajo de parto, que es la del manual del curso.
+El capítulo de infección genital indica penicilina 2 millones cada 4 horas y clindamicina 900 mg cada 8 horas. Ante la duda, el protocolo de tu servicio.</div>
+
+<div class="alerta"><b>Cuándo se suspende</b>
+La profilaxis es <b>solo durante el trabajo de parto</b>. No se administra antes de que comience ni después del nacimiento.
+Si la mujer ya está recibiendo alguno de estos antibióticos por otra razón, por ejemplo una rotura de membranas de pretérmino, no se agregan antibióticos adicionales.</div>
+<p>La cesárea de rutina no reduce el riesgo de infección neonatal.</p>`},
+
+{ id:"esq-rpm", et:"RPM", t:"Antibióticos de latencia en RPM de pretérmino",
+  fuente:"Guía Perinatal MINSAL 2015", html:`
+<div class="falta"><b>Esto no es la profilaxis de estreptococo</b>
+Aquí el objetivo es <b>prolongar el embarazo</b> y prevenir la infección ascendente, no prevenir la sepsis neonatal intraparto. Dura días, no horas.</div>
+
+<p><b>Cuándo:</b> rotura prematura de membranas entre <b>24 y 34 semanas</b>, en manejo expectante. Sobre 34 semanas se interrumpe y no corresponde este esquema.</p>
+
+<h3>Fase endovenosa · primeras 48 horas</h3>
+<p><b>Ampicilina 2 g EV cada 6 horas</b>, más <b>eritromicina 250 mg EV cada 6 horas</b>.</p>
+
+<h3>Fase oral · después de las 48 horas</h3>
+<p><b>Amoxicilina 500 mg cada 8 horas por 5 días</b>, más <b>eritromicina 500 mg cada 6 horas por 7 días</b>.</p>
+
+<h3>Si hay infección intraamniótica confirmada</h3>
+<p>El esquema cambia a amplio espectro: <b>clindamicina 600 mg cada 8 horas EV</b> + <b>gentamicina 240 mg al día EV</b> + <b>eritromicina 500 mg cada 6 horas</b>.</p>
+
+<div class="alerta"><b>Dos cosas que no van</b>
+Los <b>tocolíticos están contraindicados</b> en rotura de membranas.
+En amenaza de parto prematuro <b>con membranas íntegras</b> los antibióticos <b>no</b> están indicados: es exactamente lo contrario de este esquema.</div>
+
+<h3>Lo que acompaña</h3>
+<ul class="li">
+<li>Corticoides para maduración pulmonar.</li>
+<li>Hospitalización en Alto Riesgo Obstétrico, signos vitales y obstétricos cada 6 horas.</li>
+<li>Parámetros inflamatorios una o dos veces por semana.</li>
+<li>Interrupción a las 34 semanas si no hay infección ni inflamación.</li>
+</ul>`},
+
+{ id:"esq-corticoides", et:"Prematurez", t:"Corticoides y neuroprotección",
+  fuente:"Guía Perinatal MINSAL 2015 · neuroprotección según protocolo del servicio", html:`
+<h3>Maduración pulmonar fetal</h3>
+<div class="ok"><b>Curso único entre 24+0 y 33+6 semanas</b>
+<b>Betametasona 12 mg IM, dos dosis separadas por 24 horas.</b>
+Alternativa: dexametasona 6 mg cada 12 horas, por 4 dosis.</div>
+<p>La ampolla es de <b>4 mg/1 ml</b>: los 12 mg son <b>3 ampollas</b>, es decir 3 ml.</p>
+<p>Reduce mortalidad perinatal, distrés respiratorio, hemorragia intraventricular y enterocolitis necrotizante. Es la intervención más efectiva para mejorar el pronóstico perinatal.</p>
+<ul class="li">
+<li><b>Curso único de rescate</b> si recibió corticoides hace 7 días o más y sigue en riesgo con menos de 34 semanas. <b>No se repite</b> el rescate.</li>
+<li>En parto inminente, dosis única.</li>
+<li>En rotura de membranas sobre 34 semanas <b>no</b> están indicados.</li>
+</ul>
+
+<h3>Sulfato de magnesio como neuroprotector</h3>
+<p>Es un uso distinto del de la preeclampsia: aquí el objetivo es reducir el riesgo y la severidad de parálisis cerebral en el prematuro.</p>
+<table><tr><th>Paso</th><th>Dosis</th></tr>
+<tr><td>Carga</td><td class="n">5 g</td></tr>
+<tr><td>Mantención</td><td class="n">2 g por hora</td></tr>
+<tr><td>Duración mínima</td><td class="n">24 horas antes del parto</td></tr>
+<tr><td>Hasta las</td><td class="n">32 semanas</td></tr></table>
+<div class="ok"><b>Es la misma carga que en preeclampsia</b>5 g son 4 ampollas de 1,25 g: una sola preparación que recordar para los dos usos.</div>
+<div class="falta"><b>Si lees otra cifra</b>
+La Guía Perinatal indica 4 g de carga. La del servicio es de 5 g, y es la que rige aquí.</div>
+<p>La vigilancia es la misma que en preeclampsia: reflejo patelar, frecuencia respiratoria y diuresis antes de cada dosis de mantención.</p>`},
+
+{ id:"esq-hpp", et:"Urgencia", t:"Hemorragia posparto · uterotónicos",
+  fuente:"Guía Perinatal MINSAL 2015 · Norma Técnica del Puerperio 2015", html:`
+<div class="ok"><b>La secuencia completa está en otra parte</b>
+Esta ficha es solo la dosificación. El manejo por tiempos —tiempo 0, 0 a 30 minutos, 30 a 60— está en los bloques de Puerperio y de Preparto. Búscalo como «HPP».</div>
+
+<h3>Primera línea</h3>
+<p>Junto al masaje uterino: <b>oxitocina en infusión continua</b> y <b>metilergonovina intramuscular</b>.</p>
+
+<h3>Dosificación</h3>
+<table><tr><th>Fármaco</th><th>Dosis y vía</th><th>Frecuencia</th></tr>
+<tr><td><b>Oxitocina</b></td><td class="n">Bolo 5 U EV o 10 U IM<br>Infusión 20 a 40 U en 500 a 1.000 ml</td><td>continuo</td></tr>
+<tr><td><b>Metilergonovina<br>· ergometrina</b></td><td class="n">0,2 mg IM</td><td>cada 2 a 4 h<br>máximo 3 ampollas</td></tr>
+<tr><td><b>Misoprostol</b><br><span style="font-size:12px">segunda línea</span></td><td class="n">600 a 800 µg<br>rectal, oral o sublingual</td><td>dosis única</td></tr>
+<tr><td><b>Carbetocina</b></td><td class="n">100 µg EV o IM<br>bolo en más de 1 minuto</td><td>dosis única</td></tr></table>
+<p>Una preparación habitual de mantención es <b>20 U en 500 ml de suero fisiológico a 125 ml/hora</b>.</p>
+
+<div class="alerta"><b>Efectos que deciden cuál se usa</b>
+La oxitocina produce <b>hipotensión</b>. La metilergonovina produce <b>hipertensión</b> y está <b>contraindicada en mujeres hipertensas</b>: en una preeclampsia que sangra, este es el dato que importa. El misoprostol produce fiebre.</div>
+
+<h3>Antibióticos</h3>
+<p>Se inicia profilaxis con <b>clindamicina 600 mg cada 8 horas</b> más <b>ceftriaxona 1 g EV</b>.</p>
+
+<div class="falta"><b>Ácido tranexámico · verifica el protocolo</b>
+La Guía Perinatal 2015 <b>no</b> lo recomienda de rutina. Es una recomendación que posteriormente cambió en la práctica internacional, así que muchos servicios sí lo usan. Rige el protocolo de tu unidad.
+Y recuerda que la ampolla trae <b>1.000 mg</b>, no 100.</div>
+
+<h3>Si persiste</h3>
+<p>Masaje bimanual, reposición de hemoderivados, drogas vasoactivas. Luego taponamiento uterino en parto vaginal, o ligadura de arterias uterinas, sutura B-Lynch, ligadura de hipogástricas y, finalmente, histerectomía.</p>
+<div class="alerta"><b>Regla de oro</b>Salvar la vida, no la fertilidad.</div>`}
+
+];
+
+function pintarEsquemas(){
+  const cont = document.getElementById("lista-esq");
+  if (cont.dataset.listo) return;
+  cont.dataset.listo = "1";
+  cont.innerHTML = ESQUEMAS.map(e =>
+    '<section class="bloq" id="e-' + e.id + '">' +
+      '<h2 role="button" tabindex="0"><span class="et">' + e.et + '</span>' + e.t + '<span class="fl"></span></h2>' +
+      '<div class="cuerpo">' + e.html +
+        '<p style="font-size:11px;color:var(--tinta-3);font-style:italic;margin:14px 0 0">Fuente: ' + e.fuente + '</p>' +
+      '</div>' +
+    '</section>').join("");
+  cont.querySelectorAll("section.bloq > h2").forEach(x => {
+    const abrir = () => x.parentElement.classList.toggle("abierta");
+    x.onclick = abrir;
+    x.onkeydown = ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); abrir(); } };
+  });
 }
 
 /* ================= LISTA DE FÁRMACOS ================= */
@@ -4014,7 +4234,9 @@ document.querySelectorAll("nav.secs button").forEach(b => { b.onclick = () => ir
 document.querySelectorAll(".sub-tabs button").forEach(b => {
   b.onclick = () => {
     document.querySelectorAll(".sub-tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
-    ["calc","farm","ref"].forEach(v => document.getElementById("m-" + v).classList.toggle("oculto", v !== b.dataset.m));
+    ["calc","farm","esq","ref"].forEach(v => document.getElementById("m-" + v).classList.toggle("oculto", v !== b.dataset.m));
+    if (b.dataset.m === "esq") pintarEsquemas();
+    window.scrollTo({ top: 0 });
   };
 });
 
@@ -4045,12 +4267,25 @@ function buscar(){
     return;
   }
 
-  // la búsqueda cruza Puerperio y ARO; medicamentos y calculadoras tienen su propia navegación
+  // la búsqueda cruza las tres unidades, los esquemas y las fichas de fármaco
   secMed.classList.add("oculto");
   secCal2.classList.add("oculto");
   atajosWrap.innerHTML = "";
   const n = norm(t);
+  const fmtC = x => {
+    const c = x.tot / x.vol;
+    return '<p><b>' + x.pres + '</b> · ' + fmt(c) + ' ' + x.u + '/ml</p>' +
+      '<p>Diluyente: ' + (x.dil ? x.dil : 'verifica el protocolo de tu servicio') + '</p>' +
+      (x.via ? '<p>' + x.via + '</p>' : '') +
+      '<p style="font-size:12px;color:var(--tinta-3);font-style:italic;margin-top:10px">' +
+      'Ficha completa en Medicamentos · Fármacos, con la calculadora al lado.</p>';
+  };
+
+  // los esquemas y las fichas de fármaco van primero: son lo que se busca con prisa
   const todos = [
+    ...ESQUEMAS.map(e => ({ id: "s-" + e.id, et: "Esquema", t: e.t, _u: "med",
+      html: e.html + '<p style="font-size:11px;color:var(--tinta-3);font-style:italic;margin:14px 0 0">Fuente: ' + e.fuente + '</p>' })),
+    ...FARMACOS.map((x, i) => ({ id: "f-" + i, et: "Fármaco", t: x.n, _u: "med", html: fmtC(x) })),
     ...BLOQUES_PRP.map(b => Object.assign({}, b, { _u: "prp" })),
     ...BLOQUES_PUE.map(b => Object.assign({}, b, { _u: "pue" })),
     ...BLOQUES_ARO.map(b => Object.assign({}, b, { _u: "aro" }))
